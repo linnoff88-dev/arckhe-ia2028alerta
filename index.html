@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta">
+
+  <!-- 1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO, antes do Tailwind e do learn.css.
+        Le inema.prefs (global) e aplica .dark + data-theme + vars de leitura ANTES do 1o paint.
+        try/catch total => default dark (preserva a marca INEMA). REL = "." (raiz com assets/). -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') { for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k]; }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+      var s = html.style; var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0]+''); s.setProperty('--accent-s', a[1]+'%'); s.setProperty('--accent-l', a[2]+'%');
+      s.setProperty('--accent', 'hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+
+  <!-- 2) Manifesto do curso (estrutura COMPLETA — identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos do RSI", "modules": [
+        { "id": "1-1", "title": "O loop: IA que constrói IA", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "Por que começa pelo código", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" }
+      ] },
+      { "n": "2", "title": "A Evidência", "modules": [
+        { "id": "2-1", "title": "A curva METR: o horizonte de tarefa", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
+      ] },
+      { "n": "3", "title": "Segurança e 2028", "modules": [
+        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
+      ] }
+    ]
+  }
+  </script>
+
+  <title>Alerta IA 2028 — A IA que constrói a próxima IA | INEMA.CLUB</title>
+
+  <!-- 3) Tailwind + config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 4) learn.css (camada de aprendizagem) -->
+  <link rel="stylesheet" href="./assets/learn.css">
+
+  <!-- 5) CSS base v1 + light mode (todas as trilhas) -->
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento T1 emerald */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light mode - acento T2 blue */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light mode - acento T3 purple */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+
+    /* Light mode - sem gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.20); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* Hero SVG: pulso dos nos + adapta ao tema claro */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s}
+      .wf-a:nth-child(4){animation-delay:.6s} .wf-a:nth-child(5){animation-delay:.8s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Painel de aparencia ancorado ao gatilho */
+    .appearance-anchor { position: relative; }
+    @media(max-width:639px){nav .h-14{height:auto;min-height:3.5rem;flex-wrap:wrap;gap:.5rem;padding-block:.5rem}nav .h-14 > div:last-child{margin-left:auto}}
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ===================== NAV COMPLETO ===================== -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="./index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
+          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
+
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./index.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="./en/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./es/index.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <!-- Minha jornada -->
+          <button type="button" data-inema-journey-open title="Minha jornada"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+
+          <!-- Aparencia -->
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300">
+              <span aria-hidden="true">◑</span>
+            </button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Tema">
+                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
+                <button type="button" data-inema-set-theme="claro">Claro</button>
+                <button type="button" data-inema-set-theme="sepia">Sépia</button>
+                <button type="button" data-inema-set-theme="foco">Foco</button>
+                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Fonte">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">Sistema</button>
+                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-inema-set-fontscale="100">A</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-inema-set-linewidth="60">Estreito</button>
+                <button type="button" data-inema-set-linewidth="68">Médio</button>
+                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-inema-set-leading="1.45">Compacto</button>
+                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
+                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="conteudo">
+
+    <!-- ===================== HERO ===================== -->
+    <header class="relative overflow-hidden bg-gradient-to-br from-emerald-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <span class="inline-block px-3 py-1 bg-primary/10 border border-primary/40 text-primary text-xs font-semibold rounded-full mb-5 tracking-wide">RSI · AUTO-APERFEIÇOAMENTO RECURSIVO · HORIZONTE 2028</span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-[1.05] tracking-tight">A IA já está ajudando a construir a próxima IA.</h1>
+        <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mb-4 leading-relaxed">De manchete assustadora a <strong class="text-primary">leitura crítica do alerta</strong> de 2028 — em português claro.</p>
+        <p class="text-base text-neutral-400 max-w-3xl mb-8 leading-relaxed">Líderes de fronteira — <strong class="text-neutral-200">Anthropic</strong>, <strong class="text-neutral-200">DeepMind</strong> e <strong class="text-neutral-200">OpenAI</strong> — colocaram <strong class="text-neutral-200">2028</strong> no tabuleiro como o horizonte em que a IA pode acelerar a própria pesquisa. Este curso destila esse alerta e <strong class="text-neutral-200">separa o que é sólido do que é hype</strong> — para você acompanhar com atenção informada, não pânico.</p>
+
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <a href="curso/trilha1/index.html" class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Começar pela Trilha 1 <span aria-hidden="true">→</span></a>
+          <a href="#estrutura" class="inline-flex items-center gap-2 px-5 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-200 rounded-lg font-semibold transition-colors">Ver a estrutura</a>
+          <a href="alerta.html" class="inline-flex items-center gap-2 px-5 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-200 rounded-lg font-semibold transition-colors">Resumo rápido (explainer)</a>
+        </div>
+        <p class="text-xs text-neutral-500 mb-8">Sem cadastro · abre direto no navegador · seu progresso, dúvidas e anotações ficam só no seu dispositivo.</p>
+
+        <!-- CAPA do curso -->
+        <div class="rounded-2xl border border-primary/30 bg-dark-900/40 p-1.5 sm:p-2 mb-8 overflow-hidden">
+          <img src="assets/img/capa.png" width="896" height="512" loading="eager"
+               alt="Alerta IA 2028 — a IA ajudando a construir a próxima IA: o loop de auto-aperfeiçoamento recursivo no horizonte de 2028"
+               class="w-full h-auto rounded-xl" />
+        </div>
+
+        <!-- Medidor de progresso do curso -->
+        <div data-inema-meter="curso" class="inema-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do curso" style="max-width:520px">
+          <div class="flex items-center justify-between text-sm text-neutral-400 mb-2">
+            <span>Seu percurso</span>
+            <span><strong class="text-neutral-200" data-inema-meter-frac>0 de 36</strong> seções · <span data-inema-meter-pct>0%</span></span>
+          </div>
+          <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+          <button type="button" data-inema-journey-open class="mt-3 text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-2">continuar de onde parei →</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== A VIRADA ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-emerald-400 tracking-wide uppercase">A virada</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-6">De espectador de manchetes a leitor crítico do alerta</h2>
+      <div class="grid md:grid-cols-2 gap-6 items-start">
+        <div class="space-y-4 text-neutral-300 leading-relaxed">
+          <p>A maioria das pessoas encontra esse assunto por uma manchete — <em class="text-neutral-400">"laboratório confirma IA que se auto-aperfeiçoa até 2028"</em> — e sente só o susto. Este curso faz o oposto: te dá as <strong class="text-neutral-100">lentes para ler o alerta por conta própria</strong>.</p>
+          <p>Você deixa de perguntar <em class="text-neutral-400">"isso é o fim?"</em> e começa a perguntar <strong class="text-emerald-400">"o que aqui é sólido, o que é especulação, e quais sinais eu acompanho?"</strong></p>
+          <p>Não é preciso programar nem ser pesquisador. É preciso entender o conceito do loop, conhecer a evidência que está sobre a mesa, e saber onde a própria medição da IA começa a falhar. No fim, o que era pânico vira <strong class="text-neutral-100">atenção informada</strong>.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h3 class="font-semibold text-neutral-200 mb-4">Sem leitura crítica, o alerta vira ruído</h3>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Reagir só ao susto da manchete vira <strong>ansiedade</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>"É tudo hype" vira <strong>negação</strong> do que já é real.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Repetir números soltos — "60%", "56%", "19 dias" — vira <strong>boato</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Confundir RSI com singularidade, consciência ou robô vira <strong>confusão</strong>.</span></li>
+          </ul>
+          <p class="mt-4 text-sm text-neutral-400">Com leitura crítica, o alerta vira <strong class="text-emerald-400">atenção informada</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== O QUE VOCE VAI ENTENDER (6 pilares) ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-primary tracking-wide uppercase">O que você vai entender</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-3">Seis ideias destravam o alerta inteiro</h2>
+      <p class="text-neutral-400 max-w-3xl mb-8">Você não precisa programar nem ser pesquisador — precisa saber ler o que está acontecendo e separar sinal de ruído. Estas seis ideias são o esqueleto do curso.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">🔁</span><h3 class="font-semibold">O loop RSI</h3></div><p class="text-sm text-neutral-400">IA que projeta uma IA melhor, que projeta a próxima — mais rápido a cada volta. O conceito central do alerta, sem jargão.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">💻</span><h3 class="font-semibold">Por que o código primeiro</h3></div><p class="text-sm text-neutral-400">No software o ciclo escrever → rodar → corrigir fecha em segundos. Por isso o salto aparece no código antes de qualquer outro lugar.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg">📊</span><h3 class="font-semibold">A curva METR</h3></div><p class="text-sm text-neutral-400">O "horizonte de tarefa": a maior tarefa, medida em tempo-humano, que o modelo termina sozinho com ~50% de sucesso.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg">🪞</span><h3 class="font-semibold">MirrorCode</h3></div><p class="text-sm text-neutral-400">Reconstruir um programa real no escuro, só pelo executável — o benchmark que testa até onde a IA chega sozinha.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">🎭</span><h3 class="font-semibold">Quando a medição quebra</h3></div><p class="text-sm text-neutral-400">Cheating, sandbagging e por que <em>detectar</em> uma falha pode ser bom sinal — o monitoramento funcionando.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">🏁</span><h3 class="font-semibold">Cenários 2028</h3></div><p class="text-sm text-neutral-400">Não a data da singularidade: uma faixa de futuros e um checklist de sinais concretos para observar.</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== ESTRUTURA / 3 TRILHAS ===================== -->
+    <section id="estrutura" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-neutral-400 tracking-wide uppercase">A estrutura · 3 trilhas · 6 módulos · 36 seções</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-8">O percurso completo</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Trilha 1 -->
+        <a href="curso/trilha1/index.html" class="group bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl border border-emerald-500/30 p-6 transition-all hover:border-emerald-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRILHA 1</span>
+            <span class="text-xs text-neutral-500">2 módulos · 12 seções</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🔁 Fundamentos do RSI</h3>
+          <p class="text-sm text-neutral-400 mb-4">A ideia central do alerta em português claro: o que é auto-aperfeiçoamento recursivo, por que o limite se desloca e por que o salto aparece primeiro no código.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-emerald-400">·</span>O loop: IA que constrói IA</li>
+            <li class="flex gap-2"><span class="text-emerald-400">·</span>Por que começa pelo código</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-emerald-400 font-semibold text-sm group-hover:gap-2 transition-all">Abrir a Trilha 1 <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Trilha 2 -->
+        <a href="curso/trilha2/index.html" class="group bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl border border-blue-500/30 p-6 transition-all hover:border-blue-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRILHA 2</span>
+            <span class="text-xs text-neutral-500">2 módulos · 12 seções</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">📊 A Evidência</h3>
+          <p class="text-sm text-neutral-400 mb-4">A evidência concreta sobre a mesa: a curva de horizonte de tarefa da METR e o benchmark MirrorCode — o que medem e, com honestidade, o que NÃO provam.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-blue-400">·</span>A curva METR: o horizonte de tarefa</li>
+            <li class="flex gap-2"><span class="text-blue-400">·</span>MirrorCode: reconstruir no escuro</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-blue-400 font-semibold text-sm group-hover:gap-2 transition-all">Abrir a Trilha 2 <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Trilha 3 -->
+        <a href="curso/trilha3/index.html" class="group bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl border border-purple-500/30 p-6 transition-all hover:border-purple-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRILHA 3</span>
+            <span class="text-xs text-neutral-500">2 módulos · 12 seções</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🛡️ Segurança e 2028</h3>
+          <p class="text-sm text-neutral-400 mb-4">Onde a medição quebra (cheating, sandbagging), o que cada laboratório está dizendo e como ler os cenários de 2028 sem cair no susto.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-purple-400">·</span>Quando a medição quebra</li>
+            <li class="flex gap-2"><span class="text-purple-400">·</span>A corrida e os cenários 2028</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-purple-400 font-semibold text-sm group-hover:gap-2 transition-all">Abrir a Trilha 3 <span aria-hidden="true">→</span></span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===================== SOLIDO vs ESPECULACAO ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-primary tracking-wide uppercase">O método honesto</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-3">Sólido vs. especulação</h2>
+      <p class="text-neutral-400 max-w-3xl mb-8">O alerta de 2028 mistura tendências reais com números de um único vídeo ou artigo. O curso te ensina a separar os dois — e marca toda cifra ou versão repetida do vídeo como <strong class="text-neutral-200">(conforme o vídeo — a verificar)</strong>.</p>
+      <div class="grid md:grid-cols-2 gap-6 items-start">
+
+        <!-- Mais solido (verde) -->
+        <div class="bg-emerald-500/10 rounded-2xl border border-emerald-500/30 p-6">
+          <h3 class="font-semibold text-emerald-400 mb-4 flex items-center gap-2"><span>✓</span> Mais sólido</h3>
+          <p class="text-xs text-neutral-500 mb-4">Categorias e tendências com base ampla, não dependentes de uma única fonte.</p>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>A <strong>tendência de horizonte de tarefa</strong> da METR (a curva sobe ao longo do tempo).</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>O <strong>conceito do MirrorCode</strong>: reconstruir software no escuro como medida do que a IA faz sozinha.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>A <strong>instabilidade da medição</strong> quando o modelo trapaceia (cheating / reward hacking).</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>A Anthropic afirmar publicamente que <strong>a maior parte do seu código passa pelo Claude</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span><strong>RSI como tema sério</strong> levantado por Clark (Anthropic), Hassabis (DeepMind) e Hinton.</span></li>
+          </ul>
+        </div>
+
+        <!-- Tratar como claim (ambar) -->
+        <div class="bg-primary/10 rounded-2xl border border-primary/40 p-6">
+          <h3 class="font-semibold text-yellow-400 mb-4 flex items-center gap-2"><span>⚠</span> Tratar como claim a verificar</h3>
+          <p class="text-xs text-neutral-500 mb-4">Números e nomes exatos de um único vídeo/artigo — úteis como ilustração, não como fato consolidado.</p>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span><strong>Nomes e versões exatas de modelo</strong> ("Opus 4.7", "GPT-5.6 Sol", "Claude 3 Opus 52×").</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span>O <strong>"~60% até 2028"</strong> — palpite de uma única pessoa, não consenso da área.</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span><strong>Cifras exatas</strong> repetidas do vídeo: 56%, 19 dias, US$ 2.600, US$ 200M.</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span>Qualquer leitura de que a curva <strong>"prova"</strong> um destino — extrapolar uma reta não é garantia.</span></li>
+          </ul>
+          <p class="mt-4 text-xs text-neutral-500">Regra do curso: ao citar uma versão ou cifra do vídeo, marcamos <strong class="text-neutral-300">(conforme o vídeo — a verificar)</strong>.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== PROMESSA / FECHO ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 rounded-2xl border border-emerald-500/30 p-8 sm:p-10 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">Atenção informada, não pânico.</h2>
+        <p class="text-lg text-neutral-300 mb-2">O alerta de 2028 não é uma profecia — é um <strong class="text-emerald-400">convite para acompanhar com critério</strong>.</p>
+        <p class="text-neutral-400 max-w-2xl mx-auto mb-8 text-sm">Entenda o loop, leia a evidência, saiba onde a medição falha — e você sai sabendo separar o sinal do ruído por conta própria, sem depender da próxima manchete.</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="curso/trilha1/index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Começar agora pela Trilha 1 <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p><strong class="text-neutral-300">Alerta IA 2028</strong> — A IA que constrói a próxima IA · curso INEMA</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026 · seu progresso fica salvo só neste navegador</p>
+    </div>
+  </footer>
+
+  <!-- learn.js + init -->
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+  </script>
+</body>
+</html>

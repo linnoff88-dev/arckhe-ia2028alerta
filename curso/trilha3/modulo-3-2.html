@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta">
+
+  <!-- 1) ANTI-FOUC (REL = "../..") -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'purple' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'purple');
+      var s = html.style; var scale = (+p.fontScale||100);
+      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
+      var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent]||ACC.purple;
+      s.setProperty('--accent-h',a[0]+''); s.setProperty('--accent-s',a[1]+'%'); s.setProperty('--accent-l',a[2]+'%'); s.setProperty('--accent','hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+
+  <!-- 2) Manifesto (identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos do RSI", "modules": [
+        { "id": "1-1", "title": "O loop: IA que constrói IA", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "Por que começa pelo código", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" }
+      ] },
+      { "n": "2", "title": "A Evidência", "modules": [
+        { "id": "2-1", "title": "A curva METR: o horizonte de tarefa", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
+      ] },
+      { "n": "3", "title": "Segurança e 2028", "modules": [
+        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
+      ] }
+    ]
+  }
+  </script>
+
+  <title>Módulo 3.2 · A corrida e os cenários 2028 | Alerta IA 2028</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* acento purple (T3) */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:bg-purple-500\/30:hover { background-color: rgba(124,58,237,0.18); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    /* mantem emerald + blue (nav) + conteudo blue/red/amber */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .text-amber-400 { color: #b45309; }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(180,83,9,0.30); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s} .wf-a:nth-child(4){animation-delay:.6s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    .appearance-anchor { position: relative; }
+    .toc-link.is-active { color: #c084fc; font-weight: 600; }
+    html:not(.dark) .toc-link.is-active { color: #7c3aed; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAV COMPLETO -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./modulo-3-2.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha3/modulo-3-2.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha3/modulo-3-2.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-inema-journey-open title="Minha jornada"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Tema">
+                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
+                <button type="button" data-inema-set-theme="claro">Claro</button>
+                <button type="button" data-inema-set-theme="sepia">Sépia</button>
+                <button type="button" data-inema-set-theme="foco">Foco</button>
+                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Fonte">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">Sistema</button>
+                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-inema-set-fontscale="100">A</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-inema-set-linewidth="60">Estreito</button>
+                <button type="button" data-inema-set-linewidth="68">Médio</button>
+                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-inema-set-leading="1.45">Compacto</button>
+                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
+                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-purple-400">Início</a><span>/</span>
+      <a href="index.html" class="hover:text-purple-400">Segurança</a><span>/</span>
+      <span class="text-purple-400">Módulo 3.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-purple-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">MÓDULO 3.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🏁 A corrida e os cenários 2028</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">O módulo que fecha o curso. Quem está correndo, onde está o gargalo de verdade (compute, chips, energia, dinheiro), e como ler "2028" como uma <strong class="text-neutral-300">faixa de futuros</strong> — não uma data garantida. Você sai com o filtro sólido × especulação e um checklist concreto de sinais para acompanhar. Atenção informada, não pânico.</p>
+
+      <!-- SVG: três labs convergindo no mesmo alvo (RSI até 2028) -->
+      <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+        <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Três laboratórios — Anthropic, DeepMind e OpenAI — apontam para o mesmo tema, o auto-aperfeiçoamento da IA rumo a 2028, mas com prazos e graus de certeza diferentes">
+          <defs>
+            <linearGradient id="m32a-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+            <filter id="m32a-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="m32a-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#a855f7" opacity="0.12"/></pattern>
+            <marker id="m32a-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="250" fill="url(#m32a-grid)"/>
+          <!-- três fontes (labs) -->
+          <g font-family="Inter,sans-serif" font-size="13" font-weight="600">
+            <g class="wf-a"><rect x="40" y="40" width="190" height="46" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="135" y="62" text-anchor="middle" fill="#bfe6ff">Anthropic · Clark</text><text x="135" y="78" text-anchor="middle" fill="#9ad6ff" font-size="11" font-weight="400">~60% até 2028 (a verificar)</text></g>
+            <g class="wf-a"><rect x="40" y="102" width="190" height="46" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="135" y="124" text-anchor="middle" fill="#bfe6ff">DeepMind · Hassabis</text><text x="135" y="140" text-anchor="middle" fill="#9ad6ff" font-size="11" font-weight="400">hoje é "soft"</text></g>
+            <g class="wf-a"><rect x="40" y="164" width="190" height="46" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="135" y="186" text-anchor="middle" fill="#bfe6ff">OpenAI · blueprint</text><text x="135" y="202" text-anchor="middle" fill="#9ad6ff" font-size="11" font-weight="400">"sinais iniciais"</text></g>
+          </g>
+          <!-- setas convergindo -->
+          <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.5">
+            <path d="M230,63 C420,63 470,120 600,125" marker-end="url(#m32a-ahc)"/>
+            <path d="M230,125 L600,125" marker-end="url(#m32a-ahc)"/>
+            <path d="M230,187 C420,187 470,130 600,125" marker-end="url(#m32a-ahc)"/>
+          </g>
+          <!-- alvo -->
+          <g filter="url(#m32a-glow)"><rect x="604" y="92" width="170" height="66" rx="15" fill="#1a1230" stroke="url(#m32a-grad)" stroke-width="2"/></g>
+          <text x="689" y="120" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="15">Mesmo tema</text>
+          <text x="689" y="140" text-anchor="middle" fill="#d8b4fe" font-family="Inter,sans-serif" font-size="12">RSI rumo a 2028</text>
+          <!-- circulo alvo -->
+          <circle cx="880" cy="125" r="44" fill="none" stroke="#c084fc" stroke-width="2" opacity="0.7"/>
+          <circle cx="880" cy="125" r="26" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.7"/>
+          <circle cx="880" cy="125" r="9" fill="#a855f7"/>
+          <path d="M778,125 L832,125" fill="none" stroke="#c084fc" stroke-width="1.8" opacity="0.6"/>
+          <text x="500" y="238" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">Convergência de TEMA não é consenso de PRAZO: os três olham o mesmo alvo, mas discordam de quando — e quanto — chega.</text>
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mb-6">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">~45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Síntese</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+
+      <div data-inema-meter="modulo:3-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 3.2" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso do módulo</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
+        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CORPO + TOC -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10 items-start">
+    <main id="conteudo">
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-3-2#topico-1" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
+            <h2 class="text-2xl font-bold">🟧 Os players</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t1-p1">O que dá peso ao alerta não é uma pessoa gritando: são <strong class="text-purple-400">três grupos sérios e independentes</strong> olhando para o mesmo horizonte. O diagrama no topo mostra isso — Anthropic, DeepMind e OpenAI convergindo no mesmo tema. Só que <em class="text-neutral-400">convergir no tema não é concordar no prazo</em>: cada um diz uma coisa sobre <strong class="text-neutral-100">quando</strong> e <strong class="text-neutral-100">quanto</strong>.</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🟠</div><h4 class="font-semibold text-neutral-100 mb-1">Anthropic · Jack Clark</h4><p class="text-xs text-neutral-400">Põe <strong class="text-purple-400">~60% de chance até 2028</strong>. É um palpite de UMA pessoa colocando probabilidade numa ideia — não consenso.</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🔵</div><h4 class="font-semibold text-neutral-100 mb-1">DeepMind · Hassabis</h4><p class="text-xs text-neutral-400">Hoje é <strong class="text-purple-400">"soft"</strong>: a IA acelera engenheiros. Ainda não é "hard" (o modelo some no data center e volta superinteligente).</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">⚪</div><h4 class="font-semibold text-neutral-100 mb-1">OpenAI · blueprint</h4><p class="text-xs text-neutral-400">Um documento da empresa admite ver <strong class="text-purple-400">"sinais iniciais"</strong> de auto-aperfeiçoamento. Cauteloso, mas no mesmo mapa.</p></div>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🎯</span> Convergência de tema ≠ consenso de prazo</h3>
+          <p class="text-neutral-300">Que três atores rivais apontem para o mesmo lugar é um sinal forte de que o <strong class="text-neutral-100">tema</strong> é real. Mas as <strong class="text-purple-400">datas e porcentagens</strong> continuam sendo apostas, não fatos. Use a convergência para levar o assunto a sério — e o desacordo de prazo para não comprar nenhuma data como certa.</p>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📊</span> Lembrete da Trilha 1</h3>
+          <p class="text-neutral-300 text-sm">"Soft" × "hard" self-improvement já apareceu nos Fundamentos: soft é a IA acelerando o trabalho humano (o que já acontece); hard é a IA melhorando a si mesma sozinha, sem humano no meio. O debate de 2028 é, no fundo, <strong class="text-neutral-100">quando (ou se) o soft vira hard</strong>.</p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">3 labs</div><div class="text-xs text-neutral-400">mesmo tema</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">Prazos</div><div class="text-xs text-neutral-400">divergentes</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">60% / 2028</div><div class="text-xs text-neutral-400">palpite, não consenso</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">Leitura</div><div class="text-xs text-neutral-400">tema sério, data aberta</div></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-3-2#topico-2" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
+            <h2 class="text-2xl font-bold">🟣 Mirendil</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t2-p1">Se o RSI fosse só conversa de pesquisador, não viraria <strong class="text-purple-400">tese de investimento</strong>. A Mirendil — startup de ex-Anthropic/Google — levanta <strong class="text-neutral-100">US$200M</strong> (a16z, Kleiner, Nvidia, <em class="text-neutral-400">conforme o vídeo — a verificar</em>) com uma missão direta: construir <strong class="text-purple-400">"IA que faz o trabalho de um engenheiro de IA"</strong>. Em uma frase: IA para IA, para ciência.</p>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">A aposta, em uma linha cada</h3>
+          <div class="font-mono text-sm text-neutral-300 space-y-1.5 bg-dark-900/60 rounded-lg p-4 border border-dark-700">
+            <div><span class="text-purple-400">quem:</span> ex-Anthropic / ex-Google</div>
+            <div><span class="text-purple-400">capta:</span> US$200M <span class="text-neutral-500"># a verificar</span></div>
+            <div><span class="text-purple-400">missao:</span> IA que faz o trabalho de um engenheiro de IA</div>
+            <div><span class="text-purple-400">slogan:</span> "IA para IA, para ciência"</div>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3">Recriação ilustrativa do pitch — cifra e detalhes conforme o vídeo, a verificar na fonte primária.</p>
+        </div>
+
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> A tensão escondida</h3>
+          <p class="text-neutral-300 text-sm">Para acelerar o loop (IA melhorando IA), você precisaria usar os melhores modelos para construir o próximo. Mas os <strong class="text-neutral-100">termos de uso</strong> dos grandes labs costumam proibir usar o modelo deles para criar um concorrente. Resultado: existe uma <strong class="text-red-400">corrida para abrir o loop</strong> e, ao mesmo tempo, <strong class="text-red-400">contratos que tentam mantê-lo fechado</strong>. Quem destrava isso ganha vantagem — e é por isso que aparece dinheiro grande.</p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">IA para IA</div><div class="text-xs text-neutral-400">automatizar o engenheiro</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">US$200M</div><div class="text-xs text-neutral-400">a verificar</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">Tensão</div><div class="text-xs text-neutral-400">abrir × travar o loop</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-purple-400 font-bold text-sm mb-1">Sinal</div><div class="text-xs text-neutral-400">RSI virou negócio</div></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-3-2#topico-3" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
+            <h2 class="text-2xl font-bold">🏗️ O gargalo de infraestrutura</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t3-p1">Na Trilha 1 vimos que o gargalo se desloca: hoje o limite é quão rápido humanos pensam e testam; com RSI, o limite vira <strong class="text-purple-400">físico</strong>. E o limite físico tem nome e endereço: compute, chips, energia e quem tem dinheiro para bancar mais experimentos.</p>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 mb-6">
+          <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🔍</span> Novo aqui?</h3>
+          <ul class="space-y-2 text-neutral-300 text-sm">
+            <li><strong class="text-neutral-100">Hyperscaler:</strong> as empresas gigantes que operam data centers em escala enorme e alugam computação (a "nuvem"). São elas que compram a maior parte dos chips de IA.</li>
+            <li><strong class="text-neutral-100">Capex (capital expenditure):</strong> o dinheiro gasto <em>comprando</em> infraestrutura física — prédios, chips, energia. É diferente do custo do dia a dia (operação): capex é construir; opex é manter funcionando.</li>
+          </ul>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">📈</span> O dado a observar</h3>
+          <p class="text-neutral-300 text-sm">O gasto de capital (capex) dos hyperscalers está a caminho de <strong class="text-neutral-100">superar o caixa que eles geram operando</strong>, possivelmente até o fim de 2026 (<em class="text-neutral-400">conforme o vídeo — a verificar</em>). Tradução: eles estão investindo em infraestrutura mais rápido do que o negócio devolve em caixa — uma aposta enorme em compute futuro.</p>
+        </div>
+
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center gap-4"><span class="text-purple-400 font-bold w-24 flex-shrink-0 text-sm">Compute</span><div class="flex-1 bg-dark-800 rounded-lg border border-dark-600 p-3 text-sm text-neutral-300">mais experimentos por dia = loop mais rápido</div></div>
+          <div class="flex items-center gap-4"><span class="text-purple-400 font-bold w-24 flex-shrink-0 text-sm">Chips</span><div class="flex-1 bg-dark-800 rounded-lg border border-dark-600 p-3 text-sm text-neutral-300">quem tem GPU manda no ritmo</div></div>
+          <div class="flex items-center gap-4"><span class="text-purple-400 font-bold w-24 flex-shrink-0 text-sm">Energia</span><div class="flex-1 bg-dark-800 rounded-lg border border-dark-600 p-3 text-sm text-neutral-300">data center precisa de muita eletricidade</div></div>
+          <div class="flex items-center gap-4"><span class="text-purple-400 font-bold w-24 flex-shrink-0 text-sm">Capital</span><div class="flex-1 bg-dark-800 rounded-lg border border-dark-600 p-3 text-sm text-neutral-300">quem banca mais experimentos avança mais</div></div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Por que isso é boa notícia para o cético</h3>
+          <p class="text-neutral-300 text-sm">Compute, chips e energia são <strong class="text-neutral-100">observáveis e públicos</strong> — dá para acompanhar capex, encomendas de GPU e construção de data centers sem depender de palpites. É o termômetro mais concreto que temos do cenário de 2028.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-3-2#topico-4" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
+            <h2 class="text-2xl font-bold">⚖️ O filtro sólido vs especulação</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t4-p1">Este é o método que atravessou o curso inteiro, num único quadro. A regra: separe a <strong class="text-emerald-400">categoria sólida</strong> (a tendência real, o conceito, o que é publicamente afirmado) do <strong class="text-amber-400">claim de um canal ou artigo</strong> (versões exatas, cifras precisas, a data). Sempre que ouvir um número, pergunte: isto é categoria ou é claim?</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4">✓ Sólido (categoria real)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A tendência de <strong class="text-neutral-100">horizonte de tarefa</strong> subindo (curva METR).</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O <strong class="text-neutral-100">conceito do MirrorCode</strong>: reconstruir software no escuro.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A <strong class="text-neutral-100">instabilidade da medição</strong> quando há cheating.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A Anthropic afirmar que <strong class="text-neutral-100">a maioria do código passa por Claude</strong>.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>RSI como <strong class="text-neutral-100">tema sério</strong> de Clark, Hassabis e Hinton.</span></li>
+            </ul>
+          </div>
+          <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+            <h4 class="font-bold text-amber-400 mb-4">⚠ A verificar (claim único)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Nomes/versões exatas: <strong class="text-neutral-100">"Opus 4.7", "GPT-5.6 Sol", "Claude 3 Opus 52×"</strong>.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>O <strong class="text-neutral-100">"60% até 2028"</strong> — palpite de uma pessoa.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Cifras exatas: <strong class="text-neutral-100">56%, 19 dias, US$2.600, US$200M</strong>.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Os horizontes do "Sol": <strong class="text-neutral-100">~11h / >270h / ~71h</strong>.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Qualquer <strong class="text-neutral-100">data</strong> tratada como garantida.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🧭</span> A regra de bolso</h3>
+          <p class="text-neutral-300"><strong class="text-emerald-400">Categoria</strong> = a forma do fenômeno (uma curva sobe, uma medição fica instável). Costuma resistir à checagem. <strong class="text-amber-400">Claim</strong> = um valor específico atado a uma fonte (este modelo, este número, esta data). Trate todo claim como "a verificar" até achar a fonte primária. Esse hábito é o que você leva pra fora do curso.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-3-2#topico-5" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
+            <h2 class="text-2xl font-bold">🔭 Cenários 2028</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t5-p1">Aqui está o ponto mais mal-entendido do alerta: <strong class="text-purple-400">2028 não é a data da singularidade</strong>. É uma <strong class="text-neutral-100">faixa de futuros</strong>. A pergunta certa não é "vai acontecer em 2028?", e sim "<em class="text-neutral-400">quais condições precisariam se juntar para o loop fechar?</em>".</p>
+
+        <!-- SVG: bifurcação (presente -> dois ramos) -->
+        <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+          <svg viewBox="0 0 1000 230" class="w-full h-auto" role="img" aria-label="A partir do presente, três condições — autonomia longa, P&amp;D de IA automatizada e compute — empurram para um ramo onde o loop fecha; sem elas, o loop não fecha">
+            <defs>
+              <linearGradient id="m32b-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+              <filter id="m32b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <pattern id="m32b-grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#a855f7" opacity="0.10"/></pattern>
+              <marker id="m32b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#c084fc"/></marker>
+              <marker id="m32b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="230" fill="url(#m32b-grid)"/>
+            <!-- presente -->
+            <g filter="url(#m32b-glow)"><rect x="36" y="92" width="120" height="54" rx="13" fill="#1a1230" stroke="url(#m32b-grad)" stroke-width="2"/></g>
+            <text x="96" y="116" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="600" font-size="15">Hoje</text>
+            <text x="96" y="134" text-anchor="middle" fill="#d8b4fe" font-family="Inter,sans-serif" font-size="11">soft</text>
+            <!-- tres condicoes (ciano) -->
+            <g fill="none" stroke="#38bdf8" stroke-width="1.7" opacity="0.5">
+              <path d="M156,108 C260,108 280,52 360,52" marker-end="url(#m32b-ahc)"/>
+              <path d="M156,119 L360,119" marker-end="url(#m32b-ahc)"/>
+              <path d="M156,130 C260,130 280,186 360,186" marker-end="url(#m32b-ahc)"/>
+            </g>
+            <g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+              <g class="wf-a"><rect x="360" y="36" width="210" height="32" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="465" y="56" text-anchor="middle" fill="#bfe6ff">autonomia longa (dias)</text></g>
+              <g class="wf-a"><rect x="360" y="103" width="210" height="32" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="465" y="123" text-anchor="middle" fill="#bfe6ff">P&amp;D de IA automatizada</text></g>
+              <g class="wf-a"><rect x="360" y="170" width="210" height="32" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="465" y="190" text-anchor="middle" fill="#bfe6ff">compute disponível</text></g>
+            </g>
+            <!-- convergem para a bifurcacao -->
+            <g fill="none" stroke="#c084fc" stroke-width="1.7" opacity="0.55">
+              <path d="M570,52 C640,52 660,100 700,100"/>
+              <path d="M570,119 L700,114"/>
+              <path d="M570,186 C640,186 660,128 700,128"/>
+            </g>
+            <g filter="url(#m32b-glow)"><rect x="700" y="92" width="60" height="44" rx="12" fill="#1a1230" stroke="url(#m32b-grad)" stroke-width="2"/></g>
+            <text x="730" y="119" text-anchor="middle" fill="#c084fc" font-family="Inter,sans-serif" font-weight="700" font-size="16">?</text>
+            <!-- dois ramos -->
+            <g fill="none" stroke="#c084fc" stroke-width="1.8" opacity="0.6">
+              <path d="M760,104 C800,104 810,64 850,64" marker-end="url(#m32b-ah)"/>
+              <path d="M760,124 C800,124 810,164 850,164" marker-end="url(#m32b-ah)"/>
+            </g>
+            <rect x="850" y="46" width="126" height="36" rx="9" fill="#0e2018" stroke="#34d399" stroke-width="1.8"/><text x="913" y="68" text-anchor="middle" fill="#86efac" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">loop fecha</text>
+            <rect x="850" y="146" width="126" height="36" rx="9" fill="#26201a" stroke="#9ca3af" stroke-width="1.8" stroke-dasharray="6 6"/><text x="913" y="168" text-anchor="middle" fill="#e5e7eb" font-family="Inter,sans-serif" font-size="12.5" font-weight="600">loop não fecha</text>
+            <text x="500" y="222" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">O ramo de cima só acontece se as TRÊS condições se juntarem. Falta uma — o loop não fecha. Por isso é faixa, não data.</text>
+          </svg>
+        </div>
+
+        <figure class="mb-6">
+          <img src="assets/img/m3-2.png" alt="Ilustração: uma estrada roxa que se bifurca sob um céu de data centers, com o marco 2028 no ponto onde os caminhos se separam" class="w-full h-auto rounded-xl border border-dark-600">
+          <figcaption class="text-xs text-neutral-500 mt-2">Leia assim: 2028 é o ponto onde a estrada se divide, não o destino. Para onde vamos depende de quais condições (autonomia, P&amp;D automatizada, compute) chegam juntas até lá — e isso é observável, não profecia.</figcaption>
+        </figure>
+
+        <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🔑</span> O que faria o loop "fechar"</h3>
+          <p class="text-neutral-300">Três coisas teriam que valer <strong class="text-neutral-100">ao mesmo tempo</strong>: a IA trabalhando sozinha por <strong class="text-purple-400">dias</strong> (autonomia longa, da Trilha 2), a IA fazendo <strong class="text-purple-400">P&amp;D de IA</strong> de verdade (não só ajudando), e <strong class="text-purple-400">compute</strong> de sobra para rodar tudo. Falte uma, e o "hard" não chega. Por isso a resposta honesta é uma faixa de futuros.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-3-2#topico-6" data-inema-module="3-2" data-inema-track="3" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
+            <h2 class="text-2xl font-bold">✅ O que observar</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-2-t6-p1">O presente final do curso não é uma previsão — é um <strong class="text-purple-400">painel</strong>. Em vez de torcer ou temer, você acompanha sinais concretos. Se vários subirem juntos, o cenário esquenta; se ficarem parados, esfria. Isto é atenção informada.</p>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 mb-6">
+          <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🔍</span> Novo aqui?</h3>
+          <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">System card</strong> é o documento que um laboratório publica junto com um modelo novo, descrevendo do que ele é capaz, seus limites e as avaliações de segurança que rodaram. Quando os system cards ficam <em>mais transparentes</em>, é mais fácil monitorar; quando ficam vagos, é um sinal de alerta por si só.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">📏</div><h4 class="font-semibold text-neutral-100 mb-1">Horizonte de tarefa</h4><p class="text-xs text-neutral-400">A curva METR continua subindo? Por horas vira por dias?</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🤖</div><h4 class="font-semibold text-neutral-100 mb-1">% de P&amp;D automatizado</h4><p class="text-xs text-neutral-400">Quanto da pesquisa de IA já é feita por IA, sem humano?</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">📄</div><h4 class="font-semibold text-neutral-100 mb-1">Transparência dos system cards</h4><p class="text-xs text-neutral-400">Ficando mais abertos e detalhados, ou mais vagos?</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">👁️</div><h4 class="font-semibold text-neutral-100 mb-1">Qualidade do monitoramento</h4><p class="text-xs text-neutral-400">Detectam cheating/sandbagging? Ou só "ficou limpo"?</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">⚖️</div><h4 class="font-semibold text-neutral-100 mb-1">Governança</h4><p class="text-xs text-neutral-400">Regras, auditorias e limites acompanham a capacidade?</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🏗️</div><h4 class="font-semibold text-neutral-100 mb-1">Gargalo de compute/energia</h4><p class="text-xs text-neutral-400">Capex, chips e data centers — acelerando ou travando?</p></div>
+        </div>
+
+        <!-- COPY-RUN -->
+        <div class="bg-dark-800 rounded-xl border border-purple-500/30 overflow-hidden mb-6">
+          <div class="px-5 py-3 bg-purple-500/10 border-b border-purple-500/30 flex items-center gap-2">
+            <span class="text-lg">⚡</span><span class="font-semibold text-purple-400">Copie e rode — monte seu painel de RSI</span>
+          </div>
+          <div class="p-5 space-y-4">
+            <p class="text-sm text-neutral-300"><strong class="text-neutral-100">Objetivo:</strong> transformar este módulo num painel pessoal de monitoramento que você revisa a cada 6 meses — com indicadores observáveis, não vagos.</p>
+            <div>
+              <p class="text-xs text-neutral-500 mb-2 uppercase tracking-wide">Cole num chatbot (Claude, ChatGPT…):</p>
+              <pre class="font-mono text-sm text-neutral-200 bg-dark-900/70 rounded-lg p-4 border border-dark-700 whitespace-pre-wrap">Monte para mim um "painel de monitoramento de RSI" com 5 indicadores
+que eu possa checar a cada 6 meses, e onde encontrar cada dado.
+Contexto: meu nível é &lt;iniciante / intermediário&gt; e meu foco é
+&lt;ex.: programação / negócios / política pública&gt;.
+Para cada indicador, diga: o que medir, onde achar a fonte primária,
+e o que contaria como "subiu" ou "ficou parado".</pre>
+            </div>
+            <div class="bg-primary/10 border border-primary/40 rounded-lg p-4">
+              <p class="text-sm text-neutral-300"><strong class="text-primary">Como verificar:</strong> os indicadores são <strong class="text-neutral-100">observáveis</strong> (têm fonte e um critério de "subiu/parou"), ou são vagos tipo "a IA vai melhorar"? Se vierem vagos, responda <em class="text-neutral-400">"reescreva cada indicador com uma fonte concreta e um número/limiar checável"</em>. Um bom painel deixa você medir sozinho — sem depender do hype.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- CHECAGEM LEVE (opcional, não bloqueia) -->
+      <div data-inema-check="modulo-3-2#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+        <p class="font-medium mb-4">Auto-checagem (opcional): o que "2028" significa neste curso?</p>
+        <div class="inema-check-options space-y-2">
+          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">A data garantida em que a IA vira superinteligente.</button>
+          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Uma faixa de futuros que depende de condições observáveis se juntarem — não uma data certa.</button>
+          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Uma invenção de canais de YouTube, sem nada de sólido por trás.</button>
+        </div>
+        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+      </div>
+
+      <!-- RESUMO FINAL DO CURSO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-purple-900/40 via-dark-800 to-dark-800 rounded-xl border border-purple-500/30 p-8">
+          <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full mb-4">FIM DO CURSO</span>
+          <h2 class="text-2xl font-bold mb-4 flex items-center"><span class="mr-3">🎓</span> Você chegou ao fim — atenção informada, não pânico</h2>
+          <p class="text-neutral-300 mb-6">O curso amarrou três trilhas: <strong class="text-emerald-400">Fundamentos do RSI</strong> (a IA que constrói a próxima IA, e por que começa pelo código), <strong class="text-blue-400">A Evidência</strong> (a curva METR de horizonte e o MirrorCode reconstruindo software no escuro) e <strong class="text-purple-400">Segurança e 2028</strong> (quando a medição quebra e como ler a corrida). A mensagem que fica não é medo nem deslumbre — é <strong class="text-neutral-100">prestar atenção com método</strong>.</p>
+
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">RSI é deslocamento de gargalo</strong><span class="text-neutral-400"> — não robô consciente; o limite migra de humanos para compute e autonomia.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">A evidência é uma tendência</strong><span class="text-neutral-400"> — o horizonte de tarefa sobe (METR) e a IA reconstrói software sozinha (MirrorCode).</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">A medição pode quebrar</strong><span class="text-neutral-400"> — cheating, sandbagging e evasão fazem o número deixar de medir o que parece.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Alinhamento é o eixo</strong><span class="text-neutral-400"> — fazer o sistema querer o que queremos fica mais difícil conforme a capacidade cresce.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">2028 é faixa, não data</strong><span class="text-neutral-400"> — depende de autonomia longa + P&amp;D automatizada + compute se juntarem.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-purple-400 mt-1">✓</span><div><strong class="text-neutral-100">Separe sólido de claim</strong><span class="text-neutral-400"> — categoria resiste à checagem; cifra/versão/data é "a verificar" até achar a fonte.</span></div></div>
+          </div>
+
+          <div class="bg-dark-800/50 rounded-lg p-5 mb-8 border border-purple-500/20">
+            <h3 class="font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">📡</span> Continue acompanhando</h3>
+            <p class="text-neutral-300 text-sm mb-3">Monte seu painel do Tópico 6 e revise a cada 6 meses. Mais cursos e materiais como este — destilando o que importa, separando fato de hype — ficam no:</p>
+            <a href="https://inema.club" target="_blank" class="inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 font-semibold">🔗 INEMA.CLUB</a>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para a Trilha 3</a>
+            <a href="../../index.html" class="flex-1 text-center px-6 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-500 transition-colors">Concluir o curso → Início 🎉</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC STICKY + SCROLLSPY -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice do módulo" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">Nesta página <span class="text-neutral-500" data-inema-section-counter></span></p>
+        <ol class="space-y-2 border-l border-dark-600 pl-4">
+          <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">1. Os players</a></li>
+          <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">2. Mirendil</a></li>
+          <li><a href="#topico-3" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">3. Gargalo de infraestrutura</a></li>
+          <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">4. Sólido vs especulação</a></li>
+          <li><a href="#topico-5" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">5. Cenários 2028</a></li>
+          <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">6. O que observar</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Alerta IA 2028 · Trilha 3 · Módulo 3.2 — A corrida e os cenários 2028</p>
+    </div>
+  </footer>
+
+  <!-- learn.js + init + checagem -->
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-3-2#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não — o curso evita exatamente isso: 2028 não é uma data garantida da singularidade.',
+            1: 'Isso. 2028 é uma faixa de futuros — depende de autonomia longa, P&D automatizada e compute se juntarem. Por isso a gente OBSERVA sinais.',
+            2: 'Quase ao contrário — há categorias sólidas (curva METR, MirrorCode, instabilidade da medição); o que é "a verificar" são as cifras, versões e a data exata.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

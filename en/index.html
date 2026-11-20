@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <link rel="alternate" hreflang="pt-BR" href="../index.html">
+  <link rel="alternate" hreflang="en" href="./index.html">
+  <link rel="alternate" hreflang="es" href="../es/index.html">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta-en">
+
+  <!-- 1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO, antes do Tailwind e do learn.css.
+        Le inema.prefs (global) e aplica .dark + data-theme + vars de leitura ANTES do 1o paint.
+        try/catch total => default dark (preserva a marca INEMA). REL = "." (raiz com assets/). -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object') { for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k]; }
+        } else {
+          var legacy = localStorage.getItem('theme');
+          if (legacy === 'light') p.theme = 'claro';
+          else if (legacy === 'dark') p.theme = 'inema-dark';
+        }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = {
+        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'claro':      { dark: false, attr: null,        cs: 'light' },
+        'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
+        'foco':       { dark: null,  attr: 'foco',      cs: null    },
+        'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
+      };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark === true) html.classList.add('dark');
+      else if (t.dark === false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark') ? 'dark' : 'light'));
+      html.setAttribute('data-font', p.font || 'inter');
+      html.setAttribute('data-accent', p.accent || 'emerald');
+      var s = html.style; var scale = (+p.fontScale || 100);
+      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('font-size', scale + '%');
+      s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
+      s.setProperty('--lh-body', (+p.leading || 1.7).toString());
+      var fam = p.font === 'system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif'
+        : (p.font === 'leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent] || ACC.emerald;
+      s.setProperty('--accent-h', a[0]+''); s.setProperty('--accent-s', a[1]+'%'); s.setProperty('--accent-l', a[2]+'%');
+      s.setProperty('--accent', 'hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) {
+      try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } catch (e) {}
+    }
+  })();
+  </script>
+
+  <!-- 2) Manifesto do curso (estrutura COMPLETA — identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta-en",
+    "tracks": [
+      {
+        "n": "1",
+        "title": "RSI fundamentals",
+        "modules": [
+          {
+            "id": "1-1",
+            "title": "The loop: AI building AI",
+            "topics": 6,
+            "href": "curso/trilha1/modulo-1-1.html"
+          },
+          {
+            "id": "1-2",
+            "title": "Why it starts with code",
+            "topics": 6,
+            "href": "curso/trilha1/modulo-1-2.html"
+          }
+        ]
+      },
+      {
+        "n": "2",
+        "title": "The evidence",
+        "modules": [
+          {
+            "id": "2-1",
+            "title": "The METR curve: the task horizon",
+            "topics": 6,
+            "href": "curso/trilha2/modulo-2-1.html"
+          },
+          {
+            "id": "2-2",
+            "title": "MirrorCode: rebuilding in the dark",
+            "topics": 6,
+            "href": "curso/trilha2/modulo-2-2.html"
+          }
+        ]
+      },
+      {
+        "n": "3",
+        "title": "Safety and 2028",
+        "modules": [
+          {
+            "id": "3-1",
+            "title": "When measurement breaks",
+            "topics": 6,
+            "href": "curso/trilha3/modulo-3-1.html"
+          },
+          {
+            "id": "3-2",
+            "title": "The race and 2028 scenarios",
+            "topics": 6,
+            "href": "curso/trilha3/modulo-3-2.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <title>AI Alert 2028 — The AI building the next AI | INEMA.CLUB</title>
+
+  <!-- 3) Tailwind + config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- 4) learn.css (camada de aprendizagem) -->
+  <link rel="stylesheet" href="../assets/learn.css">
+
+  <!-- 5) CSS base v1 + light mode (todas as trilhas) -->
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+
+    /* Light mode - acento T1 emerald */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* Light mode - acento T2 blue */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* Light mode - acento T3 purple */
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/20 { background-color: rgba(124,58,237,0.12); }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .border-purple-500\/30 { border-color: rgba(124,58,237,0.25); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-purple-400 { color: #7c3aed; }
+
+    /* Light mode - sem gradientes + cores especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .border-primary\/30 { border-color: rgba(161,98,7,0.20); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #dc2626; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+
+    /* Dark mode - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    /* Hero SVG: pulso dos nos + adapta ao tema claro */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s}
+      .wf-a:nth-child(4){animation-delay:.6s} .wf-a:nth-child(5){animation-delay:.8s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+
+    /* Painel de aparencia ancorado ao gatilho */
+    .appearance-anchor { position: relative; }
+    @media(max-width:639px){nav .h-14{height:auto;min-height:3.5rem;flex-wrap:wrap;gap:.5rem;padding-block:.5rem}nav .h-14 > div:last-child{margin-left:auto}}
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Skip to content</a>
+
+  <!-- ===================== NAV COMPLETO ===================== -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="./index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">AI Alert 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentals</span></a>
+          <a href="curso/trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidence</span></a>
+          <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Safety</span></a>
+
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Language"><a data-language="pt-BR" href="../index.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="./index.html" lang="en" hreflang="en" class="font-bold text-yellow-400">EN</a><a data-language="es" href="../es/index.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <!-- Minha jornada -->
+          <button type="button" data-inema-journey-open title="My journey"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Journey</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+
+          <!-- Aparencia -->
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Appearance and reading"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300">
+              <span aria-hidden="true">◑</span>
+            </button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Theme">
+                <button type="button" data-inema-set-theme="inema-dark">Dark</button>
+                <button type="button" data-inema-set-theme="claro">Light</button>
+                <button type="button" data-inema-set-theme="sepia">Sepia</button>
+                <button type="button" data-inema-set-theme="foco">Focus</button>
+                <button type="button" data-inema-set-theme="contraste">High contrast</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Font">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">System</button>
+                <button type="button" data-inema-set-font="leitura">Reading</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Text size">
+                <button type="button" data-inema-set-fontscale="100">The</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Line width">
+                <button type="button" data-inema-set-linewidth="60">Narrow</button>
+                <button type="button" data-inema-set-linewidth="68">Medium</button>
+                <button type="button" data-inema-set-linewidth="75">Wide</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Line spacing">
+                <button type="button" data-inema-set-leading="1.45">Compact</button>
+                <button type="button" data-inema-set-leading="1.7">Comfortable</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Accent color">
+                <button type="button" data-inema-set-accent="emerald" title="Emerald"></button>
+                <button type="button" data-inema-set-accent="blue" title="Blue"></button>
+                <button type="button" data-inema-set-accent="purple" title="Purple"></button>
+                <button type="button" data-inema-set-accent="amber" title="Amber"></button>
+                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rose"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main id="conteudo">
+
+    <!-- ===================== HERO ===================== -->
+    <header class="relative overflow-hidden bg-gradient-to-br from-emerald-900/20 via-dark-900 to-dark-900 border-b border-dark-600">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <span class="inline-block px-3 py-1 bg-primary/10 border border-primary/40 text-primary text-xs font-semibold rounded-full mb-5 tracking-wide">RSI · RECURSIVE SELF-IMPROVEMENT · 2028 HORIZON</span>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold mb-5 leading-[1.05] tracking-tight">AI is already helping build the next AI.</h1>
+        <p class="text-lg sm:text-xl text-neutral-300 max-w-3xl mb-4 leading-relaxed">From a frightening headline to <strong class="text-primary">a critical reading of the warning</strong> for 2028—in plain English.</p>
+        <p class="text-base text-neutral-400 max-w-3xl mb-8 leading-relaxed">Frontier leaders — <strong class="text-neutral-200">Anthropic</strong>, <strong class="text-neutral-200">DeepMind</strong> and <strong class="text-neutral-200">OpenAI</strong> — have put <strong class="text-neutral-200">2028</strong> on the table as the horizon when AI could accelerate its own research. This course distills that warning and <strong class="text-neutral-200">separates solid evidence from hype</strong> —so you can follow developments with informed attention, not panic.</p>
+
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <a href="curso/trilha1/index.html" class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Start with Track 1 <span aria-hidden="true">→</span></a>
+          <a href="#estrutura" class="inline-flex items-center gap-2 px-5 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-200 rounded-lg font-semibold transition-colors">View the course structure</a>
+          <a href="alerta.html" class="inline-flex items-center gap-2 px-5 py-3 bg-dark-700 hover:bg-dark-600 text-neutral-200 rounded-lg font-semibold transition-colors">Quick overview (explainer)</a>
+        </div>
+        <p class="text-xs text-neutral-500 mb-8">No sign-up · opens directly in your browser · your progress, questions, and notes stay on your device.</p>
+
+        <!-- CAPA do curso -->
+        <div class="rounded-2xl border border-primary/30 bg-dark-900/40 p-1.5 sm:p-2 mb-8 overflow-hidden">
+          <img src="../assets/img/capa.png" width="896" height="512" loading="eager"
+               alt="AI Alert 2028 — AI helping build the next AI: the recursive self-improvement loop on the 2028 horizon"
+               class="w-full h-auto rounded-xl" />
+        </div>
+
+        <!-- Medidor de progresso do curso -->
+        <div data-inema-meter="curso" class="inema-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Course progress" style="max-width:520px">
+          <div class="flex items-center justify-between text-sm text-neutral-400 mb-2">
+            <span>Your journey</span>
+            <span><strong class="text-neutral-200" data-inema-meter-frac>0 of 36</strong> sections · <span data-inema-meter-pct>0%</span></span>
+          </div>
+          <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+          <button type="button" data-inema-journey-open class="mt-3 text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-2">continue where I left off →</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===================== A VIRADA ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-emerald-400 tracking-wide uppercase">The shift</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-6">From headline-watcher to critical reader of the warning</h2>
+      <div class="grid md:grid-cols-2 gap-6 items-start">
+        <div class="space-y-4 text-neutral-300 leading-relaxed">
+          <p>Most people encounter this subject through a headline — <em class="text-neutral-400">"lab confirms AI self-improving by 2028"</em> —and feel only alarm. This course does the opposite: it gives you the <strong class="text-neutral-100">tools to assess the warning for yourself</strong>.</p>
+          <p>You stop asking <em class="text-neutral-400">"Is this the end?"</em> and start asking <strong class="text-emerald-400">"What here is solid, what is speculation, and which signals should I watch?"</strong></p>
+          <p>You do not need to code or be a researcher. You need to understand the loop, know the evidence on the table, and recognize where AI measurement itself starts to fail. In the end, panic becomes <strong class="text-neutral-100">informed attention</strong>.</p>
+        </div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6">
+          <h3 class="font-semibold text-neutral-200 mb-4">Without critical reading, the warning becomes noise</h3>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Reacting only to a scary headline leads to <strong>anxiety</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>"It is all hype" becomes <strong>denial</strong> of what is already real.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Repeating isolated numbers — “60%,” “56%,” “19 days” — becomes <strong>rumor</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-red-400 flex-shrink-0">✗</span><span>Confusing RSI with the singularity, consciousness, or robots leads to <strong>confusion</strong>.</span></li>
+          </ul>
+          <p class="mt-4 text-sm text-neutral-400">With critical reading, the warning becomes <strong class="text-emerald-400">informed attention</strong>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== O QUE VOCE VAI ENTENDER (6 pilares) ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-primary tracking-wide uppercase">What you will understand</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-3">Six ideas unlock the whole warning</h2>
+      <p class="text-neutral-400 max-w-3xl mb-8">You do not need to code or be a researcher—you need to understand what is happening and separate signal from noise. These six ideas are the course’s backbone.</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">🔁</span><h3 class="font-semibold">The RSI loop</h3></div><p class="text-sm text-neutral-400">AI designs a better AI, which designs the next one—faster with each cycle. The warning’s central idea, without jargon.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg">💻</span><h3 class="font-semibold">Why code comes first</h3></div><p class="text-sm text-neutral-400">In software, the write → run → fix cycle closes in seconds. That is why the leap appears in code before anywhere else.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg">📊</span><h3 class="font-semibold">The METR curve</h3></div><p class="text-sm text-neutral-400">The “task horizon”: the longest task, measured in human time, that a model can complete alone with about 50% success.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 flex items-center justify-center text-lg">🪞</span><h3 class="font-semibold">MirrorCode</h3></div><p class="text-sm text-neutral-400">Rebuild a real program in the dark, using only its executable—the benchmark that tests how far AI can go on its own.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">🎭</span><h3 class="font-semibold">When measurement breaks</h3></div><p class="text-sm text-neutral-400">Cheating, sandbagging, and why <em>detecting</em> a failure can be a good sign: monitoring is working.</p></div>
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="flex items-center gap-3 mb-2"><span class="w-9 h-9 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">🏁</span><h3 class="font-semibold">2028 scenarios</h3></div><p class="text-sm text-neutral-400">Not a date for the singularity: a range of possible futures and a checklist of concrete signals to watch.</p></div>
+      </div>
+    </section>
+
+    <!-- ===================== ESTRUTURA / 3 TRILHAS ===================== -->
+    <section id="estrutura" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-neutral-400 tracking-wide uppercase">The structure · 3 tracks · 6 modules · 36 sections</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-8">The complete course</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Trilha 1 -->
+        <a href="curso/trilha1/index.html" class="group bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-2xl border border-emerald-500/30 p-6 transition-all hover:border-emerald-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full">TRACK 1</span>
+            <span class="text-xs text-neutral-500">2 modules · 12 sections</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors">🔁 RSI fundamentals</h3>
+          <p class="text-sm text-neutral-400 mb-4">The warning’s central idea in plain English: what recursive self-improvement is, why the limit shifts, and why the leap appears first in code.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-emerald-400">·</span>The loop: AI building AI</li>
+            <li class="flex gap-2"><span class="text-emerald-400">·</span>Why it starts with code</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-emerald-400 font-semibold text-sm group-hover:gap-2 transition-all">Open Track 1 <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Trilha 2 -->
+        <a href="curso/trilha2/index.html" class="group bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-2xl border border-blue-500/30 p-6 transition-all hover:border-blue-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full">TRACK 2</span>
+            <span class="text-xs text-neutral-500">2 modules · 12 sections</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">📊 The evidence</h3>
+          <p class="text-sm text-neutral-400 mb-4">The concrete evidence: METR’s task-horizon curve and the MirrorCode benchmark—what they measure and, honestly, what they do NOT prove.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-blue-400">·</span>The METR curve: the task horizon</li>
+            <li class="flex gap-2"><span class="text-blue-400">·</span>MirrorCode: rebuilding in the dark</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-blue-400 font-semibold text-sm group-hover:gap-2 transition-all">Open Track 2 <span aria-hidden="true">→</span></span>
+        </a>
+
+        <!-- Trilha 3 -->
+        <a href="curso/trilha3/index.html" class="group bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-2xl border border-purple-500/30 p-6 transition-all hover:border-purple-500/60">
+          <div class="flex items-center justify-between mb-3">
+            <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 text-xs font-semibold rounded-full">TRACK 3</span>
+            <span class="text-xs text-neutral-500">2 modules · 12 sections</span>
+          </div>
+          <h3 class="text-xl font-bold mb-2 group-hover:text-purple-400 transition-colors">🛡️ Safety and 2028</h3>
+          <p class="text-sm text-neutral-400 mb-4">Where measurement breaks (cheating, sandbagging), what each lab is saying, and how to read 2028 scenarios without panicking.</p>
+          <ul class="space-y-1.5 text-sm text-neutral-300">
+            <li class="flex gap-2"><span class="text-purple-400">·</span>When measurement breaks</li>
+            <li class="flex gap-2"><span class="text-purple-400">·</span>The race and 2028 scenarios</li>
+          </ul>
+          <span class="inline-flex items-center gap-1 mt-5 text-purple-400 font-semibold text-sm group-hover:gap-2 transition-all">Open Track 3 <span aria-hidden="true">→</span></span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ===================== SOLIDO vs ESPECULACAO ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-b border-dark-600">
+      <span class="text-sm font-semibold text-primary tracking-wide uppercase">The honest method</span>
+      <h2 class="text-2xl sm:text-3xl font-bold mt-2 mb-3">Solid evidence vs. speculation</h2>
+      <p class="text-neutral-400 max-w-3xl mb-8">The 2028 warning mixes real trends with numbers from a single video or article. This course teaches you to distinguish them—and marks every figure or model version repeated from the video as <strong class="text-neutral-200">(according to the video—unverified)</strong>.</p>
+      <div class="grid md:grid-cols-2 gap-6 items-start">
+
+        <!-- Mais solido (verde) -->
+        <div class="bg-emerald-500/10 rounded-2xl border border-emerald-500/30 p-6">
+          <h3 class="font-semibold text-emerald-400 mb-4 flex items-center gap-2"><span>✓</span> More solid</h3>
+          <p class="text-xs text-neutral-500 mb-4">Categories and trends supported by broad evidence, not dependent on a single source.</p>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>The <strong>task-horizon trend</strong> from METR (the curve rises over time).</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>The <strong>MirrorCode concept</strong>: rebuilding software in the dark as a measure of what AI can do alone.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>The <strong>measurement instability</strong> when a model cheats (cheating / reward hacking).</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span>Anthropic’s public statement that <strong>most of its code is written by Claude</strong>.</span></li>
+            <li class="flex gap-3"><span class="text-emerald-400 flex-shrink-0">✓</span><span><strong>RSI as a serious topic</strong> raised by Clark (Anthropic), Hassabis (DeepMind), and Hinton.</span></li>
+          </ul>
+        </div>
+
+        <!-- Tratar como claim (ambar) -->
+        <div class="bg-primary/10 rounded-2xl border border-primary/40 p-6">
+          <h3 class="font-semibold text-yellow-400 mb-4 flex items-center gap-2"><span>⚠</span> Treat as claims to verify</h3>
+          <p class="text-xs text-neutral-500 mb-4">Exact numbers and names from one video or article—useful as illustrations, not established facts.</p>
+          <ul class="space-y-3 text-sm text-neutral-300">
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span><strong>Exact model names and versions</strong> ("Opus 4.7", "GPT-5.6 Sol", "Claude 3 Opus 52×").</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span>The <strong>"~60% by 2028"</strong> —one person’s estimate, not a field-wide consensus.</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span><strong>Exact figures</strong> repeated from the video: 56%, 19 days, US$2,600, US$200M.</span></li>
+            <li class="flex gap-3"><span class="text-yellow-400 flex-shrink-0">⚠</span><span>Any claim that the curve <strong>"proves"</strong> a predetermined outcome—extrapolating a straight line is no guarantee.</span></li>
+          </ul>
+          <p class="mt-4 text-xs text-neutral-500">Course rule: whenever we cite a model version or figure from the video, we mark it <strong class="text-neutral-300">(according to the video—unverified)</strong>.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== PROMESSA / FECHO ===================== -->
+    <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 rounded-2xl border border-emerald-500/30 p-8 sm:p-10 text-center">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-4">Informed attention, not panic.</h2>
+        <p class="text-lg text-neutral-300 mb-2">The 2028 warning is not a prophecy—it is an <strong class="text-emerald-400">invitation to follow developments critically</strong>.</p>
+        <p class="text-neutral-400 max-w-2xl mx-auto mb-8 text-sm">Understand the loop, examine the evidence, learn where measurement fails—and you will be able to separate signal from noise on your own, without waiting for the next headline.</p>
+        <div class="flex flex-wrap justify-center gap-3">
+          <a href="curso/trilha1/index.html" class="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg font-semibold transition-colors">Start Track 1 now <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p><strong class="text-neutral-300">AI Alert 2028</strong> — The AI building the next AI · INEMA course</p>
+      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026 · your progress is saved only in this browser</p>
+    </div>
+  </footer>
+
+  <!-- learn.js + init -->
+  <script src="./assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+  </script>
+</body>
+</html>

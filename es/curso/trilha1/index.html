@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <link rel="alternate" hreflang="pt-BR" href="../../../curso/trilha1/index.html">
+  <link rel="alternate" hreflang="en" href="../../../en/curso/trilha1/index.html">
+  <link rel="alternate" hreflang="es" href="./index.html">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta-es">
+
+  <!-- 1) ANTI-FOUC (REL = "../..") -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style; var scale = (+p.fontScale||100);
+      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
+      var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent]||ACC.emerald;
+      s.setProperty('--accent-h',a[0]+''); s.setProperty('--accent-s',a[1]+'%'); s.setProperty('--accent-l',a[2]+'%'); s.setProperty('--accent','hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+
+  <!-- 2) Manifesto (identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta-es",
+    "tracks": [
+      {
+        "n": "1",
+        "title": "Fundamentos del RSI",
+        "modules": [
+          {
+            "id": "1-1",
+            "title": "El ciclo: IA que construye IA",
+            "topics": 6,
+            "href": "curso/trilha1/modulo-1-1.html"
+          },
+          {
+            "id": "1-2",
+            "title": "Por qué empieza por el código",
+            "topics": 6,
+            "href": "curso/trilha1/modulo-1-2.html"
+          }
+        ]
+      },
+      {
+        "n": "2",
+        "title": "La evidencia",
+        "modules": [
+          {
+            "id": "2-1",
+            "title": "La curva de METR: el horizonte de tareas",
+            "topics": 6,
+            "href": "curso/trilha2/modulo-2-1.html"
+          },
+          {
+            "id": "2-2",
+            "title": "MirrorCode: reconstruir a ciegas",
+            "topics": 6,
+            "href": "curso/trilha2/modulo-2-2.html"
+          }
+        ]
+      },
+      {
+        "n": "3",
+        "title": "Seguridad y 2028",
+        "modules": [
+          {
+            "id": "3-1",
+            "title": "Cuando falla la medición",
+            "topics": 6,
+            "href": "curso/trilha3/modulo-3-1.html"
+          },
+          {
+            "id": "3-2",
+            "title": "La carrera y los escenarios para 2028",
+            "topics": 6,
+            "href": "curso/trilha3/modulo-3-2.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <title>Ruta 1 · Fundamentos del RSI | Alerta de IA 2028</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    .topic-explanation { display: none; }
+    .topic-explanation.active { display: block; }
+    .modal.hidden { display: none; }
+    [id^="modulo-"], [id^="topico-"] { scroll-margin-top: 5rem; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* acento emerald (T1) */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:bg-emerald-500\/30:hover { background-color: rgba(5,150,105,0.18); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-emerald-400 { color: #059669; }
+    /* hovers das outras trilhas no nav */
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    /* sem gradientes + especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-amber-400 { color: #b45309; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* dark - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+    /* hero SVG */
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s}
+      .wf-a:nth-child(4){animation-delay:.6s} .wf-a:nth-child(5){animation-delay:.8s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    .appearance-anchor { position: relative; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Saltar al contenido</a>
+
+  <!-- NAV COMPLETO -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta de IA 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-emerald-400 bg-emerald-500/10">
+            <span class="sm:hidden">R1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="../trilha2/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-blue-400 hover:bg-blue-500/10 transition-colors">
+            <span class="sm:hidden">R2</span><span class="hidden sm:inline">Evidencia</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">R3</span><span class="hidden sm:inline">Seguridad</span></a>
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="../../../curso/trilha1/index.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="../../../en/curso/trilha1/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./index.html" lang="es" hreflang="es" class="font-bold text-yellow-400">ES</a></div>
+          <button type="button" data-inema-journey-open title="Mi recorrido"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Recorrido</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Apariencia y lectura"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Tema">
+                <button type="button" data-inema-set-theme="inema-dark">Oscuro</button>
+                <button type="button" data-inema-set-theme="claro">Claro</button>
+                <button type="button" data-inema-set-theme="sepia">Sepia</button>
+                <button type="button" data-inema-set-theme="foco">Enfoque</button>
+                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Fuente">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">Sistema</button>
+                <button type="button" data-inema-set-font="leitura">Lectura</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Tamaño del texto">
+                <button type="button" data-inema-set-fontscale="100">La</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Ancho de línea">
+                <button type="button" data-inema-set-linewidth="60">Estrecho</button>
+                <button type="button" data-inema-set-linewidth="68">Medio</button>
+                <button type="button" data-inema-set-linewidth="75">Ancho</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Interlineado">
+                <button type="button" data-inema-set-leading="1.45">Compacto</button>
+                <button type="button" data-inema-set-leading="1.7">Cómodo</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Color de acento">
+                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
+                <button type="button" data-inema-set-accent="purple" title="Morado"></button>
+                <button type="button" data-inema-set-accent="amber" title="Ámbar"></button>
+                <button type="button" data-inema-set-accent="teal" title="Verde azulado"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HEADER + HERO SVG -->
+  <header class="relative overflow-hidden bg-gradient-to-br from-emerald-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">RUTA 1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔁 Fundamentos del RSI</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">Antes de hablar de pruebas comparativas, fechas y escenarios, hay que entender la idea que sustenta toda la alerta: la auto-mejora recursiva (RSI), una IA que ayuda a diseñar la siguiente IA, cada vez más rápido. Aquí aprenderás cómo funciona el ciclo, por qué aparece primero en el código y cómo distinguir lo sólido de la especulación.</p>
+
+      <!-- HERO SVG: o loop Claude N -> projeta -> Claude N+1 (com retorno) -->
+      <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+        <svg viewBox="0 0 1000 260" class="w-full h-auto" role="img" aria-label="Diagrama del ciclo: Claude N alimenta agentes que escriben, prueban y diseñan la siguiente generación, Claude N+1; una flecha de retorno muestra que cada vuelta tiende a ser más rápida">
+          <defs>
+            <linearGradient id="t1-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
+            <filter id="t1-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="t1-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#10b981" opacity="0.12"/></pattern>
+            <marker id="t1-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#34d399"/></marker>
+            <marker id="t1-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="260" fill="url(#t1-grid)"/>
+          <!-- Claude N -> agentes -->
+          <g fill="none" stroke="#34d399" stroke-width="1.8" opacity="0.55">
+            <path d="M212,108 C320,108 330,62 430,62" marker-end="url(#t1-ah)"/>
+            <path d="M212,108 L430,108" marker-end="url(#t1-ah)"/>
+            <path d="M212,108 C320,108 330,154 430,154" marker-end="url(#t1-ah)"/>
+          </g>
+          <!-- agentes -> Claude N+1 -->
+          <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.5">
+            <path d="M572,62  C690,62 700,108 790,108" marker-end="url(#t1-ahc)"/>
+            <path d="M572,108 L790,108" marker-end="url(#t1-ahc)"/>
+            <path d="M572,154 C690,154 700,108 790,108" marker-end="url(#t1-ahc)"/>
+          </g>
+          <!-- caixa Claude N -->
+          <g filter="url(#t1-glow)"><rect x="40" y="76" width="172" height="64" rx="14" fill="#0e2018" stroke="url(#t1-grad)" stroke-width="2"/></g>
+          <text x="126" y="104" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="17">Claude N</text>
+          <text x="126" y="124" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11.5">generación actual</text>
+          <!-- agentes (o trabalho) -->
+          <g font-family="Inter,sans-serif" font-size="12.5" font-weight="600">
+            <g class="wf-a"><rect x="430" y="46" width="142" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="501" y="67" text-anchor="middle" fill="#bfe6ff">escribe</text></g>
+            <g class="wf-a"><rect x="430" y="92" width="142" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="501" y="113" text-anchor="middle" fill="#bfe6ff">prueba · depura</text></g>
+            <g class="wf-a"><rect x="430" y="138" width="142" height="32" rx="9" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="501" y="159" text-anchor="middle" fill="#bfe6ff">diseña</text></g>
+          </g>
+          <!-- caixa Claude N+1 -->
+          <g filter="url(#t1-glow)"><rect x="790" y="76" width="172" height="64" rx="14" fill="#0e2018" stroke="url(#t1-grad)" stroke-width="2"/></g>
+          <text x="876" y="104" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="17">Claude N+1</text>
+          <text x="876" y="124" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11.5">mejor · más rápido</text>
+          <!-- seta de retorno (o loop) -->
+          <path d="M876,140 C876,224 700,232 500,232 C300,232 126,224 126,140" fill="none" stroke="#38bdf8" stroke-width="2.4" opacity="0.7" marker-end="url(#t1-ah)"/>
+          <text x="500" y="222" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-weight="600" font-size="13">↻ y ayuda a crear Claude N+2; cada vuelta tiende a ser más rápida</text>
+        </svg>
+        <p class="text-xs text-neutral-500 mt-3 px-1">Cómo leerlo: la generación actual (esmeralda) impulsa el trabajo (cian: escribir, probar, diseñar) que produce la siguiente generación. La flecha inferior muestra lo que entusiasma e inquieta: el resultado vuelve a alimentar la entrada. Eso es el RSI.</p>
+      </div>
+
+      <!-- ILUSTRAÇÃO RASTER -->
+      <figure class="mb-8">
+        <img src="../../../curso/trilha1/assets/img/hero.png" alt="Ilustración conceptual: una generación de IA diseña la siguiente en una espiral ascendente" class="w-full h-auto rounded-xl border border-dark-600">
+        <figcaption class="text-xs text-neutral-500 mt-2 px-1">La metáfora visual de la alerta: no es un robot consciente que despierta, sino un proceso de ingeniería que se retroalimenta y tiende a acelerarse. La Ruta 1 explica lo que eso significa en realidad.</figcaption>
+      </figure>
+
+      <div class="grid grid-cols-4 gap-4 max-w-2xl mb-6">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">2</div><div class="text-xs text-neutral-400">Módulos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">12</div><div class="text-xs text-neutral-400">Temas</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">~1h30</div><div class="text-xs text-neutral-400">Duración</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-emerald-400">Básico</div><div class="text-xs text-neutral-400">Nivel</div></div>
+      </div>
+
+      <!-- Medidor da trilha -->
+      <div data-inema-meter="trilha:1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso de la Ruta 1" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progreso de la Ruta 1</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 12</strong> · <span data-inema-meter-pct>0%</span></span></div>
+        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <!-- MAPA DA TRILHA -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold mb-6">Mapa de la ruta</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a href="#modulo-1-1" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all">
+          <div class="flex items-center justify-between mb-2"><span class="text-emerald-400 font-bold text-sm">1.1</span><span class="text-xs text-neutral-500">~45 min</span></div>
+          <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">🔁 El ciclo: IA que construye IA</h3>
+          <p class="text-xs text-neutral-400">La idea que conecta toda la alerta</p>
+        </a>
+        <a href="#modulo-1-2" class="group bg-dark-800 rounded-xl border border-dark-600 hover:border-emerald-500/30 p-5 transition-all">
+          <div class="flex items-center justify-between mb-2"><span class="text-emerald-400 font-bold text-sm">1.2</span><span class="text-xs text-neutral-500">~45 min</span></div>
+          <h3 class="font-semibold mb-1 group-hover:text-emerald-400 transition-colors">💻 Por qué empieza por el código</h3>
+          <p class="text-xs text-neutral-400">El ciclo que se cierra en segundos</p>
+        </a>
+      </div>
+    </section>
+
+    <h2 class="text-2xl font-bold mb-6">Contenido detallado</h2>
+
+    <!-- ===================== MÓDULO 1.1 ===================== -->
+    <div id="modulo-1-1" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2"><span class="text-emerald-400 font-bold">1.1</span><span class="text-xs text-neutral-500">~45 min · 6 temas</span></div>
+        <h3 class="text-2xl font-bold mb-2">🔁 El ciclo: IA que construye IA</h3>
+        <p class="text-neutral-400 text-sm">La idea central de la alerta en palabras sencillas: qué es el RSI, hacia dónde se desplaza el cuello de botella y por qué esto es una alerta, no motivo de pánico.</p>
+        <div data-inema-meter="modulo:1-1" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="inema-bar" style="flex:1;max-width:200px"><div class="inema-bar__fill" data-inema-meter-fill></div></div><span data-inema-meter-frac>0 de 6</span></div>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">❓</span><div><span class="font-medium">¿Qué es la auto-mejora recursiva (RSI)?</span><span class="text-neutral-500 text-sm ml-2">- IA que diseña la siguiente IA</span></div>
+          </button>
+          <div id="t1-1-1" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El RSI ocurre cuando una IA ayuda a diseñar una IA mejor, que diseña la siguiente más rápido. La metáfora de Jack Clark (Anthropic): «Claude 10 construye Claude 11».</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Esta es la idea que sustenta todo el curso. Sin ella, las cifras de las siguientes rutas (horizonte de tareas de METR, MirrorCode) quedan desconectadas.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">RSI; modelo de frontera; el ciclo que se retroalimenta.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🧭</span><div><span class="font-medium">El cuello de botella que se desplaza</span><span class="text-neutral-500 text-sm ml-2">- del cerebro humano al cómputo</span></div>
+          </button>
+          <div id="t1-1-2" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Hoy, el progreso está limitado por la rapidez con que las personas piensan, prueban y programan. Con el RSI, los límites pasan al cómputo, la infraestructura y la autonomía.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Entender el cuello de botella explica por qué «más chips y energía» se convierten en las variables que determinan la velocidad, tema de la Ruta 3.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Cuello de botella; cómputo; autonomía.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">📈</span><div><span class="font-medium">Auto-mejora soft frente a hard</span><span class="text-neutral-500 text-sm ml-2">- dónde estamos hoy</span></div>
+          </button>
+          <div id="t1-1-3" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Demis Hassabis (DeepMind): hoy es «soft» (la IA acelera a los ingenieros), no «hard» (un modelo desaparece en un centro de datos y vuelve superinteligente).</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Distingue lo que realmente ocurre de un escenario de ficción: la frontera entre observación y especulación.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Soft × hard; superinteligencia (ASI).</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🎲</span><div><span class="font-medium">La estimación de Clark (~60 % para 2028)</span><span class="text-neutral-500 text-sm ml-2">- una estimación, no un consenso</span></div>
+          </button>
+          <div id="t1-1-4" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Qué significa asignar una probabilidad a una idea. El ~60 % para 2028 es la estimación calibrada de una persona, no un consenso del campo. <span class="text-amber-400">(según el video; pendiente de verificar)</span>.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Esto enseña a distinguir una opinión probabilística honesta de una predicción garantizada: la base de una lectura crítica.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Probabilidad subjetiva; estimación × consenso; lo sólido frente al hype.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🧬</span><div><span class="font-medium">RSI ≠ singularidad ≠ conciencia</span><span class="text-neutral-500 text-sm ml-2">- aclarando confusiones</span></div>
+          </button>
+          <div id="t1-1-5" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El RSI no es un robot consciente que despierta ni «la singularidad». Es un cambio del cuello de botella en un proceso de ingeniería.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Evita dos errores opuestos: el pánico de ciencia ficción y el escepticismo de «esto es puro hype».</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Singularidad; AGI frente a ASI; conciencia.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-1-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">🚨</span><div><span class="font-medium">Por qué es una alerta, no motivo de pánico</span><span class="text-neutral-500 text-sm ml-2">- atención informada + mapa del curso</span></div>
+          </button>
+          <div id="t1-1-6" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El tono del curso: atención informada, no certeza ni desesperación. Y un mapa de cada ruta: Evidencia (R2) y Seguridad y 2028 (R3).</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Define la actitud que hace útil lo demás: leer las cifras sin asustarse ni ignorarlas.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Atención × pánico; el método entre lo sólido y el hype; mapa del curso.</p></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-1')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver en ventana modal</button>
+        <a href="modulo-1-1.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver módulo completo</a>
+      </div>
+    </div>
+
+    <!-- ===================== MÓDULO 1.2 ===================== -->
+    <div id="modulo-1-2" class="bg-dark-800 rounded-xl border border-dark-600 mb-6">
+      <div class="p-6 border-b border-dark-600">
+        <div class="flex items-center justify-between mb-2"><span class="text-emerald-400 font-bold">1.2</span><span class="text-xs text-neutral-500">~45 min · 6 temas</span></div>
+        <h3 class="text-2xl font-bold mb-2">💻 Por qué empieza por el código</h3>
+        <p class="text-neutral-400 text-sm">La auto-mejora aparece primero en el software porque el ciclo se cierra en segundos. Aprende cómo funcionan los agentes autónomos y por qué las personas cambian de función en vez de desaparecer.</p>
+        <div data-inema-meter="modulo:1-2" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="inema-bar" style="flex:1;max-width:200px"><div class="inema-bar__fill" data-inema-meter-fill></div></div><span data-inema-meter-frac>0 de 6</span></div>
+      </div>
+      <div class="divide-y divide-dark-600">
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-1" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">1</span>
+            <span class="text-lg">🔁</span><div><span class="font-medium">El ciclo de feedback rápido</span><span class="text-neutral-500 text-sm ml-2">- escribir → ejecutar → comprobar → corregir</span></div>
+          </button>
+          <div id="t1-2-1" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">En el software, el ciclo es: escribir → ejecutar → comprobar si pasó → volver a intentarlo, y ocurre en segundos.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Esta es la razón mecánica por la que la auto-mejora empieza por el código, no por la biología o la física.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Ciclo de feedback; ciclo corto; iteración.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-2" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">2</span>
+            <span class="text-lg">🧪</span><div><span class="font-medium">Software frente a biología/química</span><span class="text-neutral-500 text-sm ml-2">- segundos × semanas</span></div>
+          </button>
+          <div id="t1-2-2" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">En el mundo físico, un experimento tarda semanas o meses (un cultivo celular, una reacción). En el software, el ciclo se cierra en segundos.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Esta diferencia de velocidad explica POR QUÉ la auto-mejora aparece primero en el código.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Velocidad del ciclo; costo del experimento.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-3" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">3</span>
+            <span class="text-lg">🤖</span><div><span class="font-medium">Agentes de código que funcionan por su cuenta</span><span class="text-neutral-500 text-sm ml-2">- escriben, depuran, prueban</span></div>
+          </button>
+          <div id="t1-2-3" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Un «agente» es una IA que ejecuta pasos por su cuenta: correr código, editar un archivo, probar y volver a intentarlo, sin una persona en cada paso.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Es el «trabajador» que mantiene activo el ciclo rápido de feedback durante horas.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Agente; autonomía de ejecución; ciclo cerrado.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-4" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">4</span>
+            <span class="text-lg">🧫</span><div><span class="font-medium">Agentes evolutivos</span><span class="text-neutral-500 text-sm ml-2">- proponen, prueban y conservan la mejor opción</span></div>
+          </button>
+          <div id="t1-2-4" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">La IA propone un cambio → lo prueba → conserva la mejor opción → repite, buscando soluciones más rápido que las personas. La categoría está bien establecida; el nombre exacto («agente evolutivo guiado por Gemini») es una afirmación del canal <span class="text-amber-400">(pendiente de verificar)</span>.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Muestra cómo escala el ciclo: muchos intentos en paralelo y selección automática del mejor.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Búsqueda evolutiva; selección de la mejor opción; paralelismo.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-5" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">5</span>
+            <span class="text-lg">🏢</span><div><span class="font-medium">Dentro de Anthropic</span><span class="text-neutral-500 text-sm ml-2">- Claude procesa la mayor parte del código</span></div>
+          </button>
+          <div id="t1-2-5" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">Anthropic afirma públicamente que Claude escribe la mayor parte del código integrado. Las cifras exactas (&gt;80 %, ~8× por ingeniero, ~5 meses sin teclear) provienen del video <span class="text-amber-400">(pendiente de verificar)</span>.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Es el ejemplo concreto más sólido del RSI «soft» en funcionamiento dentro de un laboratorio de frontera.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Productividad; lo sólido frente a las cifras exactas; ciclo interno.</p></div>
+          </div></div>
+        </div>
+        <div class="topic-item">
+          <button onclick="toggleTopic(this)" aria-expanded="false" aria-controls="t1-2-6" class="w-full px-6 py-4 flex items-center space-x-3 hover:bg-dark-700/50 transition-colors text-left">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 text-sm font-bold flex items-center justify-center flex-shrink-0">6</span>
+            <span class="text-lg">⚖️</span><div><span class="font-medium">Cambia el papel humano</span><span class="text-neutral-500 text-sm ml-2">- de teclear a dirigir</span></div>
+          </button>
+          <div id="t1-2-6" class="topic-explanation px-6 pb-4"><div class="bg-dark-700/50 rounded-lg p-4 space-y-3 ml-9">
+            <div><span class="text-emerald-400 font-semibold">Qué es:</span><p class="text-neutral-300 text-sm">El papel humano pasa de teclear a dirigir, revisar y decidir qué importa. La persona no queda «fuera», sino «por encima».</p></div>
+            <div><span class="text-emerald-400 font-semibold">Por qué aprenderlo:</span><p class="text-neutral-300 text-sm">Responde con honestidad a la pregunta inevitable («¿entonces desaparecen los programadores?»): el trabajo sube de nivel.</p></div>
+            <div><span class="text-emerald-400 font-semibold">Conceptos clave:</span><p class="text-neutral-300 text-sm">Personas por encima, no fuera; revisión; dirección.</p></div>
+          </div></div>
+        </div>
+      </div>
+      <div class="p-4 bg-dark-700/30 flex justify-start space-x-3">
+        <button onclick="openModal('modal-1-2')" class="px-4 py-2 text-sm bg-dark-600 hover:bg-dark-500 rounded-lg transition-colors">Ver en ventana modal</button>
+        <a href="modulo-1-2.html" class="px-4 py-2 text-sm bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition-colors">Ver módulo completo</a>
+      </div>
+    </div>
+
+    <!-- NAVEGAÇÃO RODAPÉ -->
+    <div class="flex flex-col sm:flex-row gap-4 mt-10">
+      <a href="../../index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Volver al inicio</a>
+      <a href="../trilha2/index.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Ruta 2 · La evidencia →</a>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-dark-600 py-8 mt-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Alerta de IA 2028 · Ruta 1 — Fundamentos del RSI</p>
+    </div>
+  </footer>
+
+  <!-- MODAIS (iframe carrega o módulo completo) -->
+  <div id="modal-1-1" class="modal hidden fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target===this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0"><div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.1</span><span class="font-semibold">El ciclo: IA que construye IA</span></div><button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button></div>
+      <iframe data-src="modulo-1-1.html" class="flex-1 w-full rounded-b-xl" title="Módulo 1.1"></iframe>
+    </div>
+  </div>
+  <div id="modal-1-2" class="modal hidden fixed inset-0 z-[60] flex items-center justify-center p-2 sm:p-4 bg-black/80" onclick="if(event.target===this) closeModal()">
+    <div class="bg-dark-800 rounded-xl w-full max-w-6xl h-[95vh] flex flex-col border border-dark-600">
+      <div class="p-4 border-b border-dark-600 flex justify-between items-center flex-shrink-0"><div class="flex items-center space-x-3"><span class="text-emerald-400 font-bold">1.2</span><span class="font-semibold">Por qué empieza por el código</span></div><button onclick="closeModal()" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button></div>
+      <iframe data-src="modulo-1-2.html" class="flex-1 w-full rounded-b-xl" title="Módulo 1.2"></iframe>
+    </div>
+  </div>
+
+  <!-- SCRIPTS v1 (toggleTopic + modal) -->
+  <script>
+    function toggleTopic(button) {
+      const topicItem = button.closest('.topic-item');
+      const explanation = topicItem.querySelector('.topic-explanation');
+      const moduleCard = button.closest('.bg-dark-800');
+      moduleCard.querySelectorAll('.topic-explanation.active').forEach(exp => {
+        if (exp !== explanation) {
+          exp.classList.remove('active');
+          const b = exp.closest('.topic-item').querySelector('button[aria-expanded]');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        }
+      });
+      const open = explanation.classList.toggle('active');
+      button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      const ifr = modal.querySelector('iframe[data-src]');
+      if (ifr && !ifr.src) ifr.src = ifr.getAttribute('data-src');
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+      document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+      document.body.style.overflow = 'auto';
+    }
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
+  <!-- learn.js + init -->
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+  </script>
+</body>
+</html>

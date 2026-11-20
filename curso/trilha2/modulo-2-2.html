@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta">
+
+  <!-- 1) ANTI-FOUC (REL = "../..") -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style; var scale = (+p.fontScale||100);
+      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
+      var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent]||ACC.emerald;
+      s.setProperty('--accent-h',a[0]+''); s.setProperty('--accent-s',a[1]+'%'); s.setProperty('--accent-l',a[2]+'%'); s.setProperty('--accent','hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+
+  <!-- 2) Manifesto (identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos do RSI", "modules": [
+        { "id": "1-1", "title": "O loop: IA que constrói IA", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "Por que começa pelo código", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" }
+      ] },
+      { "n": "2", "title": "A Evidência", "modules": [
+        { "id": "2-1", "title": "A curva METR: o horizonte de tarefa", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
+      ] },
+      { "n": "3", "title": "Segurança e 2028", "modules": [
+        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
+      ] }
+    ]
+  }
+  </script>
+
+  <title>Módulo 2.2 · MirrorCode: reconstruir no escuro | Alerta IA 2028</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"] { scroll-margin-top: 5rem; }
+
+    /* Light mode - base */
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* acento blue (T2 - ativo) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .group:hover .group-hover\:text-blue-400 { color: #2563eb; }
+    /* acento emerald (T1) e purple (T3) — mantidos para o nav e as 3 cores do curso */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .bg-emerald-500\/20 { background-color: rgba(5,150,105,0.12); }
+    html:not(.dark) .border-emerald-500\/30 { border-color: rgba(5,150,105,0.25); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    /* sem gradientes + especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    html:not(.dark) .text-amber-400 { color: #b45309; } /* A-VERIFICAR legível no claro (#23) */
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(180,83,9,0.30); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    /* dark - bordas suaves */
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s} .wf-a:nth-child(4){animation-delay:.6s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    .appearance-anchor { position: relative; }
+    .toc-link.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) .toc-link.is-active { color: #2563eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAV COMPLETO -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./modulo-2-2.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/modulo-2-2.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/modulo-2-2.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-inema-journey-open title="Minha jornada"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Tema">
+                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
+                <button type="button" data-inema-set-theme="claro">Claro</button>
+                <button type="button" data-inema-set-theme="sepia">Sépia</button>
+                <button type="button" data-inema-set-theme="foco">Foco</button>
+                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Fonte">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">Sistema</button>
+                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-inema-set-fontscale="100">A</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-inema-set-linewidth="60">Estreito</button>
+                <button type="button" data-inema-set-linewidth="68">Médio</button>
+                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-inema-set-leading="1.45">Compacto</button>
+                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
+                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Início</a><span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Evidência</a><span>/</span>
+      <span class="text-blue-400">Módulo 2.2</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.2</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">🪞 MirrorCode: reconstruir no escuro</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">Se a curva do Módulo 2.1 mede <em>quanto tempo</em> a IA aguenta trabalhar, o MirrorCode mede <em>que tamanho</em> de projeto ela termina. A prova é dura: entregam à IA só o programa pronto e a documentação — nunca o código-fonte — e pedem que ela reconstrua o software inteiro. Aqui você vê os números, e aprende a separar o que é sólido do que é cifra a verificar.</p>
+
+      <!-- SVG 1: caixa-preta -> reconstrução -->
+      <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+        <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Diagrama: de uma caixa-preta com apenas o executável e a documentação, a IA reconstrói o código-fonte e o valida contra a suíte de testes original">
+          <defs>
+            <linearGradient id="m22-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+            <filter id="m22-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="m22-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/></pattern>
+            <marker id="m22-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
+            <marker id="m22-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="240" fill="url(#m22-grid)"/>
+          <!-- caixa-preta -->
+          <rect x="44" y="78" width="190" height="84" rx="14" fill="#1a1a1f" stroke="#9ca3af" stroke-width="2" stroke-dasharray="7 6"/>
+          <text x="139" y="108" text-anchor="middle" fill="#e5e7eb" font-family="Inter,sans-serif" font-weight="600" font-size="15">Caixa-preta</text>
+          <text x="139" y="128" text-anchor="middle" fill="#9ca3af" font-family="Inter,sans-serif" font-size="11.5">executável + docs</text>
+          <text x="139" y="146" text-anchor="middle" fill="#9ca3af" font-family="Inter,sans-serif" font-size="11.5">(sem código-fonte)</text>
+          <!-- seta -->
+          <path d="M238,120 L320,120" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.7" marker-end="url(#m22-ah)"/>
+          <text x="279" y="108" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="11">a IA reconstrói</text>
+          <!-- reconstrução -->
+          <g filter="url(#m22-glow)"><rect x="328" y="70" width="210" height="100" rx="14" fill="#0e1622" stroke="url(#m22-grad)" stroke-width="2.5"/></g>
+          <text x="433" y="98" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">Código reconstruído</text>
+          <g font-family="Inter,sans-serif" font-size="11" font-weight="600">
+            <rect x="346" y="112" width="80" height="22" rx="6" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.5"/><text x="386" y="127" text-anchor="middle" fill="#bfe6ff">módulo</text>
+            <rect x="434" y="112" width="86" height="22" rx="6" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.5"/><text x="477" y="127" text-anchor="middle" fill="#bfe6ff">funções</text>
+            <rect x="346" y="140" width="174" height="22" rx="6" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.5"/><text x="433" y="155" text-anchor="middle" fill="#bfe6ff">comandos / API</text>
+          </g>
+          <!-- seta para testes -->
+          <path d="M542,120 C620,120 636,120 700,120" fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.6" marker-end="url(#m22-ahc)"/>
+          <text x="621" y="108" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11">passa nos testes?</text>
+          <!-- suíte de testes original -->
+          <g filter="url(#m22-glow)"><rect x="704" y="80" width="252" height="80" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/></g>
+          <text x="830" y="110" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="14.5">Suíte de testes original</text>
+          <text x="830" y="132" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11.5">mede % de comportamento idêntico</text>
+          <text x="500" y="206" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">A nota não é "parece certo": é o quanto o software reconstruído se comporta igual ao original.</text>
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mb-6">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">~45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Evidência</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+
+      <div data-inema-meter="modulo:2-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 2.2" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso do módulo</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
+        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CORPO + TOC -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10 items-start">
+    <main id="conteudo">
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-2-2#topico-1" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+            <h2 class="text-2xl font-bold">🪞 O que é o MirrorCode</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t1-p1">O <strong class="text-blue-400">MirrorCode</strong> é um teste criado pela Epoch AI em parceria com a METR. A ideia é simples e cruel: entregam à IA um programa pronto — só o executável e a documentação — e pedem que ela reconstrua o software do zero, sem nunca ver o código original. Depois, comparam a reconstrução com a suíte de testes do programa real. É a evidência que falta à curva do módulo anterior: não "por quanto tempo a IA trabalha", mas "que tamanho de projeto ela leva até o fim".</p>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? Dois termos antes de seguir</h3>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li><strong class="text-neutral-100">Benchmark:</strong> um teste padronizado que todo mundo roda igual, para comparar modelos de forma justa — como uma prova com o mesmo gabarito para todos os candidatos.</li>
+            <li><strong class="text-neutral-100">Caixa-preta:</strong> quando você só tem o que entra e o que sai de um sistema (o executável + a documentação), mas <em>não</em> o código-fonte por dentro. Reconstruir uma caixa-preta é olhar o comportamento e reescrever o que produz aquele comportamento.</li>
+          </ul>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Quem fez</div><div class="text-xs text-neutral-400">Epoch AI + METR</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Entrada</div><div class="text-xs text-neutral-400">executável + docs</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Tarefa</div><div class="text-xs text-neutral-400">reconstruir do zero</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Nota</div><div class="text-xs text-neutral-400">% dos testes que passa</div></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-2-2#topico-2" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+            <h2 class="text-2xl font-bold">🎯 A pergunta brutal</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t2-p1">A pergunta por trás do benchmark é direta: <strong class="text-blue-400">qual o maior projeto de software que a IA termina sozinha?</strong> "Sozinha" e "termina" são as palavras que pesam — não é completar um trecho, é entregar o programa funcionando de ponta a ponta. Para responder, o MirrorCode usa <strong class="text-blue-400">25 programas reais</strong>, e não brinquedos de laboratório.</p>
+
+        <!-- SVG 2: fan-out — 1 pergunta -> 25 programas -> 1 placar -->
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+          <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Diagrama: uma única pergunta dispara 25 programas reais de domínios diferentes, que convergem num único placar de quantos a IA terminou sozinha">
+            <defs>
+              <linearGradient id="m22b-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+              <filter id="m22b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <pattern id="m22b-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/></pattern>
+              <marker id="m22b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
+              <marker id="m22b-ahc" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#38bdf8"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="240" fill="url(#m22b-grid)"/>
+            <g fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.6">
+              <path d="M196,120 C300,120 320,40 452,40" marker-end="url(#m22b-ah)"/>
+              <path d="M196,120 C300,120 320,80 452,80" marker-end="url(#m22b-ah)"/>
+              <path d="M196,120 L452,120" marker-end="url(#m22b-ah)"/>
+              <path d="M196,120 C300,120 320,160 452,160" marker-end="url(#m22b-ah)"/>
+              <path d="M196,120 C300,120 320,200 452,200" marker-end="url(#m22b-ah)"/>
+            </g>
+            <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.55">
+              <path d="M598,40  C700,40 720,120 800,120" marker-end="url(#m22b-ahc)"/>
+              <path d="M598,80  C700,80 720,120 800,120" marker-end="url(#m22b-ahc)"/>
+              <path d="M598,120 L800,120" marker-end="url(#m22b-ahc)"/>
+              <path d="M598,160 C700,160 720,120 800,120" marker-end="url(#m22b-ahc)"/>
+              <path d="M598,200 C700,200 720,120 800,120" marker-end="url(#m22b-ahc)"/>
+            </g>
+            <g filter="url(#m22b-glow)"><rect x="40" y="90" width="156" height="60" rx="14" fill="#0e1622" stroke="url(#m22b-grad)" stroke-width="2.5"/></g>
+            <text x="118" y="116" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">A pergunta</text>
+            <text x="118" y="136" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11">termina sozinha?</text>
+            <g font-family="Inter,sans-serif" font-size="12" font-weight="600">
+              <g class="wf-a"><rect x="452" y="26" width="146" height="28" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="525" y="45" text-anchor="middle" fill="#bfe6ff">bioinformática</text></g>
+              <g class="wf-a"><rect x="452" y="66" width="146" height="28" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="525" y="85" text-anchor="middle" fill="#bfe6ff">utilitários Unix</text></g>
+              <g class="wf-a"><rect x="452" y="106" width="146" height="28" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="525" y="125" text-anchor="middle" fill="#bfe6ff">criptografia</text></g>
+              <g class="wf-a"><rect x="452" y="146" width="146" height="28" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="525" y="165" text-anchor="middle" fill="#bfe6ff">interpretadores</text></g>
+              <g class="wf-a"><rect x="452" y="186" width="146" height="28" rx="8" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="525" y="205" text-anchor="middle" fill="#bfe6ff">… 25 no total</text></g>
+            </g>
+            <g filter="url(#m22b-glow)"><rect x="800" y="90" width="156" height="60" rx="14" fill="#0e1622" stroke="url(#m22b-grad)" stroke-width="2.5"/></g>
+            <text x="878" y="116" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">Placar</text>
+            <text x="878" y="136" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11">quantos terminou</text>
+          </svg>
+          <p class="text-xs text-neutral-500 mt-2 px-1">Os 25 programas vêm de <strong class="text-blue-400">domínios diferentes</strong> de propósito: um modelo bom em um só não infla o placar. O número final é "de quantos a IA deu conta sozinha".</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🧬</div><h4 class="font-semibold text-neutral-100 mb-1">Bioinformática</h4><p class="text-xs text-neutral-400">ferramentas que processam dados de biologia.</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🐧</div><h4 class="font-semibold text-neutral-100 mb-1">Utilitários Unix</h4><p class="text-xs text-neutral-400">programas de linha de comando clássicos.</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">🔐</div><h4 class="font-semibold text-neutral-100 mb-1">Criptografia</h4><p class="text-xs text-neutral-400">onde um detalhe errado quebra tudo.</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-2xl mb-2">⚙️</div><h4 class="font-semibold text-neutral-100 mb-1">Interpretadores</h4><p class="text-xs text-neutral-400">software que executa outra linguagem.</p></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-2-2#topico-3" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+            <h2 class="text-2xl font-bold">🌳 O caso gotree</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t3-p1">O exemplo que dá rosto ao benchmark é o <strong class="text-blue-400">gotree</strong>, um toolkit de bioinformática. Não é pequeno: cerca de 16.000 linhas de Go e mais de 40 comandos. A IA o reconstruiu a ponto de passar quase todos os testes — e fez isso numa fração do tempo e do custo que um humano levaria.</p>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">gotree — o placar da reconstrução</h3>
+          <div class="font-mono text-sm text-neutral-300 space-y-1.5 bg-dark-900/60 rounded-lg p-4 border border-dark-700">
+            <div><span class="text-blue-400">linguagem:</span> Go · ~16.000 linhas · 40+ comandos</div>
+            <div><span class="text-blue-400">testes_passados:</span> 99,95% <span class="text-amber-400">(conforme o vídeo — a verificar)</span></div>
+            <div><span class="text-blue-400">tempo_da_IA:</span> ~14 h <span class="text-amber-400">(conforme o vídeo — a verificar)</span></div>
+            <div><span class="text-blue-400">custo:</span> ~US$251 <span class="text-amber-400">(conforme o vídeo — a verificar)</span></div>
+            <div><span class="text-blue-400">estimativa_humana:</span> 2 a 17 semanas <span class="text-amber-400">(Epoch — a verificar)</span></div>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3">Os números são impressionantes — e por isso mesmo merecem checagem na fonte primária antes de virarem manchete.</p>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Por que 99,95% e não 100%?</h3>
+          <p class="text-neutral-300 text-sm">Reconstruir software grande e bater quase todos os testes mostra capacidade real. Mas aquela fração que falta costuma ser exatamente onde mora o caso difícil — o detalhe raro que um humano experiente pegaria. "Quase tudo" não é "tudo", e a diferença importa em software que vai para produção.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-2-2#topico-4" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+            <h2 class="text-2xl font-bold">⏳ A execução de 19 dias</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t4-p1">O dado que mais conecta esta trilha ao alerta é o tempo de execução: uma das runs rodou de forma <strong class="text-blue-400">contínua, sem humano no comando, por cerca de 19 dias</strong> (≈ US$2.600 de compute). É a curva do Módulo 2.1 saindo do gráfico e virando prática: não um pico de minutos, mas autonomia sustentada por dias.</p>
+
+        <div class="space-y-4 mb-6">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">Começa a tarefa</h4><p class="text-neutral-300 text-sm">A IA recebe a caixa-preta e o objetivo, e abre o trabalho sem um humano definindo cada passo.</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">Roda por dias</h4><p class="text-neutral-300 text-sm">Escreve, testa, corrige e tenta de novo — o loop do código fechando milhares de vezes, sozinho.</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">Entrega ao fim de ~19 dias</h4><p class="text-neutral-300 text-sm">O que era "agente de horas" vira "trabalhador de longo prazo" — a peça que faltava para o RSI ser plausível. <span class="text-amber-400">(Cifras conforme o vídeo — a verificar.)</span></p></div>
+          </div>
+        </div>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🔗</span> Por que isso importa pro alerta</h3>
+          <p class="text-neutral-300 text-sm">Auto-aperfeiçoamento recursivo não precisa de um gênio instantâneo. Precisa de um trabalhador que aguente projetos de P&D que levam dias. Uma run de 19 dias sem supervisão é a demonstração concreta de que essa autonomia prolongada já existe — ainda que cara e imperfeita.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-2-2#topico-5" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+            <h2 class="text-2xl font-bold">📊 56% de solve rate</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t5-p1">O melhor modelo resolve cerca de <strong class="text-blue-400">56% do MirrorCode</strong> — lidera o ranking, mas está longe de gabaritar. E o salto é o que assusta: um ano antes, os melhores ficavam perto de <strong class="text-blue-400">30%</strong>, e em programas mais simples. A leitura honesta segura as duas pontas: é um avanço grande, e não é "a IA já substitui engenheiros". <span class="text-amber-400">(Nome de versão e a cifra de 56% são conforme o vídeo — a verificar.)</span></p>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? "Solve rate"</h3>
+          <p class="text-neutral-300 text-sm">É a fração das tarefas do benchmark que o modelo resolve por completo. 56% de solve rate quer dizer que, de todos os programas do teste, ele terminou com sucesso pouco mais da metade. Não é "56% de cada programa" — é "pouco mais da metade dos programas, inteiros".</p>
+        </div>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-4">O salto em um ano <span class="text-amber-400 normal-case">(valores a verificar)</span></h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between text-xs text-neutral-400 mb-1"><span>um ano antes · programas simples</span><span class="text-neutral-300 font-semibold">~30%</span></div>
+              <div class="h-3 rounded-full bg-dark-700 overflow-hidden"><div class="h-full rounded-full bg-blue-500/40" style="width:30%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-neutral-400 mb-1"><span>agora · 25 programas reais</span><span class="text-blue-400 font-semibold">~56%</span></div>
+              <div class="h-3 rounded-full bg-dark-700 overflow-hidden"><div class="h-full rounded-full bg-blue-500" style="width:56%"></div></div>
+            </div>
+          </div>
+          <p class="text-xs text-neutral-500 mt-3">Recriação ilustrativa, não screenshot. O ponto é a inclinação, não o decimal exato.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4">✓ Leitura correta</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Houve um salto grande de capacidade em um ano."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"A IA já termina sozinha mais da metade de projetos reais."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"A tendência merece atenção informada."</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ Leitura exagerada</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"A IA já substitui engenheiros em tudo."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"56% é o número final e definitivo."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Os 44% que faltam são detalhe."</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-2-2#topico-6" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+            <h2 class="text-2xl font-bold">⚖️ Sólido vs hype no MirrorCode</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t6-p1">Fechando a trilha com o método do curso: o <strong class="text-blue-400">conceito</strong> e o <strong class="text-blue-400">benchmark</strong> são sólidos — existem, são públicos, medem algo real. Já as <strong class="text-amber-400">cifras exatas e os nomes de versão</strong> são claim de fonte única: trate como "a verificar" até bater na fonte primária. Misturar os dois é o erro que o curso inteiro tenta evitar.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🟢</span> Sólido (categoria real)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O MirrorCode existe (Epoch AI + METR) e mede reconstrução de software.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A IA reconstrói projetos reais grandes a partir de caixa-preta.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Houve um salto claro de capacidade em ~1 ano.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Autonomia por dias (long-horizon) já é demonstrável.</span></li>
+            </ul>
+          </div>
+          <div class="bg-amber-900/20 rounded-xl border border-amber-500/30 p-6">
+            <h4 class="font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">🟡</span> A verificar (claim de fonte única)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>O número exato "56% de solve rate".</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>As cifras do gotree: 99,95%, 14 h, US$251.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Os ~19 dias e ~US$2.600 da run contínua.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">⚠</span><span>Nomes/versões exatas do modelo que liderou.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- COPY-RUN -->
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-2 flex items-center"><span class="mr-2">⌨️</span> Exemplo copy-run: vire o cético</h3>
+          <p class="text-neutral-300 text-sm mb-3"><strong class="text-neutral-100">Objetivo:</strong> usar um chatbot para gerar as perguntas que você faria à fonte primária antes de acreditar nos números — treina o reflexo de checar em vez de compartilhar.</p>
+          <div class="font-mono text-sm text-neutral-200 bg-dark-900/70 rounded-lg p-4 border border-dark-700 mb-3 whitespace-pre-wrap">Você é um cético rigoroso. Dado este resumo do benchmark MirrorCode:
+
+&lt;cole aqui o resumo que você leu — &lt;isto voce troca&gt;&gt;
+
+Liste 5 perguntas que eu faria à FONTE PRIMÁRIA antes de
+acreditar nos números. Foque em: como foi amostrado, o que
+exatamente conta como "a IA terminou sozinha", custo real de
+compute, e o que os 44% que falharam têm em comum.</div>
+          <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Como verificar:</strong> as 5 perguntas precisam questionar <em>amostragem</em>, <em>custo</em> e a <em>definição de "sozinho"</em>. Se vierem genéricas ("é confiável?"), reescreva o prompt pedindo perguntas específicas e testáveis.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- CHECAGEM LEVE (opcional, não bloqueia) -->
+      <div data-inema-check="modulo-2-2#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+        <p class="font-medium mb-4">Auto-checagem (opcional): no MirrorCode, o que é SÓLIDO e o que é A-VERIFICAR?</p>
+        <div class="inema-check-options space-y-2">
+          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Tudo é sólido: benchmark, cifras e versões de modelo estão confirmados.</button>
+          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O benchmark e a categoria são sólidos; as cifras exatas (56%, US$251, 19 dias) e os nomes de versão são claim a verificar.</button>
+          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Nada disso vale: como vem de um vídeo, é tudo hype e pode ser ignorado.</button>
+        </div>
+        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+      </div>
+
+      <!-- RESUMO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do módulo</h2>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">O MirrorCode</strong><span class="text-neutral-400"> — benchmark da Epoch AI + METR: reconstruir software a partir de caixa-preta.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">A pergunta brutal</strong><span class="text-neutral-400"> — qual o maior projeto que a IA termina sozinha; 25 programas reais.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">O caso gotree</strong><span class="text-neutral-400"> — ~16 mil linhas reconstruídas, 99,95% dos testes (cifras a verificar).</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">19 dias contínuos</strong><span class="text-neutral-400"> — autonomia por dias: a curva do 2.1 virada prática.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">56% de solve rate</strong><span class="text-neutral-400"> — lidera e dá um salto grande, mas não substitui engenheiros across the board.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Sólido vs hype</strong><span class="text-neutral-400"> — conceito e benchmark sólidos; cifras e versões, a verificar.</span></div></div>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+            <h3 class="font-semibold text-blue-400 mb-2">Próxima trilha:</h3>
+            <p class="text-neutral-300">Trilha 3 — Segurança e 2028: o que acontece quando a própria medição quebra, e a corrida que define os cenários do fim da década.</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para a Trilha 2</a>
+            <a href="../trilha3/index.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: Trilha 3 · Segurança e 2028 →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC STICKY + SCROLLSPY -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice do módulo" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">Nesta página <span class="text-neutral-500" data-inema-section-counter></span></p>
+        <ol class="space-y-2 border-l border-dark-600 pl-4">
+          <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">1. O que é o MirrorCode</a></li>
+          <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">2. A pergunta brutal</a></li>
+          <li><a href="#topico-3" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">3. O caso gotree</a></li>
+          <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">4. A execução de 19 dias</a></li>
+          <li><a href="#topico-5" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">5. 56% de solve rate</a></li>
+          <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">6. Sólido vs hype</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <!-- ILUSTRAÇÃO RASTER -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <figure>
+      <img src="assets/img/m2-2.png" alt="Ilustração: uma IA reconstrói um software a partir de uma caixa-preta, em azul e ciano, sobre um fundo escuro de grade" class="w-full h-auto rounded-xl border border-blue-500/30">
+      <figcaption class="text-xs text-neutral-500 mt-2">O MirrorCode é "reconstruir no escuro": a IA só vê o comportamento externo (a caixa-preta) e precisa recriar a máquina por dentro. Quanto maior o projeto que ela termina sozinha, mais perto fica de ser um trabalhador de P&D — o que o alerta chama de RSI.</figcaption>
+    </figure>
+  </div>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Alerta IA 2028 · A IA que constrói a próxima IA — Trilha 2 · Módulo 2.2</p>
+    </div>
+  </footer>
+
+  <!-- learn.js + init + checagem -->
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-2#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não — as cifras exatas e os nomes de versão vêm de fonte única e ainda não foram conferidos na fonte primária.',
+            1: 'Isso. A existência do benchmark e a categoria do feito são sólidas; os números pontuais e versões ficam como "a verificar".',
+            2: 'Exagerou para o outro lado: descartar tudo é tão preguiçoso quanto comprar tudo. O método é separar sólido de claim.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>

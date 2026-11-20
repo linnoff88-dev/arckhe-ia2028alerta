@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="inema-course" content="ia2028alerta">
+
+  <!-- 1) ANTI-FOUC (REL = "../..") -->
+  <script>
+  (function () {
+    try {
+      var html = document.documentElement;
+      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
+      var p = clone(DEF);
+      try {
+        var raw = localStorage.getItem('inema.prefs');
+        if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+      } catch (e) { p = clone(DEF); }
+      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
+      if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
+      html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
+      html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
+      var s = html.style; var scale = (+p.fontScale||100);
+      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
+      var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
+      s.setProperty('--font-body', fam);
+      var ACC = { emerald:[152,76,45], blue:[217,91,60], purple:[258,90,66], amber:[38,92,50], teal:[174,72,41], rose:[350,89,60] };
+      var a = ACC[p.accent]||ACC.emerald;
+      s.setProperty('--accent-h',a[0]+''); s.setProperty('--accent-s',a[1]+'%'); s.setProperty('--accent-l',a[2]+'%'); s.setProperty('--accent','hsl('+a[0]+' '+a[1]+'% '+a[2]+'%)');
+    } catch (err) { try { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme='dark'; } catch(e){} }
+  })();
+  </script>
+
+  <!-- 2) Manifesto (identico em TODAS as paginas) -->
+  <script type="application/json" data-inema-manifest>
+  {
+    "course": "ia2028alerta",
+    "tracks": [
+      { "n": "1", "title": "Fundamentos do RSI", "modules": [
+        { "id": "1-1", "title": "O loop: IA que constrói IA", "topics": 6, "href": "curso/trilha1/modulo-1-1.html" },
+        { "id": "1-2", "title": "Por que começa pelo código", "topics": 6, "href": "curso/trilha1/modulo-1-2.html" }
+      ] },
+      { "n": "2", "title": "A Evidência", "modules": [
+        { "id": "2-1", "title": "A curva METR: o horizonte de tarefa", "topics": 6, "href": "curso/trilha2/modulo-2-1.html" },
+        { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
+      ] },
+      { "n": "3", "title": "Segurança e 2028", "modules": [
+        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
+      ] }
+    ]
+  }
+  </script>
+
+  <title>Módulo 2.1 · A curva METR: o horizonte de tarefa | Alerta IA 2028</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: {
+      primary: '#FACC15', dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' } } } } }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/learn.css">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    [id^="topico-"] { scroll-margin-top: 5rem; }
+
+    html:not(.dark) body { background-color: #f8fafc; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color: #111827; }
+    html:not(.dark) .text-neutral-300 { color: #4b5563; }
+    html:not(.dark) .text-neutral-400 { color: #6b7280; }
+    html:not(.dark) .text-neutral-500 { color: #9ca3af; }
+    html:not(.dark) .border-dark-600 { border-color: #d1d5db; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    /* acento blue (T2 - ativo) */
+    html:not(.dark) .text-blue-400 { color: #2563eb; }
+    html:not(.dark) .bg-blue-500\/20 { background-color: rgba(37,99,235,0.12); }
+    html:not(.dark) .bg-blue-500\/10 { background-color: rgba(37,99,235,0.08); }
+    html:not(.dark) .border-blue-500\/30 { border-color: rgba(37,99,235,0.25); }
+    html:not(.dark) .hover\:bg-blue-500\/30:hover { background-color: rgba(37,99,235,0.18); }
+    html:not(.dark) .hover\:text-blue-400:hover { color: #2563eb; }
+    html:not(.dark) .hover\:bg-blue-500\/10:hover { background-color: rgba(37,99,235,0.08); }
+    /* acento emerald (T1) e purple (T3) — mantidos para o nav e as 3 cores do curso */
+    html:not(.dark) .text-emerald-400 { color: #059669; }
+    html:not(.dark) .bg-emerald-500\/10 { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .hover\:text-emerald-400:hover { color: #059669; }
+    html:not(.dark) .hover\:bg-emerald-500\/10:hover { background-color: rgba(5,150,105,0.08); }
+    html:not(.dark) .text-purple-400 { color: #7c3aed; }
+    html:not(.dark) .bg-purple-500\/10 { background-color: rgba(124,58,237,0.08); }
+    html:not(.dark) .hover\:text-purple-400:hover { color: #7c3aed; }
+    html:not(.dark) .hover\:bg-purple-500\/10:hover { background-color: rgba(124,58,237,0.08); }
+    /* especiais */
+    html:not(.dark) [class*="bg-gradient-to"] { background-image: none !important; }
+    html:not(.dark) .text-primary { color: #a16207; }
+    html:not(.dark) .bg-primary\/10 { background-color: rgba(161,98,7,0.08); }
+    html:not(.dark) .border-primary\/40 { border-color: rgba(161,98,7,0.25); }
+    html:not(.dark) .text-sky-400 { color: #0369a1; }
+    html:not(.dark) .text-yellow-400 { color: #a16207; }
+    html:not(.dark) .text-red-400 { color: #b91c1c; }
+    /* âmbar como TEXTO precisa escurecer no claro (A-VERIFICAR legível — erro #23) */
+    html:not(.dark) .text-amber-400 { color: #b45309; }
+    html:not(.dark) .bg-amber-500\/10 { background-color: rgba(180,83,9,0.08); }
+    html:not(.dark) .border-amber-500\/30 { border-color: rgba(180,83,9,0.25); }
+    html:not(.dark) .hover\:text-sky-300:hover { color: #0284c7; }
+    html:not(.dark) .hover\:text-yellow-300:hover { color: #854d0e; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    .dark .border-dark-600 { border-color: #374151; }
+    .dark .divide-dark-600 > :not([hidden]) ~ :not([hidden]) { border-color: #374151; }
+
+    @keyframes wf-pulse { 0%,100% { opacity:.55 } 50% { opacity:1 } }
+    @media (prefers-reduced-motion: no-preference) {
+      .wf-a { animation: wf-pulse 2.6s ease-in-out infinite; }
+      .wf-a:nth-child(2){animation-delay:.2s} .wf-a:nth-child(3){animation-delay:.4s} .wf-a:nth-child(4){animation-delay:.6s}
+    }
+    html:not(.dark) svg[role="img"] { filter: saturate(0.82) brightness(0.96); }
+    .appearance-anchor { position: relative; }
+    .toc-link.is-active { color: #60a5fa; font-weight: 600; }
+    html:not(.dark) .toc-link.is-active { color: #2563eb; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- NAV COMPLETO -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="../../index.html" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-2">
+          <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
+            <span class="sm:hidden">T1</span><span class="hidden sm:inline">Fundamentos</span></a>
+          <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-blue-400 bg-blue-500/10">
+            <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
+          <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
+            <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
+<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./modulo-2-1.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/modulo-2-1.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/modulo-2-1.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-inema-journey-open title="Minha jornada"
+                  class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
+            <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
+            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+          </button>
+          <div class="appearance-anchor">
+            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+                    class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
+            <div data-inema-appearance class="inema-appearance-pop">
+              <div class="inema-segment" role="group" aria-label="Tema">
+                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
+                <button type="button" data-inema-set-theme="claro">Claro</button>
+                <button type="button" data-inema-set-theme="sepia">Sépia</button>
+                <button type="button" data-inema-set-theme="foco">Foco</button>
+                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Fonte">
+                <button type="button" data-inema-set-font="inter">Inter</button>
+                <button type="button" data-inema-set-font="system">Sistema</button>
+                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-inema-set-fontscale="100">A</button>
+                <button type="button" data-inema-set-fontscale="112">A+</button>
+                <button type="button" data-inema-set-fontscale="125">A++</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-inema-set-linewidth="60">Estreito</button>
+                <button type="button" data-inema-set-linewidth="68">Médio</button>
+                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              </div>
+              <div class="inema-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-inema-set-leading="1.45">Compacto</button>
+                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              </div>
+              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
+                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
+                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <div class="flex items-center space-x-2 text-sm text-neutral-400">
+      <a href="../../index.html" class="hover:text-blue-400">Início</a><span>/</span>
+      <a href="index.html" class="hover:text-blue-400">Evidência</a><span>/</span>
+      <span class="text-blue-400">Módulo 2.1</span>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header class="bg-gradient-to-br from-blue-900/30 via-dark-800 to-dark-800 py-12 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.1</span>
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4">📊 A curva METR: o horizonte de tarefa</h1>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">"A IA está ficando boa" é opinião. A METR transforma isso num número: o maior trabalho — medido em quanto tempo um humano levaria — que o modelo termina sozinho. Este módulo mostra a curva desse número subindo, ensina a ler o gráfico com honestidade e separa a tendência sólida da profecia.</p>
+
+      <!-- SVG 1: escada do horizonte de tarefa -->
+      <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
+        <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Escada ascendente: o horizonte de tarefa sobe de 4 minutos em março de 2024 para mais de 16 horas em 2026, em degraus cada vez mais altos, com o degrau final marcado como limite do teste">
+          <defs>
+            <linearGradient id="m21-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
+            <filter id="m21-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <pattern id="m21-grid" width="32" height="32" patternUnits="userSpaceOnUse"><circle cx="1.3" cy="1.3" r="1.3" fill="#3b82f6" opacity="0.12"/></pattern>
+            <marker id="m21-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#60a5fa"/></marker>
+          </defs>
+          <rect x="0" y="0" width="1000" height="250" fill="url(#m21-grid)"/>
+          <!-- linha de tendência tracejada conectando os topos dos degraus -->
+          <path d="M165,166 L375,130 L585,92 L795,56" fill="none" stroke="#60a5fa" stroke-width="2" stroke-dasharray="9 8" opacity="0.7" marker-end="url(#m21-ah)"/>
+          <!-- degraus -->
+          <g font-family="Inter,sans-serif">
+            <rect x="90" y="166" width="150" height="48" rx="11" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/>
+            <text x="165" y="192" text-anchor="middle" fill="#93c5fd" font-weight="600" font-size="16">4 min</text>
+            <text x="165" y="208" text-anchor="middle" fill="#7da9d8" font-size="10.5">mar/2024</text>
+
+            <rect x="300" y="130" width="150" height="48" rx="11" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/>
+            <text x="375" y="156" text-anchor="middle" fill="#93c5fd" font-weight="600" font-size="16">~1,5 h</text>
+            <text x="375" y="172" text-anchor="middle" fill="#7da9d8" font-size="10.5">fim de 2024</text>
+
+            <rect x="510" y="92" width="150" height="48" rx="11" fill="#0e1622" stroke="#60a5fa" stroke-width="2"/>
+            <text x="585" y="118" text-anchor="middle" fill="#93c5fd" font-weight="600" font-size="16">~12 h</text>
+            <text x="585" y="134" text-anchor="middle" fill="#7da9d8" font-size="10.5">2025</text>
+
+            <g filter="url(#m21-glow)"><rect x="720" y="48" width="170" height="50" rx="11" fill="#0e1622" stroke="url(#m21-grad)" stroke-width="2.5"/></g>
+            <text x="805" y="74" text-anchor="middle" fill="#bfdbfe" font-weight="600" font-size="16">16 h+</text>
+            <text x="805" y="90" text-anchor="middle" fill="#7da9d8" font-size="10.5">2026 · limite do teste</text>
+          </g>
+          <text x="500" y="238" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">Cada degrau é uma medição real — não um palpite. O que assusta é a inclinação, não só a altura.</text>
+        </svg>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mb-6">
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">6</div><div class="text-xs text-neutral-400">Tópicos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">~45</div><div class="text-xs text-neutral-400">Minutos</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Intermediário</div><div class="text-xs text-neutral-400">Nível</div></div>
+        <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Evidência</div><div class="text-xs text-neutral-400">Tipo</div></div>
+      </div>
+
+      <div data-inema-meter="modulo:2-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 2.1" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso do módulo</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
+        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CORPO + TOC -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:grid lg:grid-cols-[1fr_220px] lg:gap-10 items-start">
+    <main id="conteudo">
+
+      <!-- TÓPICO 1 -->
+      <section id="topico-1" data-inema-topic="modulo-2-1#topico-1" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
+            <h2 class="text-2xl font-bold">📏 O que é "horizonte de tarefa"</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t1-p1">Existe um jeito de transformar a frase vaga "a IA está ficando boa" em um número que dá para acompanhar. O número é o <strong class="text-blue-400">horizonte de tarefa</strong>: a maior tarefa — medida em quanto tempo um humano levaria para fazê-la — que o modelo completa com cerca de <strong class="text-blue-400">50% de sucesso</strong>. Se a IA termina sozinha tarefas que tomariam 12 horas de um humano, dizemos que seu horizonte é de 12 horas.</p>
+
+        <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? Três termos antes de seguir</h3>
+          <ul class="space-y-3 text-neutral-300 text-sm">
+            <li><strong class="text-neutral-100">METR:</strong> uma organização independente (não é lab nem fabricante de modelo) que avalia a capacidade e o risco dos <em>modelos de fronteira</em> — os mais avançados, de labs como Anthropic, OpenAI e DeepMind. É quem produz a curva.</li>
+            <li><strong class="text-neutral-100">Horizonte de tarefa:</strong> a régua. Quanto trabalho humano, em tempo, a IA aguenta de ponta a ponta.</li>
+            <li><strong class="text-neutral-100">Taxa de sucesso de 50%:</strong> o ponto de corte. Não é "sempre acerta"; é "acerta metade das vezes" — o lugar onde a tarefa começa a ficar grande demais para o modelo.</li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🎯</span> Por que medir em tempo-humano</h3>
+          <p class="text-neutral-300">Medir em "tempo que um humano levaria" é genial porque é a unidade que todo mundo entende. "Resolve 56% das questões" não diz nada sobre o tamanho do trabalho. "Faz sozinha algo que te tomaria um dia" diz tudo. A curva não mede inteligência abstrata — mede <strong class="text-blue-400">autonomia útil</strong>.</p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Quem mede</div><div class="text-xs text-neutral-400">METR (independente)</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">A régua</div><div class="text-xs text-neutral-400">tempo-humano</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">O corte</div><div class="text-xs text-neutral-400">~50% de sucesso</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Mede</div><div class="text-xs text-neutral-400">autonomia, não QI</div></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 2 -->
+      <section id="topico-2" data-inema-topic="modulo-2-1#topico-2" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
+            <h2 class="text-2xl font-bold">📈 A curva: 4 min → ~1,5 h → ~12 h → 16 h+</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t2-p1">De março de 2024 a 2026, o horizonte medido pela METR saiu de <strong class="text-blue-400">poucos minutos</strong> e chegou a <strong class="text-blue-400">mais de meio dia</strong> de trabalho. A escada no topo da página mostra isso: 4 min, depois ~1,5 h, depois ~12 h, depois 16 h+. O que importa não é cada degrau isolado, e sim a <strong class="text-blue-400">inclinação</strong>: a régua dobra em intervalos curtos.</p>
+
+        <!-- SVG 2: medição — tarefas curtas acerta, longas erra, 50% é o horizonte -->
+        <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
+          <svg viewBox="0 0 1000 220" class="w-full h-auto" role="img" aria-label="Diagrama de medição: em tarefas curtas a IA quase sempre acerta, em tarefas longas quase sempre erra; o ponto onde ela acerta metade das vezes é marcado como o horizonte de tarefa">
+            <defs>
+              <filter id="m21b-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <pattern id="m21b-grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#3b82f6" opacity="0.10"/></pattern>
+              <marker id="m21b-ah" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto"><path d="M0,0 L8,4.5 L0,9 L2.4,4.5 Z" fill="#9ca3af"/></marker>
+            </defs>
+            <rect x="0" y="0" width="1000" height="220" fill="url(#m21b-grid)"/>
+            <!-- eixo -->
+            <line x1="60" y1="172" x2="940" y2="172" stroke="#475569" stroke-width="1.5" marker-end="url(#m21b-ah)"/>
+            <text x="60" y="196" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="11.5">tarefas curtas</text>
+            <text x="860" y="196" text-anchor="end" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="11.5">tarefas longas →</text>
+            <!-- pontos acerto (azul) à esquerda -->
+            <g fill="#60a5fa">
+              <circle cx="110" cy="70" r="7"/><circle cx="150" cy="98" r="7"/><circle cx="200" cy="62" r="7"/><circle cx="250" cy="92" r="7"/><circle cx="300" cy="74" r="7"/><circle cx="350" cy="104" r="7"/><circle cx="410" cy="86" r="7"/>
+            </g>
+            <!-- pontos erro (vermelho) à direita -->
+            <g fill="#f87171">
+              <circle cx="590" cy="120" r="7"/><circle cx="650" cy="98" r="7"/><circle cx="700" cy="128" r="7"/><circle cx="760" cy="104" r="7"/><circle cx="810" cy="132" r="7"/><circle cx="860" cy="110" r="7"/>
+            </g>
+            <!-- mistos no meio -->
+            <g><circle cx="470" cy="96" r="7" fill="#60a5fa"/><circle cx="510" cy="116" r="7" fill="#f87171"/></g>
+            <!-- linha do horizonte ~50% -->
+            <line x1="500" y1="30" x2="500" y2="172" stroke="#3b82f6" stroke-width="2" stroke-dasharray="7 6"/>
+            <g filter="url(#m21b-glow)"><rect x="406" y="30" width="188" height="30" rx="9" fill="#0e1622" stroke="url(#m21-grad)" stroke-width="2"/></g>
+            <text x="500" y="50" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-weight="600" font-size="13">horizonte (~50% de acerto)</text>
+            <!-- legenda das cores -->
+            <g font-family="Inter,sans-serif" font-size="11.5">
+              <circle cx="640" cy="200" r="6" fill="#60a5fa"/><text x="654" y="204" fill="#9aa4b2">acertou</text>
+              <circle cx="740" cy="200" r="6" fill="#f87171"/><text x="754" y="204" fill="#9aa4b2">errou</text>
+            </g>
+          </svg>
+          <p class="text-xs text-neutral-500 mt-2">Como ler: à esquerda (tarefas curtas) quase tudo é acerto; à direita (tarefas longas) quase tudo é erro. A linha tracejada marca onde a IA acerta metade das vezes — esse ponto, em tempo-humano, é o horizonte.</p>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Dica de leitura</h3>
+          <p class="text-neutral-300 text-sm">Não decore os números — decore a <strong>forma</strong>. Uma curva que dobra a cada poucos meses é exponencial; e exponenciais enganam a intuição, que espera retas. É por isso que o horizonte "de repente" passou de minutos para horas.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 3 -->
+      <section id="topico-3" data-inema-topic="modulo-2-1#topico-3" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
+            <h2 class="text-2xl font-bold">🧱 16 h foi o limite do TESTE, não do modelo</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t3-p1">Aqui mora o erro de leitura mais comum. A própria METR avisou: acima de <strong class="text-blue-400">16 horas</strong>, as medições daquela suíte deixavam de ser confiáveis. Ou seja, "16 h" é o teto do <strong class="text-blue-400">instrumento</strong> — até onde o teste consegue medir direito —, e não a fronteira do que o modelo é capaz de fazer.</p>
+
+        <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Cuidado com a manchete</h3>
+          <p class="text-neutral-300 text-sm">Ler "16 h" como "o máximo que a IA consegue" é o oposto do que o dado diz. Pode ser que o modelo vá além — só não dá para afirmar com aquele teste. Tratar um teto de medição como teto de capacidade é como dizer que um carro só anda 200 km/h porque é até onde o velocímetro marca.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
+            <h4 class="font-bold text-blue-400 mb-4">✓ Leitura honesta</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"O teste mede bem até ~16 h."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"A tendência continua subindo."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-blue-400">✓</span><span>"Precisamos de testes melhores acima disso."</span></li>
+            </ul>
+          </div>
+          <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
+            <h4 class="font-bold text-red-400 mb-4">✗ Leitura enganosa</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"A IA trava em 16 h."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Esse é o limite definitivo."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Chegou ao teto, pode relaxar."</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 4 -->
+      <section id="topico-4" data-inema-topic="modulo-2-1#topico-4" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
+            <h2 class="text-2xl font-bold">⏱️ Por que long-horizon importa pro RSI</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t4-p1">O auto-aperfeiçoamento recursivo (RSI) — a IA que ajuda a projetar a próxima IA — não exige um gênio que resolve tudo num instante. Exige um <strong class="text-blue-400">trabalhador útil por horas e dias seguidos</strong>: que mantenha o fio do problema, rode experimentos, espere resultados e continue. É por isso que o <em>long-horizon</em> (horizonte longo) é a peça que conecta esta trilha ao alerta inteiro.</p>
+
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">Horizonte curto × horizonte longo</h3>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3"><span class="text-neutral-500 flex-shrink-0">⏱️</span><div><strong class="text-neutral-100">Curto:</strong> <span class="text-neutral-400 text-sm">responder uma pergunta, escrever uma função, corrigir um bug. Útil, mas é tarefa solta.</span></div></div>
+            <div class="flex items-start gap-3"><span class="text-blue-400 flex-shrink-0">⏳</span><div><strong class="text-neutral-100">Longo:</strong> <span class="text-neutral-400 text-sm">tocar um projeto inteiro por dias — planejar, executar, testar, ajustar. É isso que um "engenheiro de IA" faz, e é isso que o RSI precisa automatizar.</span></div></div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-900/30 to-dark-800 rounded-xl border border-blue-500/30 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🔗</span> A ponte para o próximo módulo</h3>
+          <p class="text-neutral-300">Guarde esta ideia: se a IA já aguenta horas de trabalho contínuo, a pergunta seguinte é "que <strong class="text-blue-400">tamanho de projeto</strong> ela termina sozinha?". É exatamente o que o MirrorCode mede — e onde veremos uma execução rodando por <strong class="text-blue-400">dias</strong> sem humano (Módulo 2.2).</p>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">RSI precisa de</div><div class="text-xs text-neutral-400">autonomia por dias</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Não precisa de</div><div class="text-xs text-neutral-400">gênio instantâneo</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">A curva mostra</div><div class="text-xs text-neutral-400">isso se aproximando</div></div>
+          <div class="bg-dark-800 rounded-lg border border-dark-600 p-4"><div class="text-blue-400 font-bold text-sm mb-1">Próximo</div><div class="text-xs text-neutral-400">tamanho do projeto</div></div>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 5 -->
+      <section id="topico-5" data-inema-topic="modulo-2-1#topico-5" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
+            <h2 class="text-2xl font-bold">🔬 Como se mede (e por que é difícil)</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t5-p1">Mede-se assim: junta-se um monte de tarefas de <strong class="text-blue-400">durações conhecidas</strong> (sabe-se quanto um humano levaria em cada uma), roda-se o modelo em todas e procura-se a duração em que ele acerta cerca de <strong class="text-blue-400">metade</strong> das vezes. Esse ponto é o horizonte. Simples de dizer, difícil de fazer bem — por três motivos.</p>
+
+        <div class="space-y-4 mb-6">
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">1</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">Variância</h4><p class="text-neutral-300 text-sm">A mesma tarefa pode dar certo numa rodada e errar na outra. Por isso se roda muitas vezes e se trabalha com médias — não com um único teste.</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">2</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">Estimar o tempo-humano</h4><p class="text-neutral-300 text-sm">Quanto "vale" uma tarefa em horas de gente? É uma estimativa, e estimativas têm margem. Dois avaliadores podem discordar.</p></div>
+          </div>
+          <div class="flex items-start space-x-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><span class="text-blue-400 font-bold">3</span></div>
+            <div class="flex-1 bg-dark-800 rounded-xl p-5 border border-dark-600"><h4 class="font-semibold text-neutral-100 mb-1">O teste alcança o próprio limite</h4><p class="text-neutral-300 text-sm">Perto do topo (as 16 h do Tópico 3), faltam tarefas longas o bastante e bem medidas. O instrumento fica curto antes do modelo.</p></div>
+          </div>
+        </div>
+
+        <!-- COPY-RUN -->
+        <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
+          <h3 class="text-sm font-semibold text-blue-400 uppercase tracking-wide mb-3 flex items-center"><span class="mr-2">⌨️</span> Exemplo copy-run · sinta o horizonte no seu próprio trabalho</h3>
+          <p class="text-neutral-300 text-sm mb-3"><strong>Objetivo:</strong> treinar o olho para distinguir tarefa de horizonte curto de tarefa de horizonte longo, usando o seu dia. Cole o bloco abaixo em qualquer chatbot.</p>
+          <div class="font-mono text-xs sm:text-sm text-neutral-200 bg-dark-900/60 rounded-lg p-4 border border-dark-700 whitespace-pre-wrap">Liste 5 tarefas que eu faço no <span class="text-blue-400">&lt;meu trabalho — isto você troca&gt;</span> e estime quanto tempo cada uma leva para um humano. Depois, para cada uma, diga se um agente de IA hoje conseguiria fazê-la SOZINHO por horas a fio, e o que ainda exigiria um humano no comando. Separe "horizonte curto" de "horizonte longo".</div>
+          <p class="text-neutral-300 text-sm mt-3"><strong>Como verificar:</strong> a resposta deve distinguir tarefas de minutos (horizonte curto) de tarefas de horas/dias (horizonte longo) — e não só "a IA faz tudo". Se ela não separar os dois, peça de novo.</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- TÓPICO 6 -->
+      <section id="topico-6" data-inema-topic="modulo-2-1#topico-6" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+        <div class="flex items-start justify-between gap-4 mb-6">
+          <div class="flex items-center space-x-4">
+            <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
+            <h2 class="text-2xl font-bold">🧭 O que a curva NÃO prova</h2>
+          </div>
+          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+        </div>
+
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t6-p1">A curva é uma evidência forte de uma <strong class="text-blue-400">tendência</strong>. Ela não é uma prova de <strong class="text-blue-400">destino</strong>. Esticar a reta no gráfico e cravar "logo a IA fará tarefas de meses" é trocar medição por profecia. A postura honesta do curso é levar o dado a sério e marcar onde ele acaba e a especulação começa.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
+            <h4 class="font-bold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🟢</span> Sólido (a curva sustenta)</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O horizonte de tarefa vem subindo de forma consistente.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Em 2024–2026, saiu de minutos para mais de meio dia.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A METR é uma fonte independente, com método transparente.</span></li>
+            </ul>
+          </div>
+          <div class="bg-amber-500/10 rounded-xl border border-amber-500/30 p-6">
+            <h4 class="font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">🟡</span> A verificar / especulação</h4>
+            <ul class="space-y-3 text-neutral-300 text-sm">
+              <li class="flex items-start space-x-2"><span class="text-amber-400">▲</span><span>"A reta continua igual e chega a tarefas de semanas."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">▲</span><span>Uma data exata para o horizonte cruzar X horas.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">▲</span><span>Que o ritmo de hoje é garantido para amanhã.</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> A regra de ouro do curso</h3>
+          <p class="text-neutral-300 text-sm">Tendência observada = sólido. Data de chegada = palpite. Toda vez que alguém juntar os dois numa frase só, separe-os antes de acreditar. A curva diz "está subindo rápido" — não diz "vai chegar em tal ano".</p>
+        </div>
+
+        <div class="flex justify-start mt-6">
+          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
+            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ILUSTRAÇÃO RASTER -->
+      <figure class="mb-12">
+        <img src="assets/img/m2-1.png" alt="Ilustração do Módulo 2.1: a curva ascendente do horizonte de tarefa subindo em degraus de minutos a horas, em azul e ciano sobre fundo escuro" class="w-full h-auto rounded-xl border border-blue-500/30">
+        <figcaption class="text-xs text-neutral-500 mt-2">A imagem repete a ideia central: cada degrau é um salto de capacidade medido, não imaginado. Olhe para a inclinação — é ela, e não cada número, que sustenta o alerta.</figcaption>
+      </figure>
+
+      <!-- CHECAGEM LEVE -->
+      <div data-inema-check="modulo-2-1#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+        <p class="font-medium mb-4">Auto-checagem (opcional): o que significam as "16 horas" na curva da METR?</p>
+        <div class="inema-check-options space-y-2">
+          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O limite definitivo de capacidade do modelo — ele trava aí.</button>
+          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O limite do teste: acima disso, aquela suíte não media de forma confiável.</button>
+          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O tempo que a IA leva para responder qualquer pergunta.</button>
+        </div>
+        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+      </div>
+
+      <!-- RESUMO -->
+      <section class="mb-8">
+        <div class="bg-gradient-to-br from-blue-900/40 via-dark-800 to-dark-800 rounded-xl border border-blue-500/30 p-8">
+          <h2 class="text-2xl font-bold mb-6 flex items-center"><span class="mr-3">🎯</span> Resumo do módulo</h2>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Horizonte de tarefa</strong><span class="text-neutral-400"> — a maior tarefa, em tempo-humano, que a IA termina com ~50% de sucesso.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">A curva</strong><span class="text-neutral-400"> — de 4 min a 16 h+ entre 2024 e 2026; o que assusta é a inclinação.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">16 h = limite do teste</strong><span class="text-neutral-400"> — teto do instrumento, não do modelo.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Long-horizon e RSI</strong><span class="text-neutral-400"> — o RSI precisa de um trabalhador útil por dias, não de um gênio instantâneo.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Como se mede</strong><span class="text-neutral-400"> — taxa de 50%, variância e o teste que alcança o próprio limite.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">O que NÃO prova</strong><span class="text-neutral-400"> — tendência é sólida; data de chegada é especulação.</span></div></div>
+          </div>
+          <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
+            <h3 class="font-semibold text-blue-400 mb-2">Próximo módulo:</h3>
+            <p class="text-neutral-300">2.2 — MirrorCode: reconstruir no escuro. Da "quanto tempo aguenta" para "que tamanho de projeto termina sozinha".</p>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para a Trilha 2</a>
+            <a href="modulo-2-2.html" class="flex-1 text-center px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-500 transition-colors">Próximo: 2.2 MirrorCode →</a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- TOC STICKY + SCROLLSPY -->
+    <aside class="hidden lg:block">
+      <nav data-inema-toc aria-label="Índice do módulo" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">Nesta página <span class="text-neutral-500" data-inema-section-counter></span></p>
+        <ol class="space-y-2 border-l border-dark-600 pl-4">
+          <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">1. Horizonte de tarefa</a></li>
+          <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">2. A curva</a></li>
+          <li><a href="#topico-3" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">3. 16 h = limite do teste</a></li>
+          <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">4. Long-horizon e RSI</a></li>
+          <li><a href="#topico-5" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">5. Como se mede</a></li>
+          <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">6. O que NÃO prova</a></li>
+        </ol>
+      </nav>
+    </aside>
+
+  </div>
+
+  <footer class="border-t border-dark-600 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
+      <p>Alerta IA 2028 · A IA que constrói a próxima IA — Trilha 2 · Módulo 2.1</p>
+    </div>
+  </footer>
+
+  <!-- learn.js + init + checagem -->
+  <script src="../../assets/learn.js"></script>
+  <script>
+    if (window.INEMA && typeof window.INEMA.init === 'function') {
+      window.INEMA.init();
+      if (INEMA.registerCheck) {
+        INEMA.registerCheck('modulo-2-1#q1', {
+          answer: 1,
+          explain: {
+            0: 'Não — esse é justamente o erro de leitura. 16 h é o teto do teste, não do modelo.',
+            1: 'Isso. Acima de ~16 h aquela suíte não media de forma confiável; o limite é do instrumento.',
+            2: 'Não — a curva mede o tamanho da tarefa que a IA completa, não o tempo de resposta.'
+          }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
