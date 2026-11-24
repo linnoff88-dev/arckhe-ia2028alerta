@@ -19,7 +19,7 @@ A versão em inglês e espanhol foi concluída para as superfícies públicas do
 | `curso/trilha3/modulo-3-2.html` | 304 | 304/304 | 304/304 |
 | **Total por idioma** | **2.294** | **2.294/2.294** | **2.294/2.294** |
 
-Também estão traduzidos os 18 feedbacks inline dos quizzes (`INEMA.registerCheck`, três alternativas por cada um dos seis módulos). Os três READMEs têm navegação para PT/EN/ES: `README.md`, `README.en.md` e `README.es.md`.
+Também estão traduzidos os 18 feedbacks inline dos quizzes (`ARCKHÉ.registerCheck`, três alternativas por cada um dos seis módulos). Os três READMEs têm navegação para PT/EN/ES: `README.md`, `README.en.md` e `README.es.md`.
 
 ## Arquivos e funcionamento
 
@@ -28,7 +28,7 @@ Também estão traduzidos os 18 feedbacks inline dos quizzes (`INEMA.registerChe
 - Catálogo persistente: `i18n/translations.json`; inventário das unidades-fonte: `i18n/source-runs.json`.
 - Gerador local: `scripts/build-translations.py`. Ele recria as cópias, seletores, alternates e `assets/learn.js` por idioma; não usa serviços externos de tradução.
 - CSS e imagens apontam para os assets originais compartilhados. IDs, IDs dos módulos e tópicos, comandos, URLs externas e estrutura do manifesto foram preservados.
-- O armazenamento do curso usa `ia2028alerta-en` e `ia2028alerta-es` nas páginas localizadas, incluindo `meta[name="inema-course"]` e `manifest.course`. Preferências visuais continuam compartilhadas.
+- O armazenamento do curso usa `ia2028alerta-en` e `ia2028alerta-es` nas páginas localizadas, incluindo `meta[name="ARCKHÉ-course"]` e `manifest.course`. Preferências visuais continuam compartilhadas.
 
 ## Verificações realizadas
 

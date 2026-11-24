@@ -6,37 +6,37 @@
   <link rel="alternate" hreflang="es" href="./index.html">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="ia2028alerta-es">
+  <meta name="ARCKHÉ-course" content="ia2028alerta-es">
 
   <!-- 1) ANTI-FOUC — script BLOQUEANTE, PRIMEIRO, antes do Tailwind e do learn.css.
-        Le inema.prefs (global) e aplica .dark + data-theme + vars de leitura ANTES do 1o paint.
-        try/catch total => default dark (preserva a marca INEMA). REL = "." (raiz com assets/). -->
+        Le ARCKHÉ.prefs (global) e aplica .dark + data-theme + vars de leitura ANTES do 1o paint.
+        try/catch total => default dark (preserva a marca ARCKHÉ). REL = "." (raiz com assets/). -->
   <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o) { var r = {}; for (var x in o) r[x] = o[x]; return r; }
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) {
           var parsed = JSON.parse(raw);
           if (parsed && typeof parsed === 'object') { for (var k in DEF) if (parsed[k] != null) p[k] = parsed[k]; }
         } else {
           var legacy = localStorage.getItem('theme');
           if (legacy === 'light') p.theme = 'claro';
-          else if (legacy === 'dark') p.theme = 'inema-dark';
+          else if (legacy === 'dark') p.theme = 'ARCKHÉ-dark';
         }
       } catch (e) { p = clone(DEF); }
       var THEMES = {
-        'inema-dark': { dark: true,  attr: null,        cs: 'dark'  },
+        'ARCKHÉ-dark': { dark: true,  attr: null,        cs: 'dark'  },
         'claro':      { dark: false, attr: null,        cs: 'light' },
         'sepia':      { dark: false, attr: 'sepia',     cs: 'light' },
         'foco':       { dark: null,  attr: 'foco',      cs: null    },
         'contraste':  { dark: true,  attr: 'contraste', cs: 'dark'  }
       };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark === true) html.classList.add('dark');
       else if (t.dark === false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
@@ -44,7 +44,7 @@
       html.setAttribute('data-font', p.font || 'inter');
       html.setAttribute('data-accent', p.accent || 'emerald');
       var s = html.style; var scale = (+p.fontScale || 100);
-      s.setProperty('--inema-font-scale', (scale / 100).toString());
+      s.setProperty('--ARCKHÉ-font-scale', (scale / 100).toString());
       s.setProperty('font-size', scale + '%');
       s.setProperty('--measure', (+p.lineWidth || 68) + 'ch');
       s.setProperty('--lh-body', (+p.leading || 1.7).toString());
@@ -62,7 +62,7 @@
   </script>
 
   <!-- 2) Manifesto do curso (estrutura COMPLETA — identico em TODAS as paginas) -->
-  <script type="application/json" data-inema-manifest>
+  <script type="application/json" data-ARCKHÉ-manifest>
   {
     "course": "ia2028alerta-es",
     "tracks": [
@@ -124,7 +124,7 @@
   }
   </script>
 
-  <title>Alerta de IA 2028 — La IA que construye la próxima IA | INEMA.CLUB</title>
+  <title>Alerta de IA 2028 — La IA que construye la próxima IA | ARCKHÉ AI</title>
 
   <!-- 3) Tailwind + config -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -227,7 +227,7 @@
             <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta de IA 2028</span>
           </a>
           <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+          <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
         </div>
         <div class="flex items-center space-x-1 sm:space-x-2">
           <a href="curso/trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
@@ -237,54 +237,54 @@
           <a href="curso/trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
             <span class="sm:hidden">R3</span><span class="hidden sm:inline">Seguridad</span></a>
 
-<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="../index.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="../en/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./index.html" lang="es" hreflang="es" class="font-bold text-yellow-400">ES</a></div>
+<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="../index.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="../en/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./index.html" lang="es" hreflang="es" class="font-bold text-yellow-400">ES</a></div>
           <!-- Minha jornada -->
-          <button type="button" data-inema-journey-open title="Mi recorrido"
+          <button type="button" data-ARCKHÉ-journey-open title="Mi recorrido"
                   class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
             <span aria-hidden="true">◷</span><span class="hidden sm:inline">Recorrido</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+            <span class="ARCKHÉ-journey-badge hidden" data-ARCKHÉ-journey-badge data-count="0"></span>
           </button>
 
           <!-- Aparencia -->
           <div class="appearance-anchor">
-            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Apariencia y lectura"
+            <button type="button" data-ARCKHÉ-appearance-toggle="[data-ARCKHÉ-appearance]" aria-expanded="false" title="Apariencia y lectura"
                     class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300">
               <span aria-hidden="true">◑</span>
             </button>
-            <div data-inema-appearance class="inema-appearance-pop">
-              <div class="inema-segment" role="group" aria-label="Tema">
-                <button type="button" data-inema-set-theme="inema-dark">Oscuro</button>
-                <button type="button" data-inema-set-theme="claro">Claro</button>
-                <button type="button" data-inema-set-theme="sepia">Sepia</button>
-                <button type="button" data-inema-set-theme="foco">Enfoque</button>
-                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+            <div data-ARCKHÉ-appearance class="ARCKHÉ-appearance-pop">
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tema">
+                <button type="button" data-ARCKHÉ-set-theme="ARCKHÉ-dark">Oscuro</button>
+                <button type="button" data-ARCKHÉ-set-theme="claro">Claro</button>
+                <button type="button" data-ARCKHÉ-set-theme="sepia">Sepia</button>
+                <button type="button" data-ARCKHÉ-set-theme="foco">Enfoque</button>
+                <button type="button" data-ARCKHÉ-set-theme="contraste">Alto contraste</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Fuente">
-                <button type="button" data-inema-set-font="inter">Inter</button>
-                <button type="button" data-inema-set-font="system">Sistema</button>
-                <button type="button" data-inema-set-font="leitura">Lectura</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Fuente">
+                <button type="button" data-ARCKHÉ-set-font="inter">Inter</button>
+                <button type="button" data-ARCKHÉ-set-font="system">Sistema</button>
+                <button type="button" data-ARCKHÉ-set-font="leitura">Lectura</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Tamaño del texto">
-                <button type="button" data-inema-set-fontscale="100">La</button>
-                <button type="button" data-inema-set-fontscale="112">A+</button>
-                <button type="button" data-inema-set-fontscale="125">A++</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tamaño del texto">
+                <button type="button" data-ARCKHÉ-set-fontscale="100">La</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="112">A+</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="125">A++</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Ancho de línea">
-                <button type="button" data-inema-set-linewidth="60">Estrecho</button>
-                <button type="button" data-inema-set-linewidth="68">Medio</button>
-                <button type="button" data-inema-set-linewidth="75">Ancho</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Ancho de línea">
+                <button type="button" data-ARCKHÉ-set-linewidth="60">Estrecho</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="68">Medio</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="75">Ancho</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Interlineado">
-                <button type="button" data-inema-set-leading="1.45">Compacto</button>
-                <button type="button" data-inema-set-leading="1.7">Cómodo</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Interlineado">
+                <button type="button" data-ARCKHÉ-set-leading="1.45">Compacto</button>
+                <button type="button" data-ARCKHÉ-set-leading="1.7">Cómodo</button>
               </div>
-              <div class="inema-accent-grid" role="group" aria-label="Color de acento">
-                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
-                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
-                <button type="button" data-inema-set-accent="purple" title="Morado"></button>
-                <button type="button" data-inema-set-accent="amber" title="Ámbar"></button>
-                <button type="button" data-inema-set-accent="teal" title="Verde azulado"></button>
-                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              <div class="ARCKHÉ-accent-grid" role="group" aria-label="Color de acento">
+                <button type="button" data-ARCKHÉ-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-ARCKHÉ-set-accent="blue" title="Azul"></button>
+                <button type="button" data-ARCKHÉ-set-accent="purple" title="Morado"></button>
+                <button type="button" data-ARCKHÉ-set-accent="amber" title="Ámbar"></button>
+                <button type="button" data-ARCKHÉ-set-accent="teal" title="Verde azulado"></button>
+                <button type="button" data-ARCKHÉ-set-accent="rose" title="Rosa"></button>
               </div>
             </div>
           </div>
@@ -318,13 +318,13 @@
         </div>
 
         <!-- Medidor de progresso do curso -->
-        <div data-inema-meter="curso" class="inema-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso del curso" style="max-width:520px">
+        <div data-ARCKHÉ-meter="curso" class="ARCKHÉ-bar-wrap" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso del curso" style="max-width:520px">
           <div class="flex items-center justify-between text-sm text-neutral-400 mb-2">
             <span>Tu recorrido</span>
-            <span><strong class="text-neutral-200" data-inema-meter-frac>0 de 36</strong> secciones · <span data-inema-meter-pct>0%</span></span>
+            <span><strong class="text-neutral-200" data-ARCKHÉ-meter-frac>0 de 36</strong> secciones · <span data-ARCKHÉ-meter-pct>0%</span></span>
           </div>
-          <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
-          <button type="button" data-inema-journey-open class="mt-3 text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-2">continuar donde lo dejé →</button>
+          <div class="ARCKHÉ-bar"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div>
+          <button type="button" data-ARCKHÉ-journey-open class="mt-3 text-sm text-emerald-400 hover:text-emerald-300 underline underline-offset-2">continuar donde lo dejé →</button>
         </div>
       </div>
     </header>
@@ -473,15 +473,15 @@
 
   <footer class="border-t border-dark-600 py-8">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-neutral-500 text-sm">
-      <p><strong class="text-neutral-300">Alerta de IA 2028</strong> — La IA que construye la próxima IA · curso INEMA</p>
-      <p class="mt-1"><a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300">INEMA.CLUB</a> · 2026 · tu progreso solo se guarda en este navegador</p>
+      <p><strong class="text-neutral-300">Alerta de IA 2028</strong> — La IA que construye la próxima IA · curso ARCKHÉ</p>
+      <p class="mt-1"><a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300">ARCKHÉ AI</a> · 2026 · tu progreso solo se guarda en este navegador</p>
     </div>
   </footer>
 
   <!-- learn.js + init -->
   <script src="./assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+    if (window.ARCKHÉ && typeof window.ARCKHÉ.init === 'function') { window.ARCKHÉ.init(); }
   </script>
 </body>
 </html>

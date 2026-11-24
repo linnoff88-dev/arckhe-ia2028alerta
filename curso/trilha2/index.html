@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="ia2028alerta">
+  <meta name="ARCKHÉ-course" content="ia2028alerta">
 
   <!-- 1) ANTI-FOUC (REL = "../..") -->
   <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
       var s = html.style; var scale = (+p.fontScale||100);
-      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
       s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
       var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
       s.setProperty('--font-body', fam);
@@ -37,7 +37,7 @@
   </script>
 
   <!-- 2) Manifesto (identico em TODAS as paginas) -->
-  <script type="application/json" data-inema-manifest>
+  <script type="application/json" data-ARCKHÉ-manifest>
   {
     "course": "ia2028alerta",
     "tracks": [
@@ -145,7 +145,7 @@
             <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
           </a>
           <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+          <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
         </div>
         <div class="flex items-center space-x-1 sm:space-x-2">
           <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
@@ -154,49 +154,49 @@
             <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
           <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
             <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
-<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./index.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/index.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
-          <button type="button" data-inema-journey-open title="Minha jornada"
+<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./index.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/index.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/index.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-ARCKHÉ-journey-open title="Minha jornada"
                   class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
             <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+            <span class="ARCKHÉ-journey-badge hidden" data-ARCKHÉ-journey-badge data-count="0"></span>
           </button>
           <div class="appearance-anchor">
-            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+            <button type="button" data-ARCKHÉ-appearance-toggle="[data-ARCKHÉ-appearance]" aria-expanded="false" title="Aparência e leitura"
                     class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
-            <div data-inema-appearance class="inema-appearance-pop">
-              <div class="inema-segment" role="group" aria-label="Tema">
-                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
-                <button type="button" data-inema-set-theme="claro">Claro</button>
-                <button type="button" data-inema-set-theme="sepia">Sépia</button>
-                <button type="button" data-inema-set-theme="foco">Foco</button>
-                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+            <div data-ARCKHÉ-appearance class="ARCKHÉ-appearance-pop">
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tema">
+                <button type="button" data-ARCKHÉ-set-theme="ARCKHÉ-dark">Escuro</button>
+                <button type="button" data-ARCKHÉ-set-theme="claro">Claro</button>
+                <button type="button" data-ARCKHÉ-set-theme="sepia">Sépia</button>
+                <button type="button" data-ARCKHÉ-set-theme="foco">Foco</button>
+                <button type="button" data-ARCKHÉ-set-theme="contraste">Alto contraste</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Fonte">
-                <button type="button" data-inema-set-font="inter">Inter</button>
-                <button type="button" data-inema-set-font="system">Sistema</button>
-                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Fonte">
+                <button type="button" data-ARCKHÉ-set-font="inter">Inter</button>
+                <button type="button" data-ARCKHÉ-set-font="system">Sistema</button>
+                <button type="button" data-ARCKHÉ-set-font="leitura">Leitura</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
-                <button type="button" data-inema-set-fontscale="100">A</button>
-                <button type="button" data-inema-set-fontscale="112">A+</button>
-                <button type="button" data-inema-set-fontscale="125">A++</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-ARCKHÉ-set-fontscale="100">A</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="112">A+</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="125">A++</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Largura da linha">
-                <button type="button" data-inema-set-linewidth="60">Estreito</button>
-                <button type="button" data-inema-set-linewidth="68">Médio</button>
-                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-ARCKHÉ-set-linewidth="60">Estreito</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="68">Médio</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="75">Largo</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Entrelinha">
-                <button type="button" data-inema-set-leading="1.45">Compacto</button>
-                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-ARCKHÉ-set-leading="1.45">Compacto</button>
+                <button type="button" data-ARCKHÉ-set-leading="1.7">Confortável</button>
               </div>
-              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
-                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
-                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
-                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
-                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
-                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
-                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              <div class="ARCKHÉ-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-ARCKHÉ-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-ARCKHÉ-set-accent="blue" title="Azul"></button>
+                <button type="button" data-ARCKHÉ-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-ARCKHÉ-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-ARCKHÉ-set-accent="teal" title="Teal"></button>
+                <button type="button" data-ARCKHÉ-set-accent="rose" title="Rosa"></button>
               </div>
             </div>
           </div>
@@ -260,9 +260,9 @@
       </div>
 
       <!-- Medidor da trilha -->
-      <div data-inema-meter="trilha:2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da Trilha 2" style="max-width:420px">
-        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso da Trilha 2</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 12</strong> · <span data-inema-meter-pct>0%</span></span></div>
-        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      <div data-ARCKHÉ-meter="trilha:2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso da Trilha 2" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso da Trilha 2</span><span><strong class="text-neutral-200" data-ARCKHÉ-meter-frac>0 de 12</strong> · <span data-ARCKHÉ-meter-pct>0%</span></span></div>
+        <div class="ARCKHÉ-bar"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div>
       </div>
     </div>
   </header>
@@ -294,7 +294,7 @@
         <div class="flex items-center justify-between mb-2"><span class="text-blue-400 font-bold">2.1</span><span class="text-xs text-neutral-500">~45 min · 6 tópicos</span></div>
         <h3 class="text-2xl font-bold mb-2">📊 A curva METR: o horizonte de tarefa</h3>
         <p class="text-neutral-400 text-sm">A medida que transforma "a IA está ficando boa" em um número: o maior trabalho, em tempo-humano, que o modelo termina sozinho.</p>
-        <div data-inema-meter="modulo:2-1" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="inema-bar" style="flex:1;max-width:200px"><div class="inema-bar__fill" data-inema-meter-fill></div></div><span data-inema-meter-frac>0 de 6</span></div>
+        <div data-ARCKHÉ-meter="modulo:2-1" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="ARCKHÉ-bar" style="flex:1;max-width:200px"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div><span data-ARCKHÉ-meter-frac>0 de 6</span></div>
       </div>
       <div class="divide-y divide-dark-600">
         <div class="topic-item">
@@ -376,7 +376,7 @@
         <div class="flex items-center justify-between mb-2"><span class="text-blue-400 font-bold">2.2</span><span class="text-xs text-neutral-500">~45 min · 6 tópicos</span></div>
         <h3 class="text-2xl font-bold mb-2">🪞 MirrorCode: reconstruir no escuro</h3>
         <p class="text-neutral-400 text-sm">O benchmark que pergunta o tamanho real: qual o maior software que a IA reconstrói sozinha, só com o executável e a documentação na mão.</p>
-        <div data-inema-meter="modulo:2-2" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="inema-bar" style="flex:1;max-width:200px"><div class="inema-bar__fill" data-inema-meter-fill></div></div><span data-inema-meter-frac>0 de 6</span></div>
+        <div data-ARCKHÉ-meter="modulo:2-2" class="flex items-center gap-3 mt-3 text-xs text-neutral-500"><div class="ARCKHÉ-bar" style="flex:1;max-width:200px"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div><span data-ARCKHÉ-meter-frac>0 de 6</span></div>
       </div>
       <div class="divide-y divide-dark-600">
         <div class="topic-item">
@@ -514,7 +514,7 @@
   <!-- learn.js + init -->
   <script src="../../assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') { window.INEMA.init(); }
+    if (window.ARCKHÉ && typeof window.ARCKHÉ.init === 'function') { window.ARCKHÉ.init(); }
   </script>
 </body>
 </html>

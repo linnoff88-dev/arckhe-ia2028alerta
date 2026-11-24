@@ -6,29 +6,29 @@
   <link rel="alternate" hreflang="es" href="../../../es/curso/trilha2/modulo-2-1.html">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="ia2028alerta-en">
+  <meta name="ARCKHÉ-course" content="ia2028alerta-en">
 
   <!-- 1) ANTI-FOUC (REL = "../..") -->
   <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
       var s = html.style; var scale = (+p.fontScale||100);
-      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
       s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
       var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
       s.setProperty('--font-body', fam);
@@ -40,7 +40,7 @@
   </script>
 
   <!-- 2) Manifesto (identico em TODAS as paginas) -->
-  <script type="application/json" data-inema-manifest>
+  <script type="application/json" data-ARCKHÉ-manifest>
   {
     "course": "ia2028alerta-en",
     "tracks": [
@@ -187,7 +187,7 @@
             <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">AI Alert 2028</span>
           </a>
           <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+          <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
         </div>
         <div class="flex items-center space-x-1 sm:space-x-2">
           <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
@@ -196,49 +196,49 @@
             <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidence</span></a>
           <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
             <span class="sm:hidden">T3</span><span class="hidden sm:inline">Safety</span></a>
-<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Language"><a data-language="pt-BR" href="../../../curso/trilha2/modulo-2-1.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="./modulo-2-1.html" lang="en" hreflang="en" class="font-bold text-yellow-400">EN</a><a data-language="es" href="../../../es/curso/trilha2/modulo-2-1.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
-          <button type="button" data-inema-journey-open title="My journey"
+<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Language"><a data-language="pt-BR" href="../../../curso/trilha2/modulo-2-1.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="./modulo-2-1.html" lang="en" hreflang="en" class="font-bold text-yellow-400">EN</a><a data-language="es" href="../../../es/curso/trilha2/modulo-2-1.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-ARCKHÉ-journey-open title="My journey"
                   class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
             <span aria-hidden="true">◷</span><span class="hidden sm:inline">Journey</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+            <span class="ARCKHÉ-journey-badge hidden" data-ARCKHÉ-journey-badge data-count="0"></span>
           </button>
           <div class="appearance-anchor">
-            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Appearance and reading"
+            <button type="button" data-ARCKHÉ-appearance-toggle="[data-ARCKHÉ-appearance]" aria-expanded="false" title="Appearance and reading"
                     class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
-            <div data-inema-appearance class="inema-appearance-pop">
-              <div class="inema-segment" role="group" aria-label="Theme">
-                <button type="button" data-inema-set-theme="inema-dark">Dark</button>
-                <button type="button" data-inema-set-theme="claro">Light</button>
-                <button type="button" data-inema-set-theme="sepia">Sepia</button>
-                <button type="button" data-inema-set-theme="foco">Focus</button>
-                <button type="button" data-inema-set-theme="contraste">High contrast</button>
+            <div data-ARCKHÉ-appearance class="ARCKHÉ-appearance-pop">
+              <div class="ARCKHÉ-segment" role="group" aria-label="Theme">
+                <button type="button" data-ARCKHÉ-set-theme="ARCKHÉ-dark">Dark</button>
+                <button type="button" data-ARCKHÉ-set-theme="claro">Light</button>
+                <button type="button" data-ARCKHÉ-set-theme="sepia">Sepia</button>
+                <button type="button" data-ARCKHÉ-set-theme="foco">Focus</button>
+                <button type="button" data-ARCKHÉ-set-theme="contraste">High contrast</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Font">
-                <button type="button" data-inema-set-font="inter">Inter</button>
-                <button type="button" data-inema-set-font="system">System</button>
-                <button type="button" data-inema-set-font="leitura">Reading</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Font">
+                <button type="button" data-ARCKHÉ-set-font="inter">Inter</button>
+                <button type="button" data-ARCKHÉ-set-font="system">System</button>
+                <button type="button" data-ARCKHÉ-set-font="leitura">Reading</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Text size">
-                <button type="button" data-inema-set-fontscale="100">The</button>
-                <button type="button" data-inema-set-fontscale="112">A+</button>
-                <button type="button" data-inema-set-fontscale="125">A++</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Text size">
+                <button type="button" data-ARCKHÉ-set-fontscale="100">The</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="112">A+</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="125">A++</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Line width">
-                <button type="button" data-inema-set-linewidth="60">Narrow</button>
-                <button type="button" data-inema-set-linewidth="68">Medium</button>
-                <button type="button" data-inema-set-linewidth="75">Wide</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Line width">
+                <button type="button" data-ARCKHÉ-set-linewidth="60">Narrow</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="68">Medium</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="75">Wide</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Line spacing">
-                <button type="button" data-inema-set-leading="1.45">Compact</button>
-                <button type="button" data-inema-set-leading="1.7">Comfortable</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Line spacing">
+                <button type="button" data-ARCKHÉ-set-leading="1.45">Compact</button>
+                <button type="button" data-ARCKHÉ-set-leading="1.7">Comfortable</button>
               </div>
-              <div class="inema-accent-grid" role="group" aria-label="Accent color">
-                <button type="button" data-inema-set-accent="emerald" title="Emerald"></button>
-                <button type="button" data-inema-set-accent="blue" title="Blue"></button>
-                <button type="button" data-inema-set-accent="purple" title="Purple"></button>
-                <button type="button" data-inema-set-accent="amber" title="Amber"></button>
-                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
-                <button type="button" data-inema-set-accent="rose" title="Rose"></button>
+              <div class="ARCKHÉ-accent-grid" role="group" aria-label="Accent color">
+                <button type="button" data-ARCKHÉ-set-accent="emerald" title="Emerald"></button>
+                <button type="button" data-ARCKHÉ-set-accent="blue" title="Blue"></button>
+                <button type="button" data-ARCKHÉ-set-accent="purple" title="Purple"></button>
+                <button type="button" data-ARCKHÉ-set-accent="amber" title="Amber"></button>
+                <button type="button" data-ARCKHÉ-set-accent="teal" title="Teal"></button>
+                <button type="button" data-ARCKHÉ-set-accent="rose" title="Rose"></button>
               </div>
             </div>
           </div>
@@ -304,9 +304,9 @@
         <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Evidence</div><div class="text-xs text-neutral-400">Type</div></div>
       </div>
 
-      <div data-inema-meter="modulo:2-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Module 2.1 progress" style="max-width:420px">
-        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Module progress</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 of 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
-        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      <div data-ARCKHÉ-meter="modulo:2-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Module 2.1 progress" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Module progress</span><span><strong class="text-neutral-200" data-ARCKHÉ-meter-frac>0 of 6</strong> · <span data-ARCKHÉ-meter-pct>0%</span></span></div>
+        <div class="ARCKHÉ-bar"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div>
       </div>
     </div>
   </header>
@@ -316,16 +316,16 @@
     <main id="conteudo">
 
       <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-2-1#topico-1" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-1" data-ARCKHÉ-topic="modulo-2-1#topico-1" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
             <h2 class="text-2xl font-bold">📏 What is a “task horizon”?</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t1-p1">There is a way to turn the vague phrase “AI is getting better” into a trackable number. That number is the <strong class="text-blue-400">task horizon</strong>: the largest task—measured by how long a human would take to complete it—that the model finishes with about <strong class="text-blue-400">50% success</strong>. If AI completes tasks alone that would take a human 12 hours, we say its horizon is 12 hours.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t1-p1">There is a way to turn the vague phrase “AI is getting better” into a trackable number. That number is the <strong class="text-blue-400">task horizon</strong>: the largest task—measured by how long a human would take to complete it—that the model finishes with about <strong class="text-blue-400">50% success</strong>. If AI completes tasks alone that would take a human 12 hours, we say its horizon is 12 hours.</p>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> New here? Three terms before you continue</h3>
@@ -349,24 +349,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-2-1#topico-2" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-2" data-ARCKHÉ-topic="modulo-2-1#topico-2" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
             <h2 class="text-2xl font-bold">📈 The curve: 4 min → ~1.5 h → ~12 h → 16 h+</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t2-p1">From March 2024 to 2026, the horizon measured by METR grew from <strong class="text-blue-400">a few minutes</strong> and reached <strong class="text-blue-400">more than half a day</strong> of work. The staircase at the top of the page shows it: 4 min, then ~1.5 h, ~12 h, and 16 h+. What matters is not each step on its own, but the <strong class="text-blue-400">slope</strong>: the measure doubles over short intervals.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t2-p1">From March 2024 to 2026, the horizon measured by METR grew from <strong class="text-blue-400">a few minutes</strong> and reached <strong class="text-blue-400">more than half a day</strong> of work. The staircase at the top of the page shows it: 4 min, then ~1.5 h, ~12 h, and 16 h+. What matters is not each step on its own, but the <strong class="text-blue-400">slope</strong>: the measure doubles over short intervals.</p>
 
         <!-- SVG 2: medição — tarefas curtas acerta, longas erra, 50% é o horizonte -->
         <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
@@ -410,24 +410,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-2-1#topico-3" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-3" data-ARCKHÉ-topic="modulo-2-1#topico-3" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
             <h2 class="text-2xl font-bold">🧱 16 h was the TEST limit, not the model's</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t3-p1">This is where the most common misreading happens. METR itself warned that above <strong class="text-blue-400">16 hours</strong>, measurements from that suite were no longer reliable. In other words, “16 h” is the ceiling of the <strong class="text-blue-400">instrument</strong> — how far the test can measure reliably—not the limit of what the model can do.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t3-p1">This is where the most common misreading happens. METR itself warned that above <strong class="text-blue-400">16 hours</strong>, measurements from that suite were no longer reliable. In other words, “16 h” is the ceiling of the <strong class="text-blue-400">instrument</strong> — how far the test can measure reliably—not the limit of what the model can do.</p>
 
         <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-red-400 mb-3 flex items-center"><span class="mr-2">⚠️</span> Beware the headline</h3>
@@ -454,24 +454,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-2-1#topico-4" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-4" data-ARCKHÉ-topic="modulo-2-1#topico-4" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
             <h2 class="text-2xl font-bold">⏱️ Why long horizons matter for RSI</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t4-p1">Recursive self-improvement (RSI)—AI helping design the next AI—does not require a genius who solves everything instantly. It requires a <strong class="text-blue-400">useful worker for hours and days at a time</strong>: one that keeps track of the problem, runs experiments, waits for results, and continues. That is why <em>long horizon</em> (long horizon) is the piece that connects this track to the entire warning.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t4-p1">Recursive self-improvement (RSI)—AI helping design the next AI—does not require a genius who solves everything instantly. It requires a <strong class="text-blue-400">useful worker for hours and days at a time</strong>: one that keeps track of the problem, runs experiments, waits for results, and continues. That is why <em>long horizon</em> (long horizon) is the piece that connects this track to the entire warning.</p>
 
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
           <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">Short horizon × long horizon</h3>
@@ -494,24 +494,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-2-1#topico-5" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-5" data-ARCKHÉ-topic="modulo-2-1#topico-5" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
             <h2 class="text-2xl font-bold">🔬 How it is measured (and why it is hard)</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t5-p1">Here is how: gather many tasks with <strong class="text-blue-400">known durations</strong> (we know how long each would take a human), run the model on all of them, and find the duration at which it succeeds about <strong class="text-blue-400">half</strong> of the time. That point is the horizon. Easy to describe, hard to measure well—for three reasons.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t5-p1">Here is how: gather many tasks with <strong class="text-blue-400">known durations</strong> (we know how long each would take a human), run the model on all of them, and find the duration at which it succeeds about <strong class="text-blue-400">half</strong> of the time. That point is the horizon. Easy to describe, hard to measure well—for three reasons.</p>
 
         <div class="space-y-4 mb-6">
           <div class="flex items-start space-x-4">
@@ -537,24 +537,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-2-1#topico-6" data-inema-module="2-1" data-inema-track="2" class="mb-16">
+      <section id="topico-6" data-ARCKHÉ-topic="modulo-2-1#topico-6" data-ARCKHÉ-module="2-1" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
             <h2 class="text-2xl font-bold">🧭 What the curve does NOT prove</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Flag this topic as a question" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Question</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-1-t6-p1">The curve is strong evidence of a <strong class="text-blue-400">trend</strong>. It is not proof of <strong class="text-blue-400">destiny</strong>. Extending the chart’s line and declaring “AI will soon do months-long tasks” swaps measurement for prophecy. The course’s honest stance is to take the data seriously and mark where it ends and speculation begins.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-1-t6-p1">The curve is strong evidence of a <strong class="text-blue-400">trend</strong>. It is not proof of <strong class="text-blue-400">destiny</strong>. Extending the chart’s line and declaring “AI will soon do months-long tasks” swaps measurement for prophecy. The course’s honest stance is to take the data seriously and mark where it ends and speculation begins.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
@@ -581,9 +581,9 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Mark as read</span><span class="inema-label-done">Read</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Mark as read</span><span class="ARCKHÉ-label-done">Read</span>
           </button>
         </div>
       </section>
@@ -595,14 +595,14 @@
       </figure>
 
       <!-- CHECAGEM LEVE -->
-      <div data-inema-check="modulo-2-1#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+      <div data-ARCKHÉ-check="modulo-2-1#q1" class="ARCKHÉ-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
         <p class="font-medium mb-4">Self-check (optional): what does “16 hours” mean on the METR curve?</p>
-        <div class="inema-check-options space-y-2">
-          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The model's definitive capability limit—it stops there.</button>
-          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The test limit: beyond that, the suite did not measure reliably.</button>
-          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The time AI takes to answer any question.</button>
+        <div class="ARCKHÉ-check-options space-y-2">
+          <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The model's definitive capability limit—it stops there.</button>
+          <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The test limit: beyond that, the suite did not measure reliably.</button>
+          <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">The time AI takes to answer any question.</button>
         </div>
-        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        <div data-ARCKHÉ-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
       </div>
 
       <!-- RESUMO -->
@@ -632,8 +632,8 @@
 
     <!-- TOC STICKY + SCROLLSPY -->
     <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Module contents" class="sticky top-20 self-start text-sm">
-        <p class="text-neutral-400 mb-3 font-medium">On this page <span class="text-neutral-500" data-inema-section-counter></span></p>
+      <nav data-ARCKHÉ-toc aria-label="Module contents" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">On this page <span class="text-neutral-500" data-ARCKHÉ-section-counter></span></p>
         <ol class="space-y-2 border-l border-dark-600 pl-4">
           <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">1. Task horizon</a></li>
           <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">2. The curve</a></li>
@@ -656,10 +656,10 @@
   <!-- learn.js + init + checagem -->
   <script src="../../assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') {
-      window.INEMA.init();
-      if (INEMA.registerCheck) {
-        INEMA.registerCheck('modulo-2-1#q1', {
+    if (window.ARCKHÉ && typeof window.ARCKHÉ.init === 'function') {
+      window.ARCKHÉ.init();
+      if (ARCKHÉ.registerCheck) {
+        ARCKHÉ.registerCheck('modulo-2-1#q1', {
           answer: 1,
           explain: {
             0: "No—that is exactly the misreading. 16 h is the test ceiling, not the model’s.",

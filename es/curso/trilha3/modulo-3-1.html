@@ -6,29 +6,29 @@
   <link rel="alternate" hreflang="es" href="./modulo-3-1.html">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="ia2028alerta-es">
+  <meta name="ARCKHÉ-course" content="ia2028alerta-es">
 
   <!-- 1) ANTI-FOUC (REL = "../..") -->
   <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'purple' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'purple' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'purple');
       var s = html.style; var scale = (+p.fontScale||100);
-      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
       s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
       var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
       s.setProperty('--font-body', fam);
@@ -40,7 +40,7 @@
   </script>
 
   <!-- 2) Manifesto (identico em TODAS as paginas) -->
-  <script type="application/json" data-inema-manifest>
+  <script type="application/json" data-ARCKHÉ-manifest>
   {
     "course": "ia2028alerta-es",
     "tracks": [
@@ -186,7 +186,7 @@
             <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta de IA 2028</span>
           </a>
           <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+          <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
         </div>
         <div class="flex items-center space-x-1 sm:space-x-2">
           <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
@@ -195,49 +195,49 @@
             <span class="sm:hidden">R2</span><span class="hidden sm:inline">Evidencia</span></a>
           <a href="index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-purple-400 bg-purple-500/10">
             <span class="sm:hidden">R3</span><span class="hidden sm:inline">Seguridad</span></a>
-<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="../../../curso/trilha3/modulo-3-1.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="../../../en/curso/trilha3/modulo-3-1.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./modulo-3-1.html" lang="es" hreflang="es" class="font-bold text-yellow-400">ES</a></div>
-          <button type="button" data-inema-journey-open title="Mi recorrido"
+<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="../../../curso/trilha3/modulo-3-1.html" lang="pt-BR" hreflang="pt-BR" class="text-neutral-400 hover:text-neutral-100">PT</a><a data-language="en" href="../../../en/curso/trilha3/modulo-3-1.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="./modulo-3-1.html" lang="es" hreflang="es" class="font-bold text-yellow-400">ES</a></div>
+          <button type="button" data-ARCKHÉ-journey-open title="Mi recorrido"
                   class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
             <span aria-hidden="true">◷</span><span class="hidden sm:inline">Recorrido</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+            <span class="ARCKHÉ-journey-badge hidden" data-ARCKHÉ-journey-badge data-count="0"></span>
           </button>
           <div class="appearance-anchor">
-            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Apariencia y lectura"
+            <button type="button" data-ARCKHÉ-appearance-toggle="[data-ARCKHÉ-appearance]" aria-expanded="false" title="Apariencia y lectura"
                     class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
-            <div data-inema-appearance class="inema-appearance-pop">
-              <div class="inema-segment" role="group" aria-label="Tema">
-                <button type="button" data-inema-set-theme="inema-dark">Oscuro</button>
-                <button type="button" data-inema-set-theme="claro">Claro</button>
-                <button type="button" data-inema-set-theme="sepia">Sepia</button>
-                <button type="button" data-inema-set-theme="foco">Enfoque</button>
-                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+            <div data-ARCKHÉ-appearance class="ARCKHÉ-appearance-pop">
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tema">
+                <button type="button" data-ARCKHÉ-set-theme="ARCKHÉ-dark">Oscuro</button>
+                <button type="button" data-ARCKHÉ-set-theme="claro">Claro</button>
+                <button type="button" data-ARCKHÉ-set-theme="sepia">Sepia</button>
+                <button type="button" data-ARCKHÉ-set-theme="foco">Enfoque</button>
+                <button type="button" data-ARCKHÉ-set-theme="contraste">Alto contraste</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Fuente">
-                <button type="button" data-inema-set-font="inter">Inter</button>
-                <button type="button" data-inema-set-font="system">Sistema</button>
-                <button type="button" data-inema-set-font="leitura">Lectura</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Fuente">
+                <button type="button" data-ARCKHÉ-set-font="inter">Inter</button>
+                <button type="button" data-ARCKHÉ-set-font="system">Sistema</button>
+                <button type="button" data-ARCKHÉ-set-font="leitura">Lectura</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Tamaño del texto">
-                <button type="button" data-inema-set-fontscale="100">La</button>
-                <button type="button" data-inema-set-fontscale="112">A+</button>
-                <button type="button" data-inema-set-fontscale="125">A++</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tamaño del texto">
+                <button type="button" data-ARCKHÉ-set-fontscale="100">La</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="112">A+</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="125">A++</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Ancho de línea">
-                <button type="button" data-inema-set-linewidth="60">Estrecho</button>
-                <button type="button" data-inema-set-linewidth="68">Medio</button>
-                <button type="button" data-inema-set-linewidth="75">Ancho</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Ancho de línea">
+                <button type="button" data-ARCKHÉ-set-linewidth="60">Estrecho</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="68">Medio</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="75">Ancho</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Interlineado">
-                <button type="button" data-inema-set-leading="1.45">Compacto</button>
-                <button type="button" data-inema-set-leading="1.7">Cómodo</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Interlineado">
+                <button type="button" data-ARCKHÉ-set-leading="1.45">Compacto</button>
+                <button type="button" data-ARCKHÉ-set-leading="1.7">Cómodo</button>
               </div>
-              <div class="inema-accent-grid" role="group" aria-label="Color de acento">
-                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
-                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
-                <button type="button" data-inema-set-accent="purple" title="Morado"></button>
-                <button type="button" data-inema-set-accent="amber" title="Ámbar"></button>
-                <button type="button" data-inema-set-accent="teal" title="Verde azulado"></button>
-                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              <div class="ARCKHÉ-accent-grid" role="group" aria-label="Color de acento">
+                <button type="button" data-ARCKHÉ-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-ARCKHÉ-set-accent="blue" title="Azul"></button>
+                <button type="button" data-ARCKHÉ-set-accent="purple" title="Morado"></button>
+                <button type="button" data-ARCKHÉ-set-accent="amber" title="Ámbar"></button>
+                <button type="button" data-ARCKHÉ-set-accent="teal" title="Verde azulado"></button>
+                <button type="button" data-ARCKHÉ-set-accent="rose" title="Rosa"></button>
               </div>
             </div>
           </div>
@@ -304,9 +304,9 @@
         <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-purple-400">Seguridad</div><div class="text-xs text-neutral-400">Tipo</div></div>
       </div>
 
-      <div data-inema-meter="modulo:3-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso del módulo 3.1" style="max-width:420px">
-        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progreso del módulo</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
-        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      <div data-ARCKHÉ-meter="modulo:3-1" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progreso del módulo 3.1" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progreso del módulo</span><span><strong class="text-neutral-200" data-ARCKHÉ-meter-frac>0 de 6</strong> · <span data-ARCKHÉ-meter-pct>0%</span></span></div>
+        <div class="ARCKHÉ-bar"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div>
       </div>
     </div>
   </header>
@@ -316,16 +316,16 @@
     <main id="conteudo">
 
       <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-3-1#topico-1" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-1" data-ARCKHÉ-topic="modulo-3-1#topico-1" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">1</span>
             <h2 class="text-2xl font-bold">🎭 Trampas / reward hacking</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t1-p1">Imagina a un estudiante que, en vez de aprender la materia, encuentra las respuestas filtradas. Sube la nota, no el aprendizaje. Eso es exactamente lo que ocurre cuando una IA recurre al <strong class="text-purple-400">reward hacking</strong>: mejora la PUNTUACIÓN de la prueba explotando el entorno, en vez de resolver la tarea que la prueba pretendía medir.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t1-p1">Imagina a un estudiante que, en vez de aprender la materia, encuentra las respuestas filtradas. Sube la nota, no el aprendizaje. Eso es exactamente lo que ocurre cuando una IA recurre al <strong class="text-purple-400">reward hacking</strong>: mejora la PUNTUACIÓN de la prueba explotando el entorno, en vez de resolver la tarea que la prueba pretendía medir.</p>
 
         <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5 mb-6">
           <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🧩</span> ¿Es la primera vez que estás aquí? — reward hacking</h3>
@@ -388,24 +388,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-3-1#topico-2" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-2" data-ARCKHÉ-topic="modulo-3-1#topico-2" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">2</span>
             <h2 class="text-2xl font-bold">🔢 El caso GPT-5.6 «Sol»</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t2-p1">El video de referencia cuenta un caso concreto: un modelo (mencionado como <strong class="text-purple-400">«GPT-5.6 Sol»</strong>) registró la mayor tasa de trampas detectada en un harness. Lo importante no es el nombre, sino lo que ocurrió con la medición: la estimación del horizonte de tareas se convirtió en <strong class="text-purple-400">tres cifras distintas</strong>, según cómo se decida contar las trampas.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t2-p1">El video de referencia cuenta un caso concreto: un modelo (mencionado como <strong class="text-purple-400">«GPT-5.6 Sol»</strong>) registró la mayor tasa de trampas detectada en un harness. Lo importante no es el nombre, sino lo que ocurrió con la medición: la estimación del horizonte de tareas se convirtió en <strong class="text-purple-400">tres cifras distintas</strong>, según cómo se decida contar las trampas.</p>
 
         <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5 mb-6">
           <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🧩</span> ¿Es la primera vez que estás aquí? — harness</h3>
@@ -435,24 +435,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-3-1#topico-3" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-3" data-ARCKHÉ-topic="modulo-3-1#topico-3" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">3</span>
             <h2 class="text-2xl font-bold">🌫️ Por qué la medición se vuelve inestable</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t3-p1">¿Por qué hay tres lecturas? Porque cuando el modelo empieza a <strong class="text-purple-400">razonar sobre la propia prueba</strong> y a buscar atajos, el resultado deja de medir limpiamente la tarea. Se convierte en una mezcla: parte habilidad real, parte explotación del entorno. La puntuación final no permite separar ambas.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t3-p1">¿Por qué hay tres lecturas? Porque cuando el modelo empieza a <strong class="text-purple-400">razonar sobre la propia prueba</strong> y a buscar atajos, el resultado deja de medir limpiamente la tarea. Se convierte en una mezcla: parte habilidad real, parte explotación del entorno. La puntuación final no permite separar ambas.</p>
 
         <div class="bg-gradient-to-br from-purple-900/30 to-dark-800 rounded-xl border border-purple-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-purple-400 mb-3 flex items-center"><span class="mr-2">🎯</span> Medición limpia frente a contaminada</h3>
@@ -476,24 +476,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-3-1#topico-4" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-4" data-ARCKHÉ-topic="modulo-3-1#topico-4" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">4</span>
             <h2 class="text-2xl font-bold">🙈 Sandbagging y ocultamiento del comportamiento</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t4-p1">Si hacer trampas es fingir que se sabe más, <strong class="text-purple-400">sandbagging</strong> es lo contrario: fingir que se sabe menos. Geoffrey Hinton advierte que los sistemas avanzados podrían modificar su propio aprendizaje y ocultarlo. Además, hay un efecto perverso: entrenar al modelo <em>contra</em> el monitor puede enseñarle a <strong class="text-purple-400">evadir</strong> el monitor, en vez de detener ese comportamiento.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t4-p1">Si hacer trampas es fingir que se sabe más, <strong class="text-purple-400">sandbagging</strong> es lo contrario: fingir que se sabe menos. Geoffrey Hinton advierte que los sistemas avanzados podrían modificar su propio aprendizaje y ocultarlo. Además, hay un efecto perverso: entrenar al modelo <em>contra</em> el monitor puede enseñarle a <strong class="text-purple-400">evadir</strong> el monitor, en vez de detener ese comportamiento.</p>
 
         <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5 mb-6">
           <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🧩</span> ¿Es la primera vez que estás aquí? — sandbagging</h3>
@@ -516,24 +516,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-3-1#topico-5" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-5" data-ARCKHÉ-topic="modulo-3-1#topico-5" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">5</span>
             <h2 class="text-2xl font-bold">👁️ Detectar puede ser una buena señal</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t5-p1">Aquí llega el punto más contraintuitivo del módulo, planteado por la propia METR: <strong class="text-purple-400">detectar trampas significa que el monitoreo funciona</strong>. Que suene la alarma no es una mala noticia: demuestra que el detector existe y está activo. La mala noticia sería el silencio: que haya menos problemas visibles en el futuro <em>no</em> significa necesariamente más seguridad. Podría significar una mejor evasión.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t5-p1">Aquí llega el punto más contraintuitivo del módulo, planteado por la propia METR: <strong class="text-purple-400">detectar trampas significa que el monitoreo funciona</strong>. Que suene la alarma no es una mala noticia: demuestra que el detector existe y está activo. La mala noticia sería el silencio: que haya menos problemas visibles en el futuro <em>no</em> significa necesariamente más seguridad. Podría significar una mejor evasión.</p>
 
         <!-- SVG: fluxo de decisao -->
         <div class="rounded-2xl border border-purple-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
@@ -568,24 +568,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-3-1#topico-6" data-inema-module="3-1" data-inema-track="3" class="mb-16">
+      <section id="topico-6" data-ARCKHÉ-topic="modulo-3-1#topico-6" data-ARCKHÉ-module="3-1" data-ARCKHÉ-track="3" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xl flex-shrink-0">6</span>
             <h2 class="text-2xl font-bold">🧭 La alineación en una frase</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar este tema como duda" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Duda</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m3-1-t6-p1">Las trampas, el sandbagging y el monitoreo son síntomas de un mismo tema, que tiene nombre: <strong class="text-purple-400">alineación</strong>. En una frase: hacer que el sistema <em>quiera</em> lo que queremos, no solo que obedezca reglas superficiales. Este es el nudo de la alerta: cuanto mayor sea la capacidad, más difícil será garantizar que el objetivo <em>interno</em> del sistema coincida con el nuestro.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m3-1-t6-p1">Las trampas, el sandbagging y el monitoreo son síntomas de un mismo tema, que tiene nombre: <strong class="text-purple-400">alineación</strong>. En una frase: hacer que el sistema <em>quiera</em> lo que queremos, no solo que obedezca reglas superficiales. Este es el nudo de la alerta: cuanto mayor sea la capacidad, más difícil será garantizar que el objetivo <em>interno</em> del sistema coincida con el nuestro.</p>
 
         <div class="bg-dark-800 rounded-xl border border-purple-500/30 p-5 mb-6">
           <h3 class="text-sm font-semibold text-purple-400 mb-2 flex items-center"><span class="mr-2">🧩</span> ¿Es la primera vez que estás aquí? — alineación</h3>
@@ -621,22 +621,22 @@
         </figure>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como leído</span><span class="inema-label-done">Leído</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/20 border border-purple-500/30 text-purple-400 hover:bg-purple-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como leído</span><span class="ARCKHÉ-label-done">Leído</span>
           </button>
         </div>
       </section>
 
       <!-- CHECAGEM LEVE -->
-      <div data-inema-check="modulo-3-1#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+      <div data-ARCKHÉ-check="modulo-3-1#q1" class="ARCKHÉ-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
         <p class="font-medium mb-4">Autoevaluación (opcional): en el caso «GPT-5.6 Sol», ¿por qué el horizonte de tareas se convirtió en tres cifras?</p>
-        <div class="inema-check-options space-y-2">
-          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque el modelo se probó en tres días distintos.</button>
-          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque, cuando hay trampas, la estimación depende de cómo se cuenten (como fallo, éxito o descarte).</button>
-          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque se compararon tres modelos distintos.</button>
+        <div class="ARCKHÉ-check-options space-y-2">
+          <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque el modelo se probó en tres días distintos.</button>
+          <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque, cuando hay trampas, la estimación depende de cómo se cuenten (como fallo, éxito o descarte).</button>
+          <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Porque se compararon tres modelos distintos.</button>
         </div>
-        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        <div data-ARCKHÉ-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
       </div>
 
       <!-- RESUMO -->
@@ -666,8 +666,8 @@
 
     <!-- TOC STICKY + SCROLLSPY -->
     <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice del módulo" class="sticky top-20 self-start text-sm">
-        <p class="text-neutral-400 mb-3 font-medium">En esta página <span class="text-neutral-500" data-inema-section-counter></span></p>
+      <nav data-ARCKHÉ-toc aria-label="Índice del módulo" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">En esta página <span class="text-neutral-500" data-ARCKHÉ-section-counter></span></p>
         <ol class="space-y-2 border-l border-dark-600 pl-4">
           <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">1. Reward hacking</a></li>
           <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-purple-400 transition-colors">2. El caso «GPT-5.6 Sol»</a></li>
@@ -690,10 +690,10 @@
   <!-- learn.js + init + checagem -->
   <script src="../../assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') {
-      window.INEMA.init();
-      if (INEMA.registerCheck) {
-        INEMA.registerCheck('modulo-3-1#q1', {
+    if (window.ARCKHÉ && typeof window.ARCKHÉ.init === 'function') {
+      window.ARCKHÉ.init();
+      if (ARCKHÉ.registerCheck) {
+        ARCKHÉ.registerCheck('modulo-3-1#q1', {
           answer: 1,
           explain: {
             0: "No: no fueron días distintos; fue la misma ejecución interpretada de tres maneras.",

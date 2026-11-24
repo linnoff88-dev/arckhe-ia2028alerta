@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="inema-course" content="ia2028alerta">
+  <meta name="ARCKHÉ-course" content="ia2028alerta">
 
   <!-- 1) ANTI-FOUC (REL = "../..") -->
   <script>
   (function () {
     try {
       var html = document.documentElement;
-      var DEF = { theme: 'inema-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
+      var DEF = { theme: 'ARCKHÉ-dark', font: 'inter', fontScale: 100, lineWidth: 68, leading: 1.7, accent: 'emerald' };
       function clone(o){var r={};for(var x in o)r[x]=o[x];return r;}
       var p = clone(DEF);
       try {
-        var raw = localStorage.getItem('inema.prefs');
+        var raw = localStorage.getItem('ARCKHÉ.prefs');
         if (raw) { var parsed = JSON.parse(raw); if (parsed && typeof parsed==='object'){ for (var k in DEF) if (parsed[k]!=null) p[k]=parsed[k]; } }
-        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='inema-dark'; }
+        else { var legacy = localStorage.getItem('theme'); if (legacy==='light') p.theme='claro'; else if (legacy==='dark') p.theme='ARCKHÉ-dark'; }
       } catch (e) { p = clone(DEF); }
-      var THEMES = { 'inema-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
-      var t = THEMES[p.theme] || THEMES['inema-dark'];
+      var THEMES = { 'ARCKHÉ-dark':{dark:true,attr:null,cs:'dark'}, 'claro':{dark:false,attr:null,cs:'light'}, 'sepia':{dark:false,attr:'sepia',cs:'light'}, 'foco':{dark:null,attr:'foco',cs:null}, 'contraste':{dark:true,attr:'contraste',cs:'dark'} };
+      var t = THEMES[p.theme] || THEMES['ARCKHÉ-dark'];
       if (t.dark===true) html.classList.add('dark'); else if (t.dark===false) html.classList.remove('dark');
       if (t.attr) html.setAttribute('data-theme', t.attr); else html.removeAttribute('data-theme');
       html.style.colorScheme = (t.cs ? t.cs : (html.classList.contains('dark')?'dark':'light'));
       html.setAttribute('data-font', p.font||'inter'); html.setAttribute('data-accent', p.accent||'emerald');
       var s = html.style; var scale = (+p.fontScale||100);
-      s.setProperty('--inema-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
+      s.setProperty('--ARCKHÉ-font-scale', (scale/100).toString()); s.setProperty('font-size', scale+'%');
       s.setProperty('--measure', (+p.lineWidth||68)+'ch'); s.setProperty('--lh-body', (+p.leading||1.7).toString());
       var fam = p.font==='system' ? 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif' : (p.font==='leitura' ? '"Atkinson Hyperlegible", "Inter", system-ui, sans-serif' : '"Inter", system-ui, sans-serif');
       s.setProperty('--font-body', fam);
@@ -37,7 +37,7 @@
   </script>
 
   <!-- 2) Manifesto (identico em TODAS as paginas) -->
-  <script type="application/json" data-inema-manifest>
+  <script type="application/json" data-ARCKHÉ-manifest>
   {
     "course": "ia2028alerta",
     "tracks": [
@@ -145,7 +145,7 @@
             <span class="text-2xl">🚨</span><span class="font-bold text-lg hidden sm:inline">Alerta IA 2028</span>
           </a>
           <span class="text-neutral-600">|</span>
-          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+          <a href="https://ARCKHÉ AI" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">ARCKHÉ AI</a>
         </div>
         <div class="flex items-center space-x-1 sm:space-x-2">
           <a href="../trilha1/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors">
@@ -154,49 +154,49 @@
             <span class="sm:hidden">T2</span><span class="hidden sm:inline">Evidência</span></a>
           <a href="../trilha3/index.html" class="px-3 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-purple-400 hover:bg-purple-500/10 transition-colors">
             <span class="sm:hidden">T3</span><span class="hidden sm:inline">Segurança</span></a>
-<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./modulo-2-2.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/modulo-2-2.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/modulo-2-2.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
-          <button type="button" data-inema-journey-open title="Minha jornada"
+<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="Idioma"><a data-language="pt-BR" href="./modulo-2-2.html" lang="pt-BR" hreflang="pt-BR" class="font-bold text-yellow-400">PT</a><a data-language="en" href="../../en/curso/trilha2/modulo-2-2.html" lang="en" hreflang="en" class="text-neutral-400 hover:text-neutral-100">EN</a><a data-language="es" href="../../es/curso/trilha2/modulo-2-2.html" lang="es" hreflang="es" class="text-neutral-400 hover:text-neutral-100">ES</a></div>
+          <button type="button" data-ARCKHÉ-journey-open title="Minha jornada"
                   class="ml-1 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium text-neutral-300 hover:text-neutral-100 hover:bg-dark-700 transition-colors">
             <span aria-hidden="true">◷</span><span class="hidden sm:inline">Jornada</span>
-            <span class="inema-journey-badge hidden" data-inema-journey-badge data-count="0"></span>
+            <span class="ARCKHÉ-journey-badge hidden" data-ARCKHÉ-journey-badge data-count="0"></span>
           </button>
           <div class="appearance-anchor">
-            <button type="button" data-inema-appearance-toggle="[data-inema-appearance]" aria-expanded="false" title="Aparência e leitura"
+            <button type="button" data-ARCKHÉ-appearance-toggle="[data-ARCKHÉ-appearance]" aria-expanded="false" title="Aparência e leitura"
                     class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-neutral-300"><span aria-hidden="true">◑</span></button>
-            <div data-inema-appearance class="inema-appearance-pop">
-              <div class="inema-segment" role="group" aria-label="Tema">
-                <button type="button" data-inema-set-theme="inema-dark">Escuro</button>
-                <button type="button" data-inema-set-theme="claro">Claro</button>
-                <button type="button" data-inema-set-theme="sepia">Sépia</button>
-                <button type="button" data-inema-set-theme="foco">Foco</button>
-                <button type="button" data-inema-set-theme="contraste">Alto contraste</button>
+            <div data-ARCKHÉ-appearance class="ARCKHÉ-appearance-pop">
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tema">
+                <button type="button" data-ARCKHÉ-set-theme="ARCKHÉ-dark">Escuro</button>
+                <button type="button" data-ARCKHÉ-set-theme="claro">Claro</button>
+                <button type="button" data-ARCKHÉ-set-theme="sepia">Sépia</button>
+                <button type="button" data-ARCKHÉ-set-theme="foco">Foco</button>
+                <button type="button" data-ARCKHÉ-set-theme="contraste">Alto contraste</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Fonte">
-                <button type="button" data-inema-set-font="inter">Inter</button>
-                <button type="button" data-inema-set-font="system">Sistema</button>
-                <button type="button" data-inema-set-font="leitura">Leitura</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Fonte">
+                <button type="button" data-ARCKHÉ-set-font="inter">Inter</button>
+                <button type="button" data-ARCKHÉ-set-font="system">Sistema</button>
+                <button type="button" data-ARCKHÉ-set-font="leitura">Leitura</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Tamanho do texto">
-                <button type="button" data-inema-set-fontscale="100">A</button>
-                <button type="button" data-inema-set-fontscale="112">A+</button>
-                <button type="button" data-inema-set-fontscale="125">A++</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Tamanho do texto">
+                <button type="button" data-ARCKHÉ-set-fontscale="100">A</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="112">A+</button>
+                <button type="button" data-ARCKHÉ-set-fontscale="125">A++</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Largura da linha">
-                <button type="button" data-inema-set-linewidth="60">Estreito</button>
-                <button type="button" data-inema-set-linewidth="68">Médio</button>
-                <button type="button" data-inema-set-linewidth="75">Largo</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Largura da linha">
+                <button type="button" data-ARCKHÉ-set-linewidth="60">Estreito</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="68">Médio</button>
+                <button type="button" data-ARCKHÉ-set-linewidth="75">Largo</button>
               </div>
-              <div class="inema-segment" role="group" aria-label="Entrelinha">
-                <button type="button" data-inema-set-leading="1.45">Compacto</button>
-                <button type="button" data-inema-set-leading="1.7">Confortável</button>
+              <div class="ARCKHÉ-segment" role="group" aria-label="Entrelinha">
+                <button type="button" data-ARCKHÉ-set-leading="1.45">Compacto</button>
+                <button type="button" data-ARCKHÉ-set-leading="1.7">Confortável</button>
               </div>
-              <div class="inema-accent-grid" role="group" aria-label="Cor de acento">
-                <button type="button" data-inema-set-accent="emerald" title="Esmeralda"></button>
-                <button type="button" data-inema-set-accent="blue" title="Azul"></button>
-                <button type="button" data-inema-set-accent="purple" title="Roxo"></button>
-                <button type="button" data-inema-set-accent="amber" title="Âmbar"></button>
-                <button type="button" data-inema-set-accent="teal" title="Teal"></button>
-                <button type="button" data-inema-set-accent="rose" title="Rosa"></button>
+              <div class="ARCKHÉ-accent-grid" role="group" aria-label="Cor de acento">
+                <button type="button" data-ARCKHÉ-set-accent="emerald" title="Esmeralda"></button>
+                <button type="button" data-ARCKHÉ-set-accent="blue" title="Azul"></button>
+                <button type="button" data-ARCKHÉ-set-accent="purple" title="Roxo"></button>
+                <button type="button" data-ARCKHÉ-set-accent="amber" title="Âmbar"></button>
+                <button type="button" data-ARCKHÉ-set-accent="teal" title="Teal"></button>
+                <button type="button" data-ARCKHÉ-set-accent="rose" title="Rosa"></button>
               </div>
             </div>
           </div>
@@ -266,9 +266,9 @@
         <div class="bg-dark-800/50 rounded-lg p-3 border border-dark-600"><div class="text-xl font-bold text-blue-400">Evidência</div><div class="text-xs text-neutral-400">Tipo</div></div>
       </div>
 
-      <div data-inema-meter="modulo:2-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 2.2" style="max-width:420px">
-        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso do módulo</span><span><strong class="text-neutral-200" data-inema-meter-frac>0 de 6</strong> · <span data-inema-meter-pct>0%</span></span></div>
-        <div class="inema-bar"><div class="inema-bar__fill" data-inema-meter-fill></div></div>
+      <div data-ARCKHÉ-meter="modulo:2-2" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso do módulo 2.2" style="max-width:420px">
+        <div class="flex items-center justify-between text-sm text-neutral-400 mb-2"><span>Progresso do módulo</span><span><strong class="text-neutral-200" data-ARCKHÉ-meter-frac>0 de 6</strong> · <span data-ARCKHÉ-meter-pct>0%</span></span></div>
+        <div class="ARCKHÉ-bar"><div class="ARCKHÉ-bar__fill" data-ARCKHÉ-meter-fill></div></div>
       </div>
     </div>
   </header>
@@ -278,16 +278,16 @@
     <main id="conteudo">
 
       <!-- TÓPICO 1 -->
-      <section id="topico-1" data-inema-topic="modulo-2-2#topico-1" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-1" data-ARCKHÉ-topic="modulo-2-2#topico-1" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">1</span>
             <h2 class="text-2xl font-bold">🪞 O que é o MirrorCode</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t1-p1">O <strong class="text-blue-400">MirrorCode</strong> é um teste criado pela Epoch AI em parceria com a METR. A ideia é simples e cruel: entregam à IA um programa pronto — só o executável e a documentação — e pedem que ela reconstrua o software do zero, sem nunca ver o código original. Depois, comparam a reconstrução com a suíte de testes do programa real. É a evidência que falta à curva do módulo anterior: não "por quanto tempo a IA trabalha", mas "que tamanho de projeto ela leva até o fim".</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t1-p1">O <strong class="text-blue-400">MirrorCode</strong> é um teste criado pela Epoch AI em parceria com a METR. A ideia é simples e cruel: entregam à IA um programa pronto — só o executável e a documentação — e pedem que ela reconstrua o software do zero, sem nunca ver o código original. Depois, comparam a reconstrução com a suíte de testes do programa real. É a evidência que falta à curva do módulo anterior: não "por quanto tempo a IA trabalha", mas "que tamanho de projeto ela leva até o fim".</p>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? Dois termos antes de seguir</h3>
@@ -305,24 +305,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 2 -->
-      <section id="topico-2" data-inema-topic="modulo-2-2#topico-2" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-2" data-ARCKHÉ-topic="modulo-2-2#topico-2" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">2</span>
             <h2 class="text-2xl font-bold">🎯 A pergunta brutal</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t2-p1">A pergunta por trás do benchmark é direta: <strong class="text-blue-400">qual o maior projeto de software que a IA termina sozinha?</strong> "Sozinha" e "termina" são as palavras que pesam — não é completar um trecho, é entregar o programa funcionando de ponta a ponta. Para responder, o MirrorCode usa <strong class="text-blue-400">25 programas reais</strong>, e não brinquedos de laboratório.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t2-p1">A pergunta por trás do benchmark é direta: <strong class="text-blue-400">qual o maior projeto de software que a IA termina sozinha?</strong> "Sozinha" e "termina" são as palavras que pesam — não é completar um trecho, é entregar o programa funcionando de ponta a ponta. Para responder, o MirrorCode usa <strong class="text-blue-400">25 programas reais</strong>, e não brinquedos de laboratório.</p>
 
         <!-- SVG 2: fan-out — 1 pergunta -> 25 programas -> 1 placar -->
         <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
@@ -374,24 +374,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 3 -->
-      <section id="topico-3" data-inema-topic="modulo-2-2#topico-3" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-3" data-ARCKHÉ-topic="modulo-2-2#topico-3" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">3</span>
             <h2 class="text-2xl font-bold">🌳 O caso gotree</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t3-p1">O exemplo que dá rosto ao benchmark é o <strong class="text-blue-400">gotree</strong>, um toolkit de bioinformática. Não é pequeno: cerca de 16.000 linhas de Go e mais de 40 comandos. A IA o reconstruiu a ponto de passar quase todos os testes — e fez isso numa fração do tempo e do custo que um humano levaria.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t3-p1">O exemplo que dá rosto ao benchmark é o <strong class="text-blue-400">gotree</strong>, um toolkit de bioinformática. Não é pequeno: cerca de 16.000 linhas de Go e mais de 40 comandos. A IA o reconstruiu a ponto de passar quase todos os testes — e fez isso numa fração do tempo e do custo que um humano levaria.</p>
 
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
           <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">gotree — o placar da reconstrução</h3>
@@ -411,24 +411,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 4 -->
-      <section id="topico-4" data-inema-topic="modulo-2-2#topico-4" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-4" data-ARCKHÉ-topic="modulo-2-2#topico-4" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
             <h2 class="text-2xl font-bold">⏳ A execução de 19 dias</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t4-p1">O dado que mais conecta esta trilha ao alerta é o tempo de execução: uma das runs rodou de forma <strong class="text-blue-400">contínua, sem humano no comando, por cerca de 19 dias</strong> (≈ US$2.600 de compute). É a curva do Módulo 2.1 saindo do gráfico e virando prática: não um pico de minutos, mas autonomia sustentada por dias.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t4-p1">O dado que mais conecta esta trilha ao alerta é o tempo de execução: uma das runs rodou de forma <strong class="text-blue-400">contínua, sem humano no comando, por cerca de 19 dias</strong> (≈ US$2.600 de compute). É a curva do Módulo 2.1 saindo do gráfico e virando prática: não um pico de minutos, mas autonomia sustentada por dias.</p>
 
         <div class="space-y-4 mb-6">
           <div class="flex items-start space-x-4">
@@ -451,24 +451,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 5 -->
-      <section id="topico-5" data-inema-topic="modulo-2-2#topico-5" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-5" data-ARCKHÉ-topic="modulo-2-2#topico-5" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">5</span>
             <h2 class="text-2xl font-bold">📊 56% de solve rate</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t5-p1">O melhor modelo resolve cerca de <strong class="text-blue-400">56% do MirrorCode</strong> — lidera o ranking, mas está longe de gabaritar. E o salto é o que assusta: um ano antes, os melhores ficavam perto de <strong class="text-blue-400">30%</strong>, e em programas mais simples. A leitura honesta segura as duas pontas: é um avanço grande, e não é "a IA já substitui engenheiros". <span class="text-amber-400">(Nome de versão e a cifra de 56% são conforme o vídeo — a verificar.)</span></p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t5-p1">O melhor modelo resolve cerca de <strong class="text-blue-400">56% do MirrorCode</strong> — lidera o ranking, mas está longe de gabaritar. E o salto é o que assusta: um ano antes, os melhores ficavam perto de <strong class="text-blue-400">30%</strong>, e em programas mais simples. A leitura honesta segura as duas pontas: é um avanço grande, e não é "a IA já substitui engenheiros". <span class="text-amber-400">(Nome de versão e a cifra de 56% são conforme o vídeo — a verificar.)</span></p>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? "Solve rate"</h3>
@@ -510,24 +510,24 @@
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- TÓPICO 6 -->
-      <section id="topico-6" data-inema-topic="modulo-2-2#topico-6" data-inema-module="2-2" data-inema-track="2" class="mb-16">
+      <section id="topico-6" data-ARCKHÉ-topic="modulo-2-2#topico-6" data-ARCKHÉ-module="2-2" data-ARCKHÉ-track="2" class="mb-16">
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">6</span>
             <h2 class="text-2xl font-bold">⚖️ Sólido vs hype no MirrorCode</h2>
           </div>
-          <button type="button" data-inema-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
+          <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-inema-block="m2-2-t6-p1">Fechando a trilha com o método do curso: o <strong class="text-blue-400">conceito</strong> e o <strong class="text-blue-400">benchmark</strong> são sólidos — existem, são públicos, medem algo real. Já as <strong class="text-amber-400">cifras exatas e os nomes de versão</strong> são claim de fonte única: trate como "a verificar" até bater na fonte primária. Misturar os dois é o erro que o curso inteiro tenta evitar.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t6-p1">Fechando a trilha com o método do curso: o <strong class="text-blue-400">conceito</strong> e o <strong class="text-blue-400">benchmark</strong> são sólidos — existem, são públicos, medem algo real. Já as <strong class="text-amber-400">cifras exatas e os nomes de versão</strong> são claim de fonte única: trate como "a verificar" até bater na fonte primária. Misturar os dois é o erro que o curso inteiro tenta evitar.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
@@ -566,22 +566,22 @@ compute, e o que os 44% que falharam têm em comum.</div>
         </div>
 
         <div class="flex justify-start mt-6">
-          <button type="button" data-inema-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
-            <span class="inema-ico-todo" aria-hidden="true">○</span><span class="inema-ico-done" aria-hidden="true">●</span>
-            <span class="inema-label-todo">Marcar como lido</span><span class="inema-label-done">Lido</span>
+          <button type="button" data-ARCKHÉ-read-toggle aria-pressed="false" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border border-blue-500/30 text-blue-400 hover:bg-blue-500/30 transition-colors">
+            <span class="ARCKHÉ-ico-todo" aria-hidden="true">○</span><span class="ARCKHÉ-ico-done" aria-hidden="true">●</span>
+            <span class="ARCKHÉ-label-todo">Marcar como lido</span><span class="ARCKHÉ-label-done">Lido</span>
           </button>
         </div>
       </section>
 
       <!-- CHECAGEM LEVE (opcional, não bloqueia) -->
-      <div data-inema-check="modulo-2-2#q1" class="inema-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
+      <div data-ARCKHÉ-check="modulo-2-2#q1" class="ARCKHÉ-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
         <p class="font-medium mb-4">Auto-checagem (opcional): no MirrorCode, o que é SÓLIDO e o que é A-VERIFICAR?</p>
-        <div class="inema-check-options space-y-2">
-          <button type="button" data-inema-check-option="0" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Tudo é sólido: benchmark, cifras e versões de modelo estão confirmados.</button>
-          <button type="button" data-inema-check-option="1" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O benchmark e a categoria são sólidos; as cifras exatas (56%, US$251, 19 dias) e os nomes de versão são claim a verificar.</button>
-          <button type="button" data-inema-check-option="2" class="inema-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Nada disso vale: como vem de um vídeo, é tudo hype e pode ser ignorado.</button>
+        <div class="ARCKHÉ-check-options space-y-2">
+          <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Tudo é sólido: benchmark, cifras e versões de modelo estão confirmados.</button>
+          <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O benchmark e a categoria são sólidos; as cifras exatas (56%, US$251, 19 dias) e os nomes de versão são claim a verificar.</button>
+          <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Nada disso vale: como vem de um vídeo, é tudo hype e pode ser ignorado.</button>
         </div>
-        <div data-inema-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
+        <div data-ARCKHÉ-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
       </div>
 
       <!-- RESUMO -->
@@ -611,8 +611,8 @@ compute, e o que os 44% que falharam têm em comum.</div>
 
     <!-- TOC STICKY + SCROLLSPY -->
     <aside class="hidden lg:block">
-      <nav data-inema-toc aria-label="Índice do módulo" class="sticky top-20 self-start text-sm">
-        <p class="text-neutral-400 mb-3 font-medium">Nesta página <span class="text-neutral-500" data-inema-section-counter></span></p>
+      <nav data-ARCKHÉ-toc aria-label="Índice do módulo" class="sticky top-20 self-start text-sm">
+        <p class="text-neutral-400 mb-3 font-medium">Nesta página <span class="text-neutral-500" data-ARCKHÉ-section-counter></span></p>
         <ol class="space-y-2 border-l border-dark-600 pl-4">
           <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">1. O que é o MirrorCode</a></li>
           <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">2. A pergunta brutal</a></li>
@@ -643,10 +643,10 @@ compute, e o que os 44% que falharam têm em comum.</div>
   <!-- learn.js + init + checagem -->
   <script src="../../assets/learn.js"></script>
   <script>
-    if (window.INEMA && typeof window.INEMA.init === 'function') {
-      window.INEMA.init();
-      if (INEMA.registerCheck) {
-        INEMA.registerCheck('modulo-2-2#q1', {
+    if (window.ARCKHÉ && typeof window.ARCKHÉ.init === 'function') {
+      window.ARCKHÉ.init();
+      if (ARCKHÉ.registerCheck) {
+        ARCKHÉ.registerCheck('modulo-2-2#q1', {
           answer: 1,
           explain: {
             0: 'Não — as cifras exatas e os nomes de versão vêm de fonte única e ainda não foram conferidos na fonte primária.',

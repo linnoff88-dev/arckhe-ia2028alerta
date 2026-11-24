@@ -30,7 +30,7 @@ def translate_text_node(raw: str, lang: str, mapping: dict[str, str]) -> str:
 
 def translate_manifest(raw: str, lang: str, mapping: dict[str, str]) -> str:
     opening = re.match(r"(?is)(<script\b[^>]*>)(.*?)(</script\s*>)", raw)
-    if not opening or "data-inema-manifest" not in opening.group(1):
+    if not opening or "data-ARCKHÉ-manifest" not in opening.group(1):
         return raw
     data = json.loads(opening.group(2))
     def walk(node):
@@ -69,10 +69,10 @@ def selector_markup(lang: str, targets: dict[str, str]) -> str:
     for code, label in (("pt-BR", "PT"), ("en", "EN"), ("es", "ES")):
         cls = active_class if code == lang else other_class
         anchors.append(f'<a data-language="{code}" href="{targets[code]}" lang="{code}" hreflang="{code}" class="{cls}">{label}</a>')
-    return '<div data-inema-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="' + selector_label + '">' + "".join(anchors) + "</div>"
+    return '<div data-ARCKHÉ-language-switcher class="flex items-center gap-2 px-2 text-xs" aria-label="' + selector_label + '">' + "".join(anchors) + "</div>"
 
 def replace_or_insert_selector(result: str, markup: str, marker: str) -> str:
-    existing = re.search(r'<div\b[^>]*data-inema-language-switcher[^>]*>.*?</div>', result, re.DOTALL)
+    existing = re.search(r'<div\b[^>]*data-ARCKHÉ-language-switcher[^>]*>.*?</div>', result, re.DOTALL)
     if existing:
         return result[:existing.start()] + markup + result[existing.end():]
     if marker not in result:
@@ -89,7 +89,7 @@ def translate_document(source: str, lang: str) -> str:
     mapping = TRANSLATIONS[lang]
     output = []
     for token in TOKEN.findall(source):
-        if token.lower().startswith("<script") and "data-inema-manifest" in token:
+        if token.lower().startswith("<script") and "data-ARCKHÉ-manifest" in token:
             output.append(translate_manifest(token, lang, mapping))
             continue
         if token.lower().startswith("<script"):
@@ -133,7 +133,7 @@ def course_language_links(page: str, lang: str, result: str) -> str:
     en = "./" + stem if lang == "en" else root_prefix + "en/" + page
     es = "./" + stem if lang == "es" else root_prefix + "es/" + page
     selector = selector_markup(lang, {"pt-BR": pt, "en": en, "es": es})
-    marker = '          <button type="button" data-inema-journey-open'
+    marker = '          <button type="button" data-ARCKHÉ-journey-open'
     return replace_or_insert_selector(result, selector, marker)
 
 def translate_runtime_js(lang: str, path: Path) -> None:
@@ -209,8 +209,8 @@ def translate_runtime_js(lang: str, path: Path) -> None:
         })
     for old, new in common.items():
         source = source.replace(old, new)
-    source = source.replace("el('span', 'inema-journey__tag', 'duvida')", "el('span', 'inema-journey__tag', 'question')" if lang == "en" else "el('span', 'inema-journey__tag', 'duda')")
-    source = source.replace("el('span', 'inema-journey__tag', 'duvida')", "el('span', 'inema-journey__tag', 'duda')") if lang == "es" else source
+    source = source.replace("el('span', 'ARCKHÉ-journey__tag', 'duvida')", "el('span', 'ARCKHÉ-journey__tag', 'question')" if lang == "en" else "el('span', 'ARCKHÉ-journey__tag', 'duda')")
+    source = source.replace("el('span', 'ARCKHÉ-journey__tag', 'duvida')", "el('span', 'ARCKHÉ-journey__tag', 'duda')") if lang == "es" else source
     source = source.replace("o.textContent = c; selColor.appendChild(o);", "o.textContent = swatchLabel(c); selColor.appendChild(o);")
     source = source.replace("('Marcar com cor ' + c)", "('Mark with color ' + swatchLabel(c))" if lang == "en" else "('Mark with color ' + swatchLabel(c))")
     source = source.replace("('Mark with color ' + c)", "('Mark with color ' + swatchLabel(c))" if lang == "en" else "('Marcar con el color ' + swatchLabel(c))")
@@ -234,7 +234,7 @@ for lang in ("en", "es"):
         result = translate_document((ROOT / page).read_text(encoding="utf-8"), lang)
         result = result.replace('<html lang="pt-BR"', '<html lang="' + lang + '"', 1)
         if page == "index.html":
-            result = result.replace('<meta name="inema-course" content="ia2028alerta">', '<meta name="inema-course" content="ia2028alerta-' + lang + '">', 1)
+            result = result.replace('<meta name="ARCKHÉ-course" content="ia2028alerta">', '<meta name="ARCKHÉ-course" content="ia2028alerta-' + lang + '">', 1)
             result = result.replace('"course": "ia2028alerta"', '"course": "ia2028alerta-' + lang + '"', 1)
         result = language_links(page, lang, result)
         stem = "index.html" if page == "index.html" else "alerta.html"
@@ -258,7 +258,7 @@ for lang in ("en", "es"):
         result = result.replace('src="../assets/img/', 'src="' + image_prefix)
         result = result.replace('href="../../assets/learn.css"', 'href="../../../assets/learn.css"')
         result = result.replace('<html lang="pt-BR"', '<html lang="' + lang + '"', 1)
-        result = result.replace('<meta name="inema-course" content="ia2028alerta">', '<meta name="inema-course" content="ia2028alerta-' + lang + '">', 1)
+        result = result.replace('<meta name="ARCKHÉ-course" content="ia2028alerta">', '<meta name="ARCKHÉ-course" content="ia2028alerta-' + lang + '">', 1)
         result = result.replace('"course": "ia2028alerta"', '"course": "ia2028alerta-' + lang + '"', 1)
         result = course_language_links(page, lang, result)
         rel = Path(page).parent
