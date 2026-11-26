@@ -6,7 +6,7 @@
 </div>
 
 
-**ðŸ‡§ðŸ‡· [PortuguÃªs](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [EspaÃ±ol](README.es.md)**
+**ðŸ‡§ðŸ‡· [Português](README.md) Â· ðŸ‡ºðŸ‡¸ [English](README.en.md) Â· ðŸ‡ªðŸ‡¸ [Espaê±ol](README.es.md)**
 
 Curso + explainer sobre auto-aperfeicoamento recursivo (RSI) da IA com horizonte 2028 â€” destilado do video-fonte, no formato ARCKHÉ AI. Self-contained (abre direto no navegador).
 

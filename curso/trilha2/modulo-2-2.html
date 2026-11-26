@@ -50,7 +50,7 @@
         { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
       ] },
       { "n": "3", "title": "Segurança e 2028", "modules": [
-        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-1", "title": "Quando a mediçêo quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
         { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
       ] }
     ]
@@ -219,11 +219,11 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full mb-4">MÓDULO 2.2</span>
       <h1 class="text-3xl sm:text-4xl font-bold mb-4">🪞 MirrorCode: reconstruir no escuro</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl mb-8">Se a curva do Módulo 2.1 mede <em>quanto tempo</em> a IA aguenta trabalhar, o MirrorCode mede <em>que tamanho</em> de projeto ela termina. A prova é dura: entregam à IA só o programa pronto e a documentação — nunca o código-fonte — e pedem que ela reconstrua o software inteiro. Aqui você vê os números, e aprende a separar o que é sólido do que é cifra a verificar.</p>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">Se a curva do Módulo 2.1 mede <em>quanto tempo</em> a IA aguenta trabalhar, o MirrorCode mede <em>que tamanho</em> de projeto ela termina. A prova é dura: entregam à IA só o programa pronto e a documentaçêo — nunca o código-fonte — e pedem que ela reconstrua o software inteiro. Aqui você vê os números, e aprende a separar o que é sólido do que é cifra a verificar.</p>
 
-      <!-- SVG 1: caixa-preta -> reconstrução -->
+      <!-- SVG 1: caixa-preta -> reconstruçêo -->
       <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
-        <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Diagrama: de uma caixa-preta com apenas o executável e a documentação, a IA reconstrói o código-fonte e o valida contra a suíte de testes original">
+        <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Diagrama: de uma caixa-preta com apenas o executável e a documentaçêo, a IA reconstrói o código-fonte e o valida contra a suíte de testes original">
           <defs>
             <linearGradient id="m22-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#60a5fa"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
             <filter id="m22-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -240,7 +240,7 @@
           <!-- seta -->
           <path d="M238,120 L320,120" fill="none" stroke="#60a5fa" stroke-width="1.8" opacity="0.7" marker-end="url(#m22-ah)"/>
           <text x="279" y="108" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="11">a IA reconstrói</text>
-          <!-- reconstrução -->
+          <!-- reconstruçêo -->
           <g filter="url(#m22-glow)"><rect x="328" y="70" width="210" height="100" rx="14" fill="#0e1622" stroke="url(#m22-grad)" stroke-width="2.5"/></g>
           <text x="433" y="98" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">Código reconstruído</text>
           <g font-family="Inter,sans-serif" font-size="11" font-weight="600">
@@ -255,7 +255,7 @@
           <g filter="url(#m22-glow)"><rect x="704" y="80" width="252" height="80" rx="14" fill="#0e1b26" stroke="#38bdf8" stroke-width="2"/></g>
           <text x="830" y="110" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-weight="600" font-size="14.5">Suíte de testes original</text>
           <text x="830" y="132" text-anchor="middle" fill="#9ad6ff" font-family="Inter,sans-serif" font-size="11.5">mede % de comportamento idêntico</text>
-          <text x="500" y="206" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">A nota não é "parece certo": é o quanto o software reconstruído se comporta igual ao original.</text>
+          <text x="500" y="206" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">A nota nêo é "parece certo": é o quanto o software reconstruído se comporta igual ao original.</text>
         </svg>
       </div>
 
@@ -287,13 +287,13 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t1-p1">O <strong class="text-blue-400">MirrorCode</strong> é um teste criado pela Epoch AI em parceria com a METR. A ideia é simples e cruel: entregam à IA um programa pronto — só o executável e a documentação — e pedem que ela reconstrua o software do zero, sem nunca ver o código original. Depois, comparam a reconstrução com a suíte de testes do programa real. É a evidência que falta à curva do módulo anterior: não "por quanto tempo a IA trabalha", mas "que tamanho de projeto ela leva até o fim".</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t1-p1">O <strong class="text-blue-400">MirrorCode</strong> é um teste criado pela Epoch AI em parceria com a METR. A ideia é simples e cruel: entregam à IA um programa pronto — só o executável e a documentaçêo — e pedem que ela reconstrua o software do zero, sem nunca ver o código original. Depois, comparam a reconstruçêo com a suíte de testes do programa real. É a evidência que falta à curva do módulo anterior: nêo "por quanto tempo a IA trabalha", mas "que tamanho de projeto ela leva até o fim".</p>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? Dois termos antes de seguir</h3>
           <ul class="space-y-3 text-neutral-300 text-sm">
             <li><strong class="text-neutral-100">Benchmark:</strong> um teste padronizado que todo mundo roda igual, para comparar modelos de forma justa — como uma prova com o mesmo gabarito para todos os candidatos.</li>
-            <li><strong class="text-neutral-100">Caixa-preta:</strong> quando você só tem o que entra e o que sai de um sistema (o executável + a documentação), mas <em>não</em> o código-fonte por dentro. Reconstruir uma caixa-preta é olhar o comportamento e reescrever o que produz aquele comportamento.</li>
+            <li><strong class="text-neutral-100">Caixa-preta:</strong> quando você só tem o que entra e o que sai de um sistema (o executável + a documentaçêo), mas <em>nêo</em> o código-fonte por dentro. Reconstruir uma caixa-preta é olhar o comportamento e reescrever o que produz aquele comportamento.</li>
           </ul>
         </div>
 
@@ -322,7 +322,7 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t2-p1">A pergunta por trás do benchmark é direta: <strong class="text-blue-400">qual o maior projeto de software que a IA termina sozinha?</strong> "Sozinha" e "termina" são as palavras que pesam — não é completar um trecho, é entregar o programa funcionando de ponta a ponta. Para responder, o MirrorCode usa <strong class="text-blue-400">25 programas reais</strong>, e não brinquedos de laboratório.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t2-p1">A pergunta por trás do benchmark é direta: <strong class="text-blue-400">qual o maior projeto de software que a IA termina sozinha?</strong> "Sozinha" e "termina" sêo as palavras que pesam — nêo é completar um trecho, é entregar o programa funcionando de ponta a ponta. Para responder, o MirrorCode usa <strong class="text-blue-400">25 programas reais</strong>, e nêo brinquedos de laboratório.</p>
 
         <!-- SVG 2: fan-out — 1 pergunta -> 25 programas -> 1 placar -->
         <div class="rounded-2xl border border-blue-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
@@ -363,7 +363,7 @@
             <text x="878" y="116" text-anchor="middle" fill="#60a5fa" font-family="Inter,sans-serif" font-weight="600" font-size="15">Placar</text>
             <text x="878" y="136" text-anchor="middle" fill="#bfdbfe" font-family="Inter,sans-serif" font-size="11">quantos terminou</text>
           </svg>
-          <p class="text-xs text-neutral-500 mt-2 px-1">Os 25 programas vêm de <strong class="text-blue-400">domínios diferentes</strong> de propósito: um modelo bom em um só não infla o placar. O número final é "de quantos a IA deu conta sozinha".</p>
+          <p class="text-xs text-neutral-500 mt-2 px-1">Os 25 programas vêm de <strong class="text-blue-400">domínios diferentes</strong> de propósito: um modelo bom em um só nêo infla o placar. O número final é "de quantos a IA deu conta sozinha".</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -391,10 +391,10 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t3-p1">O exemplo que dá rosto ao benchmark é o <strong class="text-blue-400">gotree</strong>, um toolkit de bioinformática. Não é pequeno: cerca de 16.000 linhas de Go e mais de 40 comandos. A IA o reconstruiu a ponto de passar quase todos os testes — e fez isso numa fração do tempo e do custo que um humano levaria.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t3-p1">O exemplo que dá rosto ao benchmark é o <strong class="text-blue-400">gotree</strong>, um toolkit de bioinformática. Nêo é pequeno: cerca de 16.000 linhas de Go e mais de 40 comandos. A IA o reconstruiu a ponto de passar quase todos os testes — e fez isso numa fraçêo do tempo e do custo que um humano levaria.</p>
 
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
-          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">gotree — o placar da reconstrução</h3>
+          <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-3">gotree — o placar da reconstruçêo</h3>
           <div class="font-mono text-sm text-neutral-300 space-y-1.5 bg-dark-900/60 rounded-lg p-4 border border-dark-700">
             <div><span class="text-blue-400">linguagem:</span> Go · ~16.000 linhas · 40+ comandos</div>
             <div><span class="text-blue-400">testes_passados:</span> 99,95% <span class="text-amber-400">(conforme o vídeo — a verificar)</span></div>
@@ -402,12 +402,12 @@
             <div><span class="text-blue-400">custo:</span> ~US$251 <span class="text-amber-400">(conforme o vídeo — a verificar)</span></div>
             <div><span class="text-blue-400">estimativa_humana:</span> 2 a 17 semanas <span class="text-amber-400">(Epoch — a verificar)</span></div>
           </div>
-          <p class="text-xs text-neutral-500 mt-3">Os números são impressionantes — e por isso mesmo merecem checagem na fonte primária antes de virarem manchete.</p>
+          <p class="text-xs text-neutral-500 mt-3">Os números sêo impressionantes — e por isso mesmo merecem checagem na fonte primária antes de virarem manchete.</p>
         </div>
 
         <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Por que 99,95% e não 100%?</h3>
-          <p class="text-neutral-300 text-sm">Reconstruir software grande e bater quase todos os testes mostra capacidade real. Mas aquela fração que falta costuma ser exatamente onde mora o caso difícil — o detalhe raro que um humano experiente pegaria. "Quase tudo" não é "tudo", e a diferença importa em software que vai para produção.</p>
+          <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> Por que 99,95% e nêo 100%?</h3>
+          <p class="text-neutral-300 text-sm">Reconstruir software grande e bater quase todos os testes mostra capacidade real. Mas aquela fraçêo que falta costuma ser exatamente onde mora o caso difícil — o detalhe raro que um humano experiente pegaria. "Quase tudo" nêo é "tudo", e a diferença importa em software que vai para produçêo.</p>
         </div>
 
         <div class="flex justify-start mt-6">
@@ -423,12 +423,12 @@
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xl flex-shrink-0">4</span>
-            <h2 class="text-2xl font-bold">⏳ A execução de 19 dias</h2>
+            <h2 class="text-2xl font-bold">⏳ A execuçêo de 19 dias</h2>
           </div>
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t4-p1">O dado que mais conecta esta trilha ao alerta é o tempo de execução: uma das runs rodou de forma <strong class="text-blue-400">contínua, sem humano no comando, por cerca de 19 dias</strong> (≈ US$2.600 de compute). É a curva do Módulo 2.1 saindo do gráfico e virando prática: não um pico de minutos, mas autonomia sustentada por dias.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t4-p1">O dado que mais conecta esta trilha ao alerta é o tempo de execuçêo: uma das runs rodou de forma <strong class="text-blue-400">contínua, sem humano no comando, por cerca de 19 dias</strong> (≈ US$2.600 de compute). É a curva do Módulo 2.1 saindo do gráfico e virando prática: nêo um pico de minutos, mas autonomia sustentada por dias.</p>
 
         <div class="space-y-4 mb-6">
           <div class="flex items-start space-x-4">
@@ -447,7 +447,7 @@
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🔗</span> Por que isso importa pro alerta</h3>
-          <p class="text-neutral-300 text-sm">Auto-aperfeiçoamento recursivo não precisa de um gênio instantâneo. Precisa de um trabalhador que aguente projetos de P&D que levam dias. Uma run de 19 dias sem supervisão é a demonstração concreta de que essa autonomia prolongada já existe — ainda que cara e imperfeita.</p>
+          <p class="text-neutral-300 text-sm">Auto-aperfeiçoamento recursivo nêo precisa de um gênio instantâneo. Precisa de um trabalhador que aguente projetos de P&D que levam dias. Uma run de 19 dias sem supervisêo é a demonstraçêo concreta de que essa autonomia prolongada já existe — ainda que cara e imperfeita.</p>
         </div>
 
         <div class="flex justify-start mt-6">
@@ -468,11 +468,11 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t5-p1">O melhor modelo resolve cerca de <strong class="text-blue-400">56% do MirrorCode</strong> — lidera o ranking, mas está longe de gabaritar. E o salto é o que assusta: um ano antes, os melhores ficavam perto de <strong class="text-blue-400">30%</strong>, e em programas mais simples. A leitura honesta segura as duas pontas: é um avanço grande, e não é "a IA já substitui engenheiros". <span class="text-amber-400">(Nome de versão e a cifra de 56% são conforme o vídeo — a verificar.)</span></p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t5-p1">O melhor modelo resolve cerca de <strong class="text-blue-400">56% do MirrorCode</strong> — lidera o ranking, mas está longe de gabaritar. E o salto é o que assusta: um ano antes, os melhores ficavam perto de <strong class="text-blue-400">30%</strong>, e em programas mais simples. A leitura honesta segura as duas pontas: é um avanço grande, e nêo é "a IA já substitui engenheiros". <span class="text-amber-400">(Nome de versêo e a cifra de 56% sêo conforme o vídeo — a verificar.)</span></p>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
           <h3 class="text-lg font-semibold text-blue-400 mb-3 flex items-center"><span class="mr-2">🆕</span> Novo aqui? "Solve rate"</h3>
-          <p class="text-neutral-300 text-sm">É a fração das tarefas do benchmark que o modelo resolve por completo. 56% de solve rate quer dizer que, de todos os programas do teste, ele terminou com sucesso pouco mais da metade. Não é "56% de cada programa" — é "pouco mais da metade dos programas, inteiros".</p>
+          <p class="text-neutral-300 text-sm">É a fraçêo das tarefas do benchmark que o modelo resolve por completo. 56% de solve rate quer dizer que, de todos os programas do teste, ele terminou com sucesso pouco mais da metade. Nêo é "56% de cada programa" — é "pouco mais da metade dos programas, inteiros".</p>
         </div>
 
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
@@ -487,7 +487,7 @@
               <div class="h-3 rounded-full bg-dark-700 overflow-hidden"><div class="h-full rounded-full bg-blue-500" style="width:56%"></div></div>
             </div>
           </div>
-          <p class="text-xs text-neutral-500 mt-3">Recriação ilustrativa, não screenshot. O ponto é a inclinação, não o decimal exato.</p>
+          <p class="text-xs text-neutral-500 mt-3">Recriaçêo ilustrativa, nêo screenshot. O ponto é a inclinaçêo, nêo o decimal exato.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -496,7 +496,7 @@
             <ul class="space-y-3 text-neutral-300 text-sm">
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"Houve um salto grande de capacidade em um ano."</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"A IA já termina sozinha mais da metade de projetos reais."</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"A tendência merece atenção informada."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>"A tendência merece atençêo informada."</span></li>
             </ul>
           </div>
           <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
@@ -504,7 +504,7 @@
             <ul class="space-y-3 text-neutral-300 text-sm">
               <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"A IA já substitui engenheiros em tudo."</span></li>
               <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"56% é o número final e definitivo."</span></li>
-              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Os 44% que faltam são detalhe."</span></li>
+              <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>"Os 44% que faltam sêo detalhe."</span></li>
             </ul>
           </div>
         </div>
@@ -527,13 +527,13 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t6-p1">Fechando a trilha com o método do curso: o <strong class="text-blue-400">conceito</strong> e o <strong class="text-blue-400">benchmark</strong> são sólidos — existem, são públicos, medem algo real. Já as <strong class="text-amber-400">cifras exatas e os nomes de versão</strong> são claim de fonte única: trate como "a verificar" até bater na fonte primária. Misturar os dois é o erro que o curso inteiro tenta evitar.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m2-2-t6-p1">Fechando a trilha com o método do curso: o <strong class="text-blue-400">conceito</strong> e o <strong class="text-blue-400">benchmark</strong> sêo sólidos — existem, sêo públicos, medem algo real. Já as <strong class="text-amber-400">cifras exatas e os nomes de versêo</strong> sêo claim de fonte única: trate como "a verificar" até bater na fonte primária. Misturar os dois é o erro que o curso inteiro tenta evitar.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div class="bg-emerald-900/20 rounded-xl border border-emerald-500/30 p-6">
             <h4 class="font-bold text-emerald-400 mb-4 flex items-center"><span class="mr-2">🟢</span> Sólido (categoria real)</h4>
             <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O MirrorCode existe (Epoch AI + METR) e mede reconstrução de software.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>O MirrorCode existe (Epoch AI + METR) e mede reconstruçêo de software.</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A IA reconstrói projetos reais grandes a partir de caixa-preta.</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Houve um salto claro de capacidade em ~1 ano.</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Autonomia por dias (long-horizon) já é demonstrável.</span></li>
@@ -562,7 +562,7 @@ Liste 5 perguntas que eu faria à FONTE PRIMÁRIA antes de
 acreditar nos números. Foque em: como foi amostrado, o que
 exatamente conta como "a IA terminou sozinha", custo real de
 compute, e o que os 44% que falharam têm em comum.</div>
-          <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Como verificar:</strong> as 5 perguntas precisam questionar <em>amostragem</em>, <em>custo</em> e a <em>definição de "sozinho"</em>. Se vierem genéricas ("é confiável?"), reescreva o prompt pedindo perguntas específicas e testáveis.</p>
+          <p class="text-neutral-300 text-sm"><strong class="text-neutral-100">Como verificar:</strong> as 5 perguntas precisam questionar <em>amostragem</em>, <em>custo</em> e a <em>definiçêo de "sozinho"</em>. Se vierem genéricas ("é confiável?"), reescreva o prompt pedindo perguntas específicas e testáveis.</p>
         </div>
 
         <div class="flex justify-start mt-6">
@@ -573,12 +573,12 @@ compute, e o que os 44% que falharam têm em comum.</div>
         </div>
       </section>
 
-      <!-- CHECAGEM LEVE (opcional, não bloqueia) -->
+      <!-- CHECAGEM LEVE (opcional, nêo bloqueia) -->
       <div data-ARCKHÉ-check="modulo-2-2#q1" class="ARCKHÉ-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
         <p class="font-medium mb-4">Auto-checagem (opcional): no MirrorCode, o que é SÓLIDO e o que é A-VERIFICAR?</p>
         <div class="ARCKHÉ-check-options space-y-2">
-          <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Tudo é sólido: benchmark, cifras e versões de modelo estão confirmados.</button>
-          <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O benchmark e a categoria são sólidos; as cifras exatas (56%, US$251, 19 dias) e os nomes de versão são claim a verificar.</button>
+          <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Tudo é sólido: benchmark, cifras e versões de modelo estêo confirmados.</button>
+          <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">O benchmark e a categoria sêo sólidos; as cifras exatas (56%, US$251, 19 dias) e os nomes de versêo sêo claim a verificar.</button>
           <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Nada disso vale: como vem de um vídeo, é tudo hype e pode ser ignorado.</button>
         </div>
         <div data-ARCKHÉ-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
@@ -593,12 +593,12 @@ compute, e o que os 44% que falharam têm em comum.</div>
             <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">A pergunta brutal</strong><span class="text-neutral-400"> — qual o maior projeto que a IA termina sozinha; 25 programas reais.</span></div></div>
             <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">O caso gotree</strong><span class="text-neutral-400"> — ~16 mil linhas reconstruídas, 99,95% dos testes (cifras a verificar).</span></div></div>
             <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">19 dias contínuos</strong><span class="text-neutral-400"> — autonomia por dias: a curva do 2.1 virada prática.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">56% de solve rate</strong><span class="text-neutral-400"> — lidera e dá um salto grande, mas não substitui engenheiros across the board.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">56% de solve rate</strong><span class="text-neutral-400"> — lidera e dá um salto grande, mas nêo substitui engenheiros across the board.</span></div></div>
             <div class="flex items-start space-x-3"><span class="text-blue-400 mt-1">✓</span><div><strong class="text-neutral-100">Sólido vs hype</strong><span class="text-neutral-400"> — conceito e benchmark sólidos; cifras e versões, a verificar.</span></div></div>
           </div>
           <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
             <h3 class="font-semibold text-blue-400 mb-2">Próxima trilha:</h3>
-            <p class="text-neutral-300">Trilha 3 — Segurança e 2028: o que acontece quando a própria medição quebra, e a corrida que define os cenários do fim da década.</p>
+            <p class="text-neutral-300">Trilha 3 — Segurança e 2028: o que acontece quando a própria mediçêo quebra, e a corrida que define os cenários do fim da década.</p>
           </div>
           <div class="flex flex-col sm:flex-row gap-4">
             <a href="index.html" class="flex-1 text-center px-6 py-3 bg-dark-700 text-neutral-300 rounded-lg font-semibold hover:bg-dark-600 transition-colors">← Voltar para a Trilha 2</a>
@@ -617,7 +617,7 @@ compute, e o que os 44% que falharam têm em comum.</div>
           <li><a href="#topico-1" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">1. O que é o MirrorCode</a></li>
           <li><a href="#topico-2" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">2. A pergunta brutal</a></li>
           <li><a href="#topico-3" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">3. O caso gotree</a></li>
-          <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">4. A execução de 19 dias</a></li>
+          <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">4. A execuçêo de 19 dias</a></li>
           <li><a href="#topico-5" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">5. 56% de solve rate</a></li>
           <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-blue-400 transition-colors">6. Sólido vs hype</a></li>
         </ol>
@@ -626,10 +626,10 @@ compute, e o que os 44% que falharam têm em comum.</div>
 
   </div>
 
-  <!-- ILUSTRAÇÃO RASTER -->
+  <!-- ILUSTRAÇêO RASTER -->
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
     <figure>
-      <img src="assets/img/m2-2.png" alt="Ilustração: uma IA reconstrói um software a partir de uma caixa-preta, em azul e ciano, sobre um fundo escuro de grade" class="w-full h-auto rounded-xl border border-blue-500/30">
+      <img src="assets/img/m2-2.png" alt="Ilustraçêo: uma IA reconstrói um software a partir de uma caixa-preta, em azul e ciano, sobre um fundo escuro de grade" class="w-full h-auto rounded-xl border border-blue-500/30">
       <figcaption class="text-xs text-neutral-500 mt-2">O MirrorCode é "reconstruir no escuro": a IA só vê o comportamento externo (a caixa-preta) e precisa recriar a máquina por dentro. Quanto maior o projeto que ela termina sozinha, mais perto fica de ser um trabalhador de P&D — o que o alerta chama de RSI.</figcaption>
     </figure>
   </div>
@@ -649,9 +649,9 @@ compute, e o que os 44% que falharam têm em comum.</div>
         ARCKHÉ.registerCheck('modulo-2-2#q1', {
           answer: 1,
           explain: {
-            0: 'Não — as cifras exatas e os nomes de versão vêm de fonte única e ainda não foram conferidos na fonte primária.',
-            1: 'Isso. A existência do benchmark e a categoria do feito são sólidas; os números pontuais e versões ficam como "a verificar".',
-            2: 'Exagerou para o outro lado: descartar tudo é tão preguiçoso quanto comprar tudo. O método é separar sólido de claim.'
+            0: 'Nêo — as cifras exatas e os nomes de versêo vêm de fonte única e ainda nêo foram conferidos na fonte primária.',
+            1: 'Isso. A existência do benchmark e a categoria do feito sêo sólidas; os números pontuais e versões ficam como "a verificar".',
+            2: 'Exagerou para o outro lado: descartar tudo é têo preguiçoso quanto comprar tudo. O método é separar sólido de claim.'
           }
         });
       }

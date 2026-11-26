@@ -50,7 +50,7 @@
         { "id": "2-2", "title": "MirrorCode: reconstruir no escuro", "topics": 6, "href": "curso/trilha2/modulo-2-2.html" }
       ] },
       { "n": "3", "title": "Segurança e 2028", "modules": [
-        { "id": "3-1", "title": "Quando a medição quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
+        { "id": "3-1", "title": "Quando a mediçêo quebra", "topics": 6, "href": "curso/trilha3/modulo-3-1.html" },
         { "id": "3-2", "title": "A corrida e os cenários 2028", "topics": 6, "href": "curso/trilha3/modulo-3-2.html" }
       ] }
     ]
@@ -208,11 +208,11 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-full mb-4">MÓDULO 1.1</span>
       <h1 class="text-3xl sm:text-4xl font-bold mb-4">🔁 O loop: IA que constrói IA</h1>
-      <p class="text-lg text-neutral-400 max-w-3xl mb-8">A ideia central do alerta, em português claro. Aqui você aprende o que é auto-aperfeiçoamento recursivo (RSI), para onde o gargalo se desloca, a diferença entre "soft" e "hard", e por que isto é motivo de atenção — não de pânico.</p>
+      <p class="text-lg text-neutral-400 max-w-3xl mb-8">A ideia central do alerta, em português claro. Aqui você aprende o que é auto-aperfeiçoamento recursivo (RSI), para onde o gargalo se desloca, a diferença entre "soft" e "hard", e por que isto é motivo de atençêo — nêo de pânico.</p>
 
-      <!-- SVG header: gerações que se constroem (recursão) -->
+      <!-- SVG header: gerações que se constroem (recursêo) -->
       <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-8 overflow-hidden">
-        <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Diagrama: três gerações de IA em sequência ascendente — cada geração ajuda a projetar a próxima, e uma seta de retorno mostra o ciclo se repetindo, cada vez um pouco mais alto">
+        <svg viewBox="0 0 1000 250" class="w-full h-auto" role="img" aria-label="Diagrama: três gerações de IA em sequência ascendente — cada geraçêo ajuda a projetar a próxima, e uma seta de retorno mostra o ciclo se repetindo, cada vez um pouco mais alto">
           <defs>
             <linearGradient id="m11-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/></linearGradient>
             <filter id="m11-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -222,7 +222,7 @@
           </defs>
           <rect x="0" y="0" width="1000" height="250" fill="url(#m11-grid)"/>
           <path d="M60,200 L940,60" fill="none" stroke="#34d399" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.4"/>
-          <!-- conectores: cada geração projeta a próxima (via trabalho) -->
+          <!-- conectores: cada geraçêo projeta a próxima (via trabalho) -->
           <g fill="none" stroke="#38bdf8" stroke-width="1.8" opacity="0.55">
             <path d="M236,168 C300,168 320,150 360,150" marker-end="url(#m11-ahc)"/>
             <path d="M560,118 C620,118 640,100 680,100" marker-end="url(#m11-ahc)"/>
@@ -231,21 +231,21 @@
             <path d="M484,150 C520,150 525,130 560,118"/>
             <path d="M804,100 C840,100 845,82 880,72"/>
           </g>
-          <!-- Geração N -->
+          <!-- Geraçêo N -->
           <g filter="url(#m11-glow)"><rect x="64" y="148" width="172" height="58" rx="13" fill="#0e2018" stroke="url(#m11-grad)" stroke-width="2"/></g>
           <text x="150" y="174" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="16">Claude N</text>
-          <text x="150" y="193" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11">a geração de hoje</text>
+          <text x="150" y="193" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11">a geraçêo de hoje</text>
           <!-- trabalho (agentes) -->
           <g class="wf-a"><rect x="360" y="124" width="124" height="52" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="422" y="148" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600">projeta</text><text x="422" y="165" text-anchor="middle" fill="#7fc6f5" font-family="Inter,sans-serif" font-size="10.5">testa · otimiza</text></g>
-          <!-- Geração N+1 -->
+          <!-- Geraçêo N+1 -->
           <g filter="url(#m11-glow)"><rect x="560" y="92" width="120" height="52" rx="13" fill="#0e2018" stroke="url(#m11-grad)" stroke-width="2"/></g>
           <text x="620" y="123" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="15">Claude N+1</text>
           <!-- trabalho 2 -->
           <g class="wf-a"><rect x="680" y="74" width="124" height="52" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="742" y="98" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12" font-weight="600">projeta</text><text x="742" y="115" text-anchor="middle" fill="#7fc6f5" font-family="Inter,sans-serif" font-size="10.5">mais rápido</text></g>
-          <!-- Geração N+2 -->
+          <!-- Geraçêo N+2 -->
           <g filter="url(#m11-glow)"><rect x="820" y="46" width="120" height="52" rx="13" fill="#0e2018" stroke="url(#m11-grad)" stroke-width="2"/></g>
           <text x="880" y="77" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="15">Claude N+2</text>
-          <text x="500" y="232" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">A reta tracejada é a tendência — não um destino garantido. Cada geração ajuda a projetar a seguinte.</text>
+          <text x="500" y="232" text-anchor="middle" fill="#9aa4b2" font-family="Inter,sans-serif" font-size="12">A reta tracejada é a tendência — nêo um destino garantido. Cada geraçêo ajuda a projetar a seguinte.</text>
         </svg>
       </div>
 
@@ -277,26 +277,26 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t1-p1">No centro do alerta há uma frase do cofundador da Anthropic, Jack Clark: <strong class="text-emerald-400">"Claude 10 construindo Claude 11"</strong>. É a imagem de uma IA que ajuda a projetar uma IA melhor, que por sua vez ajuda a projetar a próxima — mais rápido a cada volta. Esse é o auto-aperfeiçoamento recursivo, ou RSI. Não é mágica nem ficção: é um processo de engenharia que passa a se realimentar.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t1-p1">No centro do alerta há uma frase do cofundador da Anthropic, Jack Clark: <strong class="text-emerald-400">"Claude 10 construindo Claude 11"</strong>. É a imagem de uma IA que ajuda a projetar uma IA melhor, que por sua vez ajuda a projetar a próxima — mais rápido a cada volta. Esse é o auto-aperfeiçoamento recursivo, ou RSI. Nêo é mágica nem ficçêo: é um processo de engenharia que passa a se realimentar.</p>
 
         <!-- Glossário inline: "Novo aqui?" -->
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 mb-6">
-          <h3 class="text-sm font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Novo aqui? Dois termos, sem jargão</h3>
+          <h3 class="text-sm font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Novo aqui? Dois termos, sem jargêo</h3>
           <ul class="space-y-2.5 text-sm text-neutral-300">
             <li><strong class="text-neutral-100">RSI (recursive self-improvement):</strong> auto-aperfeiçoamento recursivo. "Recursivo" = uma coisa que se aplica a si mesma. Aqui, a IA é usada para melhorar a própria IA, e o resultado vira a ferramenta da próxima rodada.</li>
-            <li><strong class="text-neutral-100">Modelo de fronteira:</strong> os modelos de IA mais avançados do momento, feitos pelos maiores laboratórios (Anthropic, OpenAI, Google DeepMind). São eles que protagonizam essa discussão.</li>
+            <li><strong class="text-neutral-100">Modelo de fronteira:</strong> os modelos de IA mais avançados do momento, feitos pelos maiores laboratórios (Anthropic, OpenAI, Google DeepMind). Sêo eles que protagonizam essa discussêo.</li>
           </ul>
         </div>
 
-        <!-- ILUSTRAÇÃO RASTER do módulo -->
+        <!-- ILUSTRAÇêO RASTER do módulo -->
         <figure class="mb-6">
-          <img src="assets/img/m1-1.png" alt="Ilustração: gerações sucessivas de IA, cada uma ajudando a desenhar a próxima, formando uma escada que sobe" class="w-full h-auto rounded-xl border border-dark-600">
-          <figcaption class="text-xs text-neutral-500 mt-2 px-1">Olhe a imagem como uma escada, não como uma explosão: cada degrau (geração) é construído com a ajuda do degrau anterior. O que muda no RSI não é "a IA virou viva" — é que a própria IA passou a ser uma das ferramentas que constroem o próximo degrau.</figcaption>
+          <img src="assets/img/m1-1.png" alt="Ilustraçêo: gerações sucessivas de IA, cada uma ajudando a desenhar a próxima, formando uma escada que sobe" class="w-full h-auto rounded-xl border border-dark-600">
+          <figcaption class="text-xs text-neutral-500 mt-2 px-1">Olhe a imagem como uma escada, nêo como uma explosêo: cada degrau (geraçêo) é construído com a ajuda do degrau anterior. O que muda no RSI nêo é "a IA virou viva" — é que a própria IA passou a ser uma das ferramentas que constroem o próximo degrau.</figcaption>
         </figure>
 
         <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🔁</span> A definição em uma linha</h3>
-          <p class="text-neutral-300">RSI é quando a IA deixa de ser só o <em>produto</em> da pesquisa e passa a ser também parte do <em>motor</em> que faz a pesquisa. Se cada modelo ajuda a construir o próximo, o progresso para de depender só de quão rápido os humanos pensam.</p>
+          <h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🔁</span> A definiçêo em uma linha</h3>
+          <p class="text-neutral-300">RSI é quando a IA deixa de ser só o <em>produto</em> da pesquisa e passa a ser também parte do <em>motor</em> que faz a pesquisa. Se cada modelo ajuda a construir o próximo, o progresso para de depender só de quêo rápido os humanos pensam.</p>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
@@ -324,11 +324,11 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t2-p1">Todo processo tem um <strong class="text-emerald-400">gargalo</strong> — o ponto mais lento, que limita o ritmo do todo. Na pesquisa de IA de hoje, o gargalo é humano: quão rápido pessoas conseguem ter ideias, escrever código, rodar experimentos e interpretar resultados. O que o RSI faz é <em>mudar onde fica esse gargalo</em>.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t2-p1">Todo processo tem um <strong class="text-emerald-400">gargalo</strong> — o ponto mais lento, que limita o ritmo do todo. Na pesquisa de IA de hoje, o gargalo é humano: quêo rápido pessoas conseguem ter ideias, escrever código, rodar experimentos e interpretar resultados. O que o RSI faz é <em>mudar onde fica esse gargalo</em>.</p>
 
         <!-- SVG: o gargalo se desloca -->
         <div class="rounded-2xl border border-emerald-500/30 bg-dark-900/40 p-3 sm:p-4 mb-6 overflow-hidden">
-          <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Comparação em dois painéis: hoje o ponto mais lento da pesquisa são os humanos; com RSI o ponto mais lento passa a ser compute, infraestrutura e autonomia">
+          <svg viewBox="0 0 1000 240" class="w-full h-auto" role="img" aria-label="Comparaçêo em dois painéis: hoje o ponto mais lento da pesquisa sêo os humanos; com RSI o ponto mais lento passa a ser compute, infraestrutura e autonomia">
             <defs>
               <filter id="m11g-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
               <pattern id="m11g-grid" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="1.2" cy="1.2" r="1.2" fill="#10b981" opacity="0.10"/></pattern>
@@ -358,7 +358,7 @@
             <rect x="860" y="92" width="96" height="48" rx="11" fill="#0e1b26" stroke="#38bdf8" stroke-width="1.8"/><text x="908" y="121" text-anchor="middle" fill="#bfe6ff" font-family="Inter,sans-serif" font-size="12">modelo +</text>
             <text x="748" y="184" text-anchor="middle" fill="#38bdf8" font-family="Inter,sans-serif" font-size="11.5">⬑ o novo ponto mais lento</text>
           </svg>
-          <p class="text-xs text-neutral-500 mt-3 px-1">O trabalho de pesquisa não desaparece — muda quem é o elo mais lento. Quando o humano deixa de ser o gargalo, "quantos chips e quanta energia você tem" passa a decidir a velocidade (tema da Trilha 3).</p>
+          <p class="text-xs text-neutral-500 mt-3 px-1">O trabalho de pesquisa nêo desaparece — muda quem é o elo mais lento. Quando o humano deixa de ser o gargalo, "quantos chips e quanta energia você tem" passa a decidir a velocidade (tema da Trilha 3).</p>
         </div>
 
         <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6 mb-6">
@@ -384,12 +384,12 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t3-p1">Demis Hassabis (Google DeepMind) faz uma distinção que vale ouro para ler o alerta sem exagero: estamos em auto-aperfeiçoamento <strong class="text-emerald-400">"soft"</strong> (suave), não <strong class="text-emerald-400">"hard"</strong> (forte). Soft é a IA deixando engenheiros muito mais produtivos. Hard seria um modelo que "some no data center" e volta superinteligente sozinho. Hoje vivemos o soft.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t3-p1">Demis Hassabis (Google DeepMind) faz uma distinçêo que vale ouro para ler o alerta sem exagero: estamos em auto-aperfeiçoamento <strong class="text-emerald-400">"soft"</strong> (suave), nêo <strong class="text-emerald-400">"hard"</strong> (forte). Soft é a IA deixando engenheiros muito mais produtivos. Hard seria um modelo que "some no data center" e volta superinteligente sozinho. Hoje vivemos o soft.</p>
 
         <!-- Glossário inline -->
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 mb-6">
           <h3 class="text-sm font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Novo aqui? Um termo</h3>
-          <p class="text-sm text-neutral-300"><strong class="text-neutral-100">Superinteligência (ASI):</strong> uma IA que superaria amplamente os melhores humanos em praticamente tudo. É um cenário hipotético, não algo que existe hoje. O "hard self-improvement" é a rota imaginada para chegar lá rápido — e é exatamente a parte especulativa do alerta.</p>
+          <p class="text-sm text-neutral-300"><strong class="text-neutral-100">Superinteligência (ASI):</strong> uma IA que superaria amplamente os melhores humanos em praticamente tudo. É um cenário hipotético, nêo algo que existe hoje. O "hard self-improvement" é a rota imaginada para chegar lá rápido — e é exatamente a parte especulativa do alerta.</p>
         </div>
 
         <!-- SVG escada soft -> hard -->
@@ -405,7 +405,7 @@
             <!-- degrau 1 -->
             <rect x="40" y="170" width="220" height="58" rx="13" fill="#0e2018" stroke="#34d399" stroke-width="2"/>
             <text x="150" y="195" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="14">Ferramentas de apoio</text>
-            <text x="150" y="214" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11">autocomplete, sugestão</text>
+            <text x="150" y="214" text-anchor="middle" fill="#a7f3d0" font-family="Inter,sans-serif" font-size="11">autocomplete, sugestêo</text>
             <!-- degrau 2 (estamos aqui) -->
             <g filter="url(#m11s-glow)"><rect x="390" y="114" width="220" height="58" rx="13" fill="#0e2018" stroke="url(#m11s-grad)" stroke-width="2.4"/></g>
             <text x="500" y="139" text-anchor="middle" fill="#34d399" font-family="Inter,sans-serif" font-weight="600" font-size="14">Soft (hoje)</text>
@@ -417,7 +417,7 @@
             <text x="850" y="90" text-anchor="middle" fill="#7fc6f5" font-family="Inter,sans-serif" font-size="11">modelo se reprojeta só</text>
             <text x="850" y="128" text-anchor="middle" fill="#7fc6f5" font-family="Inter,sans-serif" font-size="11">tracejado = hipotético</text>
           </svg>
-          <p class="text-xs text-neutral-500 mt-3 px-1">O degrau "hard" está tracejado de propósito: é um cenário imaginado, não um fato observado. Confundir os dois é a fonte nº 1 de pânico mal calibrado.</p>
+          <p class="text-xs text-neutral-500 mt-3 px-1">O degrau "hard" está tracejado de propósito: é um cenário imaginado, nêo um fato observado. Confundir os dois é a fonte nº 1 de pânico mal calibrado.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -426,7 +426,7 @@
             <ul class="space-y-3 text-neutral-300 text-sm">
               <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>A IA acelera o trabalho de engenheiros reais.</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>Humanos ainda dirigem cada etapa importante.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>O ganho aparece em produtividade, não em autonomia total.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">•</span><span>O ganho aparece em produtividade, nêo em autonomia total.</span></li>
             </ul>
           </div>
           <div class="bg-blue-900/20 rounded-xl border border-blue-500/30 p-6">
@@ -457,11 +457,11 @@
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t4-p1">Jack Clark deu um número: cerca de <strong class="text-emerald-400">60% de chance</strong> de algum tipo de auto-aperfeiçoamento recursivo significativo até o fim de 2028 <span class="text-amber-400">(conforme o vídeo — a verificar)</span>. Pôr uma probabilidade numa ideia é uma forma honesta de dizer "acho provável, mas não tenho certeza". O erro é ler isso como uma data marcada. É o palpite calibrado de <em>uma</em> pessoa — não um consenso da área.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t4-p1">Jack Clark deu um número: cerca de <strong class="text-emerald-400">60% de chance</strong> de algum tipo de auto-aperfeiçoamento recursivo significativo até o fim de 2028 <span class="text-amber-400">(conforme o vídeo — a verificar)</span>. Pôr uma probabilidade numa ideia é uma forma honesta de dizer "acho provável, mas nêo tenho certeza". O erro é ler isso como uma data marcada. É o palpite calibrado de <em>uma</em> pessoa — nêo um consenso da área.</p>
 
         <div class="bg-gradient-to-br from-emerald-900/30 to-dark-800 rounded-xl border border-emerald-500/30 p-6 mb-6">
-          <h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🎯</span> O que "60%" quer dizer (e o que não quer)</h3>
-          <p class="text-neutral-300 text-sm">Uma probabilidade subjetiva expressa grau de confiança, não um cronômetro. "60% até 2028" significa que, na visão dele, é mais provável que aconteça do que não — mas com espaço enorme para errar. Não significa "vai acontecer em 2028", nem "está decidido".</p>
+          <h3 class="text-lg font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🎯</span> O que "60%" quer dizer (e o que nêo quer)</h3>
+          <p class="text-neutral-300 text-sm">Uma probabilidade subjetiva expressa grau de confiança, nêo um cronômetro. "60% até 2028" significa que, na visêo dele, é mais provável que aconteça do que nêo — mas com espaço enorme para errar. Nêo significa "vai acontecer em 2028", nem "está decidido".</p>
         </div>
 
         <!-- SÓLIDO vs HYPE -->
@@ -471,14 +471,14 @@
             <ul class="space-y-3 text-neutral-300 text-sm">
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>RSI é tema central e nominal de Clark, Hassabis e Hinton.</span></li>
               <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>Usar probabilidade para expressar incerteza é prática legítima.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A direção (a IA acelerando a própria pesquisa) é real e observável.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-emerald-400">✓</span><span>A direçêo (a IA acelerando a própria pesquisa) é real e observável.</span></li>
             </ul>
           </div>
           <div class="bg-amber-500/10 rounded-xl border border-amber-500/30 p-6">
             <h4 class="font-bold text-amber-400 mb-4 flex items-center"><span class="mr-2">⚠️</span> A verificar / hype</h4>
             <ul class="space-y-3 text-neutral-300 text-sm">
-              <li class="flex items-start space-x-2"><span class="text-amber-400">!</span><span>O número "60% até 2028" é palpite de uma pessoa, não consenso.</span></li>
-              <li class="flex items-start space-x-2"><span class="text-amber-400">!</span><span>Tratar a data como certeza é retórica, não evidência.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">!</span><span>O número "60% até 2028" é palpite de uma pessoa, nêo consenso.</span></li>
+              <li class="flex items-start space-x-2"><span class="text-amber-400">!</span><span>Tratar a data como certeza é retórica, nêo evidência.</span></li>
               <li class="flex items-start space-x-2"><span class="text-amber-400">!</span><span>"Confirmado / é real" é moldura de canal — confira a fonte primária.</span></li>
             </ul>
           </div>
@@ -487,11 +487,11 @@
         <!-- COPY-RUN -->
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-6 mb-6">
           <div class="flex items-center gap-2 mb-3"><span class="text-lg">⌨️</span><h3 class="text-base font-semibold text-emerald-400">Copy-run: faça um chatbot separar fato de palpite</h3></div>
-          <p class="text-sm text-neutral-400 mb-3"><strong class="text-neutral-200">Objetivo:</strong> ver, na prática, um modelo distinguir o que é consenso do que é especulação sobre o prazo de 2028. Cole o prompt abaixo em qualquer chatbot (Claude, ChatGPT, Gemini).</p>
+          <p class="text-sm text-neutral-400 mb-3"><strong class="text-neutral-200">Objetivo:</strong> ver, na prática, um modelo distinguir o que é consenso do que é especulaçêo sobre o prazo de 2028. Cole o prompt abaixo em qualquer chatbot (Claude, ChatGPT, Gemini).</p>
           <pre class="bg-dark-900/70 border border-dark-700 rounded-lg p-4 text-sm text-neutral-200 overflow-x-auto whitespace-pre-wrap font-mono">Explique recursive self-improvement como se eu tivesse 15 anos,
 e depois me dê 3 razões a favor e 3 contra o prazo de 2028.
-Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre>
-          <p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Como verificar:</strong> a boa resposta marca a maioria dos itens de "2028" como [especulação] e mantém como [consenso] apenas a direção geral (a IA já acelera a pesquisa). Se ele afirmar a data como certa, ele falhou no teste de honestidade — exatamente o que este curso treina você a perceber.</p>
+Para cada item, marque entre colchetes se é [consenso] ou [especulaçêo].</pre>
+          <p class="text-sm text-neutral-400 mt-3"><strong class="text-emerald-400">Como verificar:</strong> a boa resposta marca a maioria dos itens de "2028" como [especulaçêo] e mantém como [consenso] apenas a direçêo geral (a IA já acelera a pesquisa). Se ele afirmar a data como certa, ele falhou no teste de honestidade — exatamente o que este curso treina você a perceber.</p>
         </div>
 
         <div class="flex justify-start mt-6">
@@ -512,13 +512,13 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t5-p1">Três palavras são confundidas o tempo todo — e a confusão gera tanto pânico errado quanto ceticismo errado. RSI não é "a singularidade", e nenhum dos dois exige <strong class="text-emerald-400">consciência</strong>. RSI é um deslocamento de gargalo num processo de engenharia. Ponto.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t5-p1">Três palavras sêo confundidas o tempo todo — e a confusêo gera tanto pânico errado quanto ceticismo errado. RSI nêo é "a singularidade", e nenhum dos dois exige <strong class="text-emerald-400">consciência</strong>. RSI é um deslocamento de gargalo num processo de engenharia. Ponto.</p>
 
         <!-- Glossário inline -->
         <div class="bg-dark-800 rounded-xl border border-dark-600 p-5 mb-6">
-          <h3 class="text-sm font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Novo aqui? Três termos para não embolar</h3>
+          <h3 class="text-sm font-semibold text-emerald-400 mb-3 flex items-center"><span class="mr-2">🧭</span> Novo aqui? Três termos para nêo embolar</h3>
           <ul class="space-y-2.5 text-sm text-neutral-300">
-            <li><strong class="text-neutral-100">Singularidade:</strong> um ponto hipotético em que o progresso da IA vira tão rápido que fica imprevisível. É uma ideia futurista — não um fato medido.</li>
+            <li><strong class="text-neutral-100">Singularidade:</strong> um ponto hipotético em que o progresso da IA vira têo rápido que fica imprevisível. É uma ideia futurista — nêo um fato medido.</li>
             <li><strong class="text-neutral-100">AGI:</strong> inteligência artificial geral — uma IA que faz bem a maioria das tarefas cognitivas humanas. <strong class="text-neutral-100">ASI</strong> (superinteligência) é o degrau acima: superaria amplamente os humanos.</li>
             <li><strong class="text-neutral-100">Consciência:</strong> ter experiência subjetiva. Nada no RSI depende disso — um sistema pode otimizar código sem "sentir" coisa alguma.</li>
           </ul>
@@ -534,7 +534,7 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
             </ul>
           </div>
           <div class="bg-red-900/20 rounded-xl border border-red-500/30 p-6">
-            <h4 class="font-bold text-red-400 mb-4">✗ O que RSI NÃO é</h4>
+            <h4 class="font-bold text-red-400 mb-4">✗ O que RSI NêO é</h4>
             <ul class="space-y-3 text-neutral-300 text-sm">
               <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>Um robô consciente "acordando".</span></li>
               <li class="flex items-start space-x-2"><span class="text-red-400">✗</span><span>A singularidade garantida em uma data.</span></li>
@@ -556,23 +556,23 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
         <div class="flex items-start justify-between gap-4 mb-6">
           <div class="flex items-center space-x-4">
             <span class="flex items-center justify-center w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xl flex-shrink-0">6</span>
-            <h2 class="text-2xl font-bold">🚨 Por que é "alerta", não pânico</h2>
+            <h2 class="text-2xl font-bold">🚨 Por que é "alerta", nêo pânico</h2>
           </div>
           <button type="button" data-ARCKHÉ-doubt-toggle aria-pressed="false" title="Marcar dúvida neste tópico" class="flex-shrink-0 inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-dark-700 border border-dark-600 text-neutral-300 hover:bg-dark-600 transition-colors text-sm"><span aria-hidden="true">?</span><span class="hidden sm:inline">Dúvida</span></button>
         </div>
 
-        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t6-p1">O nome do curso é "Alerta", não "Apocalipse". A maquinaria inicial é visível, as datas estão sendo postas no tabuleiro e os labs dependem cada vez mais dos próprios modelos. Isso justifica <strong class="text-emerald-400">atenção informada</strong> — não pânico, nem a certeza de que nada vai acontecer.</p>
+        <p class="text-neutral-300 mb-6 leading-relaxed" data-ARCKHÉ-block="m1-1-t6-p1">O nome do curso é "Alerta", nêo "Apocalipse". A maquinaria inicial é visível, as datas estêo sendo postas no tabuleiro e os labs dependem cada vez mais dos próprios modelos. Isso justifica <strong class="text-emerald-400">atençêo informada</strong> — nêo pânico, nem a certeza de que nada vai acontecer.</p>
 
         <div class="bg-primary/10 rounded-xl border border-primary/40 p-6 mb-6">
           <h3 class="text-lg font-semibold text-primary mb-3 flex items-center"><span class="mr-2">💡</span> A postura do curso</h3>
-          <p class="text-neutral-300 text-sm">Para cada afirmação forte, faça duas perguntas: "isto é uma categoria sólida ou uma cifra de um artigo só?" e "quem está falando, e com que interesse?". Quem mantém essas duas perguntas ligadas atravessa o tema sem se assustar à toa e sem ignorar o que importa.</p>
+          <p class="text-neutral-300 text-sm">Para cada afirmaçêo forte, faça duas perguntas: "isto é uma categoria sólida ou uma cifra de um artigo só?" e "quem está falando, e com que interesse?". Quem mantém essas duas perguntas ligadas atravessa o tema sem se assustar à toa e sem ignorar o que importa.</p>
         </div>
 
         <h3 class="text-sm font-semibold text-neutral-400 uppercase tracking-wide mb-4">O mapa do curso a partir daqui</h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div class="bg-dark-800 rounded-xl border border-emerald-500/30 p-5"><div class="text-emerald-400 font-bold text-sm mb-1">Trilha 1 · você está aqui</div><h4 class="font-semibold text-neutral-100 mb-1">🔁 Fundamentos</h4><p class="text-xs text-neutral-400">O loop e por que começa pelo código.</p></div>
           <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-blue-400 font-bold text-sm mb-1">Trilha 2</div><h4 class="font-semibold text-neutral-100 mb-1">📊 A Evidência</h4><p class="text-xs text-neutral-400">A curva METR e o MirrorCode — os números reais.</p></div>
-          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-purple-400 font-bold text-sm mb-1">Trilha 3</div><h4 class="font-semibold text-neutral-100 mb-1">🛡️ Segurança e 2028</h4><p class="text-xs text-neutral-400">Quando a medição quebra, a corrida e os cenários.</p></div>
+          <div class="bg-dark-800 rounded-xl border border-dark-600 p-5"><div class="text-purple-400 font-bold text-sm mb-1">Trilha 3</div><h4 class="font-semibold text-neutral-100 mb-1">🛡️ Segurança e 2028</h4><p class="text-xs text-neutral-400">Quando a mediçêo quebra, a corrida e os cenários.</p></div>
         </div>
 
         <div class="flex justify-start mt-6">
@@ -583,13 +583,13 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
         </div>
       </section>
 
-      <!-- CHECAGEM LEVE (opcional, não bloqueia) -->
+      <!-- CHECAGEM LEVE (opcional, nêo bloqueia) -->
       <div data-ARCKHÉ-check="modulo-1-1#q1" class="ARCKHÉ-check mt-4 mb-12 bg-dark-800 border border-dark-600 rounded-xl p-6">
-        <p class="font-medium mb-4">Auto-checagem (opcional): qual é a melhor descrição do RSI segundo este módulo?</p>
+        <p class="font-medium mb-4">Auto-checagem (opcional): qual é a melhor descriçêo do RSI segundo este módulo?</p>
         <div class="ARCKHÉ-check-options space-y-2">
           <button type="button" data-ARCKHÉ-check-option="0" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">Um robô consciente que decide se aprimorar sozinho.</button>
           <button type="button" data-ARCKHÉ-check-option="1" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">A IA virando parte do motor que projeta a próxima IA — um deslocamento de gargalo.</button>
-          <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">A confirmação de que a singularidade vai ocorrer em 2028.</button>
+          <button type="button" data-ARCKHÉ-check-option="2" class="ARCKHÉ-check__option block w-full text-left px-4 py-2 rounded-lg bg-dark-700 border border-dark-600 hover:bg-dark-600 transition-colors text-sm">A confirmaçêo de que a singularidade vai ocorrer em 2028.</button>
         </div>
         <div data-ARCKHÉ-check-feedback class="mt-4 text-sm" role="status" aria-live="polite"></div>
       </div>
@@ -601,10 +601,10 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
           <div class="space-y-4 mb-8">
             <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">RSI</strong><span class="text-neutral-400"> — a IA ajuda a projetar a próxima IA: produto que vira motor. "Claude 10 faz o Claude 11".</span></div></div>
             <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">O gargalo se desloca</strong><span class="text-neutral-400"> — do cérebro humano para compute, infraestrutura e autonomia.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Soft, não hard</strong><span class="text-neutral-400"> — hoje a IA acelera engenheiros; "hard" (modelo se reprojeta só) é cenário hipotético.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">~60% até 2028</strong><span class="text-neutral-400"> — palpite calibrado de uma pessoa, não consenso nem data marcada (a verificar).</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">RSI ≠ singularidade ≠ consciência</strong><span class="text-neutral-400"> — é deslocamento de gargalo, não ficção.</span></div></div>
-            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Alerta, não pânico</strong><span class="text-neutral-400"> — atenção informada, com o filtro sólido-vs-hype sempre ligado.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Soft, nêo hard</strong><span class="text-neutral-400"> — hoje a IA acelera engenheiros; "hard" (modelo se reprojeta só) é cenário hipotético.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">~60% até 2028</strong><span class="text-neutral-400"> — palpite calibrado de uma pessoa, nêo consenso nem data marcada (a verificar).</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">RSI ≠ singularidade ≠ consciência</strong><span class="text-neutral-400"> — é deslocamento de gargalo, nêo ficçêo.</span></div></div>
+            <div class="flex items-start space-x-3"><span class="text-emerald-400 mt-1">✓</span><div><strong class="text-neutral-100">Alerta, nêo pânico</strong><span class="text-neutral-400"> — atençêo informada, com o filtro sólido-vs-hype sempre ligado.</span></div></div>
           </div>
           <div class="bg-dark-800/50 rounded-lg p-4 mb-8">
             <h3 class="font-semibold text-emerald-400 mb-2">Próximo módulo:</h3>
@@ -629,7 +629,7 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
           <li><a href="#topico-3" class="toc-link text-neutral-400 hover:text-emerald-400 transition-colors">3. Soft vs hard</a></li>
           <li><a href="#topico-4" class="toc-link text-neutral-400 hover:text-emerald-400 transition-colors">4. A probabilidade de Clark</a></li>
           <li><a href="#topico-5" class="toc-link text-neutral-400 hover:text-emerald-400 transition-colors">5. RSI ≠ singularidade</a></li>
-          <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-emerald-400 transition-colors">6. Alerta, não pânico</a></li>
+          <li><a href="#topico-6" class="toc-link text-neutral-400 hover:text-emerald-400 transition-colors">6. Alerta, nêo pânico</a></li>
         </ol>
       </nav>
     </aside>
@@ -651,9 +651,9 @@ Para cada item, marque entre colchetes se é [consenso] ou [especulação].</pre
         ARCKHÉ.registerCheck('modulo-1-1#q1', {
           answer: 1,
           explain: {
-            0: 'Não — RSI não exige consciência. Um sistema pode otimizar código sem "sentir" nada.',
+            0: 'Nêo — RSI nêo exige consciência. Um sistema pode otimizar código sem "sentir" nada.',
             1: 'Isso. RSI é a IA virando parte do motor que projeta a próxima IA — o gargalo deixa de ser só humano.',
-            2: 'Não — "60% até 2028" é palpite de uma pessoa; nada está confirmado nem datado.'
+            2: 'Nêo — "60% até 2028" é palpite de uma pessoa; nada está confirmado nem datado.'
           }
         });
       }
